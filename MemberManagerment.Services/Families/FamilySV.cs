@@ -40,17 +40,12 @@ namespace MemberManagement.Services.Families
              _context.Add(familyAdd);
             _context.SaveChanges();
             return familyAdd.Id;
-<<<<<<< HEAD
+
         }
-        public async Task<List<FamilyVM>> getAll()
-        {
-            var query =  from f in _context.Families select f;
-=======
-                }
+    
         public async Task<List<FamilyVM>> getAll()
             {
               var query =  from f in _context.Families select f;
->>>>>>> 2652236bafecbe3bfa6c7e9d59769d0a8833df17
             var family = await query.Select(x => new FamilyVM()
             {
                 HousldRepre = x.HousldRepre,
