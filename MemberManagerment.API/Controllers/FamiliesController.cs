@@ -35,7 +35,9 @@ namespace MemberManagerment.API.Controllers
         public async Task<ActionResult> Delete([FromBody] string id)
         {
             var family = await _familySV.Delete(id);
+            
             return Ok();
+            
         }
     }
 }
