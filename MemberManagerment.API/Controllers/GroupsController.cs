@@ -30,5 +30,11 @@ namespace MemberManagement.API.Controllers
             var group = await _groupSV.Create(request);
             return Ok();
         }
+        [HttpDelete]
+        public async Task<ActionResult> Delete([FromBody] string id)
+        {
+            var group = await _groupSV.Delete(id);
+            return Ok();
+        }
     }
 }

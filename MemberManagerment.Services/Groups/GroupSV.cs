@@ -37,6 +37,21 @@ namespace MemberManagement.Services.Groups
             return groupAdd.Id;
         }
 
+        public async Task<string> Delete(string id)
+        {
+            if(string.IsNullOrEmpty(id))
+            {
+                return "Chi hoi khong ton tai";
+            }
+            var group = await _context.Groups.FindAsync(id);
+            if(group!=null)
+            {
+                _context.Remove(group);
+                await _context.SaveChangesAsync();
+            }
+            return "Chi hoi khong ton tai";
+        }
+
         public async Task<List<GroupVM>> GetAll()
         {
             var query = from f in _context.Groups select f;

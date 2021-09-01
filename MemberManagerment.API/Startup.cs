@@ -43,7 +43,7 @@ namespace MemberManagerment.API
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Swagger MemberManagement", Version = "v1" });
-               // c.ResolveConflictingActions(apiDescriptions => apiDescriptions.First());
+                c.ResolveConflictingActions(apiDescriptions => apiDescriptions.First());
             });
         }
 
