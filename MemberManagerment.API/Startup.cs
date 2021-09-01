@@ -1,5 +1,7 @@
+using MemberManagement.Services.Contacts;
 using MemberManagement.Services.Families;
 using MemberManagement.Services.Groups;
+using MemberManagement.Services.Roles;
 using MemberManagerment.Data.EF;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -37,8 +39,9 @@ namespace MemberManagerment.API
             services.AddDbContext<MemberManagementContext>(options =>
                options.UseSqlServer(Configuration.GetConnectionString("MemberManagementConnext")));
             services.AddTransient<IFamilySV, FamilySV>();
-
             services.AddTransient<IGroupSV, GroupSV>();
+            services.AddTransient<IContactSV, ContactSV>();
+            services.AddTransient<IRoleSV, RoleSV>();
 
             services.AddSwaggerGen(c =>
             {
