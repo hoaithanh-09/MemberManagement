@@ -11,5 +11,8 @@ namespace MemberManagement.Services.Families
         Task<List<FamilyVM>> getAll();
 
         Task<string> Create(FamilyCreatRequest request);
+
+        Task<string> Delete(string id);
+
     }
 }

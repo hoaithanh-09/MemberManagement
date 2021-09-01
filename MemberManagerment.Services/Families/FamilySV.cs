@@ -42,7 +42,24 @@ namespace MemberManagement.Services.Families
             return familyAdd.Id;
 
         }
-    
+
+        public async Task<string> Delete(string id)
+        {
+            if (string.IsNullOrEmpty(id))
+            {
+                return "Khong tim thay id";
+            }
+            var family = await _context.Families.FindAsync(id);
+
+            if (family != null)
+            {
+              _context.Remove(family);
+              await  _context.SaveChangesAsync();
+            }
+           
+            return "Không tìm thấy hộ gia đình";
+        }
+
         public async Task<List<FamilyVM>> getAll()
             {
               var query =  from f in _context.Families select f;

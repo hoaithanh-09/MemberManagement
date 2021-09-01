@@ -1,8 +1,5 @@
 using MemberManagement.Services.Families;
-<<<<<<< HEAD
 using MemberManagement.Services.Groups;
-=======
->>>>>>> 2652236bafecbe3bfa6c7e9d59769d0a8833df17
 using MemberManagerment.Data.EF;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -40,18 +37,13 @@ namespace MemberManagerment.API
             services.AddDbContext<MemberManagementContext>(options =>
                options.UseSqlServer(Configuration.GetConnectionString("MemberManagementConnext")));
             services.AddTransient<IFamilySV, FamilySV>();
-<<<<<<< HEAD
+
             services.AddTransient<IGroupSV, GroupSV>();
 
-            services.AddSwaggerGen(c=> {
+            services.AddSwaggerGen(c =>
+            {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Swagger MemberManagement", Version = "v1" });
-                c.ResolveConflictingActions(apiDescriptions => apiDescriptions.First());
-=======
-
-            services.AddSwaggerGen(c=> {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Swagger MemberManagement", Version = "v1" });
->>>>>>> 2652236bafecbe3bfa6c7e9d59769d0a8833df17
-
+               // c.ResolveConflictingActions(apiDescriptions => apiDescriptions.First());
             });
         }
 

@@ -29,11 +29,13 @@ namespace MemberManagerment.API.Controllers
         public async Task<ActionResult> Create([FromBody] FamilyCreatRequest request)
         {
             var family = await _familySV.Create(request);
-<<<<<<< HEAD
             return Ok();
-=======
-            return Ok(family);
->>>>>>> 2652236bafecbe3bfa6c7e9d59769d0a8833df17
+        }
+        [HttpDelete]
+        public async Task<ActionResult> Delete([FromBody] string id)
+        {
+            var family = await _familySV.Delete(id);
+            return Ok();
         }
     }
 }

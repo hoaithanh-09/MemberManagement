@@ -33,7 +33,7 @@ namespace MemberManagement.Services.Groups
                 IdMember = request.IdMember
             };
             _context.Add(groupAdd);
-            _context.SaveChanges();
+           await _context.SaveChangesAsync();
             return groupAdd.Id;
         }
 
