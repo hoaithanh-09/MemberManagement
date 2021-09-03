@@ -1,4 +1,6 @@
-﻿using MemberManagerment.ViewModels.FamilyViewModels;
+﻿using MemberManagement.ViewModels.Common;
+using MemberManagement.ViewModels.FamilyViewModels;
+using MemberManagerment.ViewModels.FamilyViewModels;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -15,5 +17,6 @@ namespace MemberManagement.Services.Families
         Task<int> Delete(string id);
 
         Task<FamilyVM> GetById(string id);
+        Task<PagedResult<FamilyVM>> GetPagedResult(GetFamilyPagingRequest request);
     }
 }

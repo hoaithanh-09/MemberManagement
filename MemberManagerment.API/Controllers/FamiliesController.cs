@@ -1,5 +1,6 @@
 ﻿
 using MemberManagement.Services.Families;
+using MemberManagement.ViewModels.FamilyViewModels;
 using MemberManagerment.ViewModels.FamilyViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -25,6 +26,12 @@ namespace MemberManagerment.API.Controllers
             var family = await _familySV.getAll();
             return Ok(family);
         }
+        [HttpGet("paging")]
+        public async Task<IActionResult> GetPaing([FromQuery]GetFamilyPagingRequest request)
+        {
+            var family = await _familySV.GetPagedResult(request);
+            return Ok(family);
+        }
         [HttpPost("Creat-Family")]
         public async Task<ActionResult> Create([FromBody] FamilyCreatRequest request)
         {
@@ -41,7 +48,7 @@ namespace MemberManagerment.API.Controllers
         }
         
         [HttpGet("{id}")]
-        public async Task<ActionResult> getID([FromBody] string id)
+        public async Task<ActionResult> getID([FromForm] string id)
         {
             var family = await _familySV.GetById(id);
             return Ok();

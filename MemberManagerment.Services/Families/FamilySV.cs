@@ -8,6 +8,8 @@ using Microsoft.EntityFrameworkCore;
 using MemberManagerment.ViewModels.FamilyViewModels;
 using MemberManagerment.Data.Entities;
 using ManaberManagement.Utilities;
+using MemberManagement.ViewModels.FamilyViewModels;
+using MemberManagement.ViewModels.Common;
 
 namespace MemberManagement.Services.Families
 {
@@ -91,6 +93,36 @@ namespace MemberManagement.Services.Families
                 PhoneNumber = family.PhoneNumber,
             };
             return familyVm;
+        }
+
+        public async Task<PagedResult<FamilyVM>> GetPagedResult(GetFamilyPagingRequest request)
+        {
+            var query = from f in _context.Families select f;
+
+            if (!string.IsNullOrEmpty(request.Keyword))
+                query = query.Where(x => x.HousldRepre.Contains(request.Keyword));
+
+            int totalRow = await query.CountAsync();
+
+            var data = await query.Skip((request.PageIndex-1)*request.PageSize).Take(request.PageSize)
+                .Select(x => new FamilyVM()
+            {
+                HousldRepre = x.HousldRepre,
+                IdMember = x.IdMember,
+                MumberMembers = x.MumberMembers,
+                Number = x.Number,
+                PhoneNumber = x.PhoneNumber,
+                YearBirth = x.YearBirth,
+            }).ToListAsync();
+
+            var pagedResult = new PagedResult<FamilyVM>()
+            {
+                PageIndex = request.PageIndex,
+                PageSize = request.PageSize,
+                TotalRecords = totalRow,
+                Items = data
+            };
+            return pagedResult;
         }
     }
 }
