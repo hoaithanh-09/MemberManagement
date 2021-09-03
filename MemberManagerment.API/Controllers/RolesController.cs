@@ -18,30 +18,30 @@ namespace MemberManagement.API.Controllers
         {
             _roleSV = roleSV;
         }
-        [HttpGet]
+        [HttpGet("GetAll")]
         public async Task<IActionResult> GetAll()
         {
             var role = await _roleSV.GetAll();
             return Ok(role);
         }
-        [HttpPost]
+        [HttpPost("Create")]
         public async Task<ActionResult> Create([FromBody] RoleCreateRequest request)
         {
             var role = await _roleSV.Create(request);
             return Ok();
         }
-        [HttpDelete]
+        [HttpDelete("Delete")]
         public async Task<ActionResult> Delete([FromBody] string id)
         {
             var role = await _roleSV.Delete(id);
             return Ok();
         }
 
-        /*[HttpGet]
+        [HttpGet("GetById")]
         public async Task<IActionResult> GetById(string id)
         {
             var role = await _roleSV.GetById(id);
             return Ok(role);
-        }*/
+        }
     }
 }

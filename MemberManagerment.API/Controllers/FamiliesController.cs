@@ -25,13 +25,13 @@ namespace MemberManagerment.API.Controllers
             var family = await _familySV.getAll();
             return Ok(family);
         }
-        [HttpPost("Creat-Family")]
+        [HttpPost("Create")]
         public async Task<ActionResult> Create([FromBody] FamilyCreatRequest request)
         {
             var family = await _familySV.Create(request);
             return Ok();
         }
-        [HttpDelete("Delete-Family")]
+        [HttpDelete("Delete")]
         public async Task<ActionResult> Delete([FromBody] string id)
         {
             var family = await _familySV.Delete(id);
@@ -40,7 +40,7 @@ namespace MemberManagerment.API.Controllers
             
         }
         
-        [HttpGet("{id}")]
+        [HttpGet("GetById")]
         public async Task<ActionResult> getID([FromBody] string id)
         {
             var family = await _familySV.GetById(id);

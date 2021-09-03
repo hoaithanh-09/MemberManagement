@@ -18,26 +18,26 @@ namespace MemberManagement.API.Controllers
         {
             _contactSV = contactSV;
         }
-        [HttpGet]
+        [HttpGet("GetALl")]
         public async Task<IActionResult> GetAll()
         {
             var contact = await _contactSV.GetAll();
             return Ok(contact);
         }
-        [HttpPost]
+        [HttpPost("Create")]
         public async Task<ActionResult> Create([FromBody] ContactCreateRequest request)
         {
             var contact = await _contactSV.Create(request);
             return Ok();
         }
-        [HttpDelete]
+        [HttpDelete("Delete")]
         public async Task<ActionResult> Delete([FromBody] string id)
         {
             var contact = await _contactSV.Delete(id);
             return Ok();
         }
 
-        [HttpGet("id")]
+        [HttpGet("GetById")]
         public async Task<IActionResult> GetById(string id)
         {
             var contact = await _contactSV.GetById(id);
