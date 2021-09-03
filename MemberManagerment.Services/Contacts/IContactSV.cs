@@ -12,5 +12,6 @@ namespace MemberManagement.Services.Contacts
         Task<string> Create(ContactCreateRequest request);
         Task<int> Delete(string id);
         Task<ContactVM> GetById(string id);
+    
     }
 }

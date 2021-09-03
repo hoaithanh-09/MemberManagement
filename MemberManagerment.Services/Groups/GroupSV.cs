@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using ManaberManagement.Utilities;
 
 namespace MemberManagement.Services.Groups
 {
@@ -64,6 +65,24 @@ namespace MemberManagement.Services.Groups
             }).ToListAsync();
 
             return group;
+
+        }
+
+        public async Task<GroupVM> GetById(string id)
+        {
+            if (string.IsNullOrEmpty(id))
+                throw new MemberManagementException("Không tồn tại!");
+            var group = await _context.Groups.FindAsync(id);
+            if (group == null)
+                throw new MemberManagementException("Không tìm thấy!");
+            var groupVM = new GroupVM()
+            {
+                Name = group.Name,
+                Region = group.Region,
+                Description = group.Description,
+                IdMember = group.IdMember,                
+            };
+            return groupVM;
 
         }
     }
