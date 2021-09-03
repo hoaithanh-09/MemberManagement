@@ -2,11 +2,7 @@
 using MemberManagement.Services.Families;
 using MemberManagement.ViewModels.FamilyViewModels;
 using MemberManagerment.ViewModels.FamilyViewModels;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace MemberManagerment.API.Controllers
@@ -36,22 +32,20 @@ namespace MemberManagerment.API.Controllers
         public async Task<ActionResult> Create([FromBody] FamilyCreatRequest request)
         {
             var family = await _familySV.Create(request);
-            return Ok();
+            return Ok("Tạo mới thành công");
         }
         [HttpDelete("Delete-Family")]
         public async Task<ActionResult> Delete([FromBody] string id)
         {
             var family = await _familySV.Delete(id);
-            
             return Ok();
-            
         }
         
         [HttpGet("{id}")]
         public async Task<ActionResult> getID([FromForm] string id)
         {
             var family = await _familySV.GetById(id);
-            return Ok();
+            return Ok(family);
         }
     }
 }

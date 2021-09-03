@@ -27,7 +27,7 @@ namespace MemberManagement.Services.Families
             var family = await _context.Families.FindAsync(request.IdMember);
             if (family != null)
             {
-               // tra ra thong bao
+                new MemberManagementException("Lỗi khi tạo");
             }
 
             var familyAdd = new Family()
@@ -43,7 +43,6 @@ namespace MemberManagement.Services.Families
              _context.Add(familyAdd);
             _context.SaveChanges();
             return familyAdd.Id;
-
         }
 
         public async Task<int> Delete(string id)
