@@ -19,25 +19,32 @@ namespace MemberManagerment.API.Controllers
         {
             _familySV = familySV;
         }
-        [HttpGet]
+        [HttpGet("getAll")]
         public async Task<IActionResult> GetAll()
         {
             var family = await _familySV.getAll();
             return Ok(family);
         }
-        [HttpPost]
+        [HttpPost("Creat-Family")]
         public async Task<ActionResult> Create([FromBody] FamilyCreatRequest request)
         {
             var family = await _familySV.Create(request);
             return Ok();
         }
-        [HttpDelete]
+        [HttpDelete("Delete-Family")]
         public async Task<ActionResult> Delete([FromBody] string id)
         {
             var family = await _familySV.Delete(id);
             
             return Ok();
             
+        }
+        
+        [HttpGet("{id}")]
+        public async Task<ActionResult> getID([FromBody] string id)
+        {
+            var family = await _familySV.GetById(id);
+            return Ok();
         }
     }
 }

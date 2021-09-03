@@ -18,12 +18,12 @@ namespace MemberManagement.API.Controllers
         {
             _contactSV = contactSV;
         }
-        /*[HttpGet]
+        [HttpGet]
         public async Task<IActionResult> GetAll()
         {
             var contact = await _contactSV.GetAll();
             return Ok(contact);
-        }*/
+        }
         [HttpPost]
         public async Task<ActionResult> Create([FromBody] ContactCreateRequest request)
         {
@@ -37,7 +37,7 @@ namespace MemberManagement.API.Controllers
             return Ok();
         }
 
-        [HttpGet]
+        [HttpGet("id")]
         public async Task<IActionResult> GetById(string id)
         {
             var contact = await _contactSV.GetById(id);
