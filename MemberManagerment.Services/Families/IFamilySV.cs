@@ -11,11 +11,8 @@ namespace MemberManagement.Services.Families
     public interface IFamilySV
     {
         Task<List<FamilyVM>> getAll();
-
         Task<string> Create(FamilyCreatRequest request);
-
         Task<int> Delete(string id);
-
         Task<FamilyVM> GetById(string id);
         Task<PagedResult<FamilyVM>> GetPagedResult(GetFamilyPagingRequest request);
     }

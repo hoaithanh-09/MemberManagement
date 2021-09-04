@@ -26,7 +26,7 @@ namespace MemberManagement.Services.Groups
             }
             var groupAdd = new Group()
             {
-                Id = DateTime.Now.ToString(),
+                Id =  request.Name + DateTime.Now.Year.ToString(),
                 Name = request.Name,
                 Region = request.Region,
                 Description = request.Description,

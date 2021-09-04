@@ -1,4 +1,5 @@
-﻿using MemberManagement.ViewModels.MemberViewModels;
+﻿using MemberManagement.ViewModels.Common;
+using MemberManagement.ViewModels.MemberViewModels;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -8,6 +9,7 @@ namespace MemberManagement.Services.Members
 {
    public interface IMemberSV
     {
-        Task<List<MemberVM>> GetAll();
+        Task<PagedResult<MemberVM>> GetAllPaging(MemberPaingRequest request);
+        Task<string> Create(MemberCreatRequest request);
     }
 }
