@@ -9,7 +9,5 @@ namespace MemberManagement.Services.Members
    public interface IMemberSV
     {
         Task<List<MemberVM>> GetAll();
-
-      //  Task<string> 
     }
 }
