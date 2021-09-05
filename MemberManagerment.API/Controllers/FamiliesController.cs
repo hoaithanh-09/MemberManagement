@@ -1,11 +1,8 @@
 ﻿
 using MemberManagement.Services.Families;
+using MemberManagement.ViewModels.FamilyViewModels;
 using MemberManagerment.ViewModels.FamilyViewModels;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace MemberManagerment.API.Controllers
@@ -25,26 +22,39 @@ namespace MemberManagerment.API.Controllers
             var family = await _familySV.getAll();
             return Ok(family);
         }
+<<<<<<< HEAD
         [HttpPost("Create")]
+=======
+        [HttpGet("paging")]
+        public async Task<IActionResult> GetPaing([FromQuery]GetFamilyPagingRequest request)
+        {
+            var family = await _familySV.GetPagedResult(request);
+            return Ok(family);
+        }
+        [HttpPost("Creat-Family")]
+>>>>>>> paging
         public async Task<ActionResult> Create([FromBody] FamilyCreatRequest request)
         {
             var family = await _familySV.Create(request);
-            return Ok();
+            return Ok("Tạo mới thành công");
         }
         [HttpDelete("Delete")]
         public async Task<ActionResult> Delete([FromBody] string id)
         {
             var family = await _familySV.Delete(id);
-            
             return Ok();
-            
         }
         
+<<<<<<< HEAD
         [HttpGet("GetById")]
         public async Task<ActionResult> getID([FromBody] string id)
+=======
+        [HttpGet("{id}")]
+        public async Task<ActionResult> getID([FromForm] string id)
+>>>>>>> paging
         {
             var family = await _familySV.GetById(id);
-            return Ok();
+            return Ok(family);
         }
     }
 }
