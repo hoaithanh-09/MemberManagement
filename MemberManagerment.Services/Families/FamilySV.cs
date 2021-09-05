@@ -32,7 +32,7 @@ namespace MemberManagement.Services.Families
 
             var familyAdd = new Family()
             {
-                Id = DateTime.Now.ToString(),
+                Id = request.HousldRepre + DateTime.Now.Year.ToString(),
                 IdMember =request.IdMember,
                 HousldRepre = request.HousldRepre,
                 MumberMembers = request.MumberMembers,

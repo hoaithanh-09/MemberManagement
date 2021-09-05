@@ -23,8 +23,11 @@ namespace MemberManagerment.API.Controllers
             return Ok(family);
         }
 <<<<<<< HEAD
+<<<<<<< HEAD
         [HttpPost("Create")]
 =======
+=======
+>>>>>>> manageMember
         [HttpGet("paging")]
         public async Task<IActionResult> GetPaing([FromQuery]GetFamilyPagingRequest request)
         {
@@ -46,12 +49,17 @@ namespace MemberManagerment.API.Controllers
         }
         
 <<<<<<< HEAD
+<<<<<<< HEAD
         [HttpGet("GetById")]
         public async Task<ActionResult> getID([FromBody] string id)
 =======
         [HttpGet("{id}")]
         public async Task<ActionResult> getID([FromForm] string id)
 >>>>>>> paging
+=======
+        [HttpGet("{id}")]
+        public async Task<ActionResult> getID([FromForm] string id)
+>>>>>>> manageMember
         {
             var family = await _familySV.GetById(id);
             return Ok(family);
