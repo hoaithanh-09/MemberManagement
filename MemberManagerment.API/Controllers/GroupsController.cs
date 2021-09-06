@@ -42,5 +42,12 @@ namespace MemberManagement.API.Controllers
             var group = await _groupSV.GetById(id);
             return Ok(group);
         }
+
+        [HttpPut("Update")]
+        public async Task<IActionResult> Update([FromRoute] string id, [FromForm] GroupUpdateRequest request)
+        {
+            var group = await _groupSV.Update(id,request);
+            return Ok();
+        }
     }
 }

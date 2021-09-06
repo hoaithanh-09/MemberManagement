@@ -13,5 +13,6 @@ namespace MemberManagement.Services.Groups
         Task<string> Create(GroupCreateRequest request);
         Task<string> Delete(string id);
         Task<GroupVM> GetById(string id);
+        Task<int> Update(string id, GroupUpdateRequest request);
     }
 }
