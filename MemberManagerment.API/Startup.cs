@@ -1,3 +1,4 @@
+using MemberManagement.Services.Addresses;
 using MemberManagement.Services.Contacts;
 using MemberManagement.Services.Families;
 using MemberManagement.Services.Groups;
@@ -44,6 +45,7 @@ namespace MemberManagerment.API
             services.AddTransient<IContactSV, ContactSV>();
             services.AddTransient<IRoleSV, RoleSV>();
             services.AddTransient<IMemberSV, MemberSV>();
+            services.AddTransient<IAddressSV, AddressSV>();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Swagger MemberManagement", Version = "v1" });

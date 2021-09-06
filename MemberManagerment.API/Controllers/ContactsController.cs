@@ -43,5 +43,6 @@ namespace MemberManagement.API.Controllers
             var contact = await _contactSV.GetById(id);
             return Ok(contact);
         }
+        
     }
 }

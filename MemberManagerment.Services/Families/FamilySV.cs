@@ -27,12 +27,12 @@ namespace MemberManagement.Services.Families
             var family = await _context.Families.FindAsync(request.IdMember);
             if (family != null)
             {
-                new MemberManagementException("Lỗi khi tạo");
+                throw new MemberManagementException("Lỗi khi tạo");
             }
 
             var familyAdd = new Family()
             {
-                Id = request.HousldRepre + DateTime.Now.Year.ToString(),
+                Id = request.HousldRepre + request.IdMember,
                 IdMember =request.IdMember,
                 HousldRepre = request.HousldRepre,
                 MumberMembers = request.MumberMembers,

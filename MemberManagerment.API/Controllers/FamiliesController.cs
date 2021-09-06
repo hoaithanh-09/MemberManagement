@@ -22,44 +22,31 @@ namespace MemberManagerment.API.Controllers
             var family = await _familySV.getAll();
             return Ok(family);
         }
-<<<<<<< HEAD
-<<<<<<< HEAD
-        [HttpPost("Create")]
-=======
-=======
->>>>>>> manageMember
+
+
         [HttpGet("paging")]
         public async Task<IActionResult> GetPaing([FromQuery]GetFamilyPagingRequest request)
         {
             var family = await _familySV.GetPagedResult(request);
             return Ok(family);
         }
+
         [HttpPost("Creat-Family")]
->>>>>>> paging
         public async Task<ActionResult> Create([FromBody] FamilyCreatRequest request)
         {
             var family = await _familySV.Create(request);
             return Ok("Tạo mới thành công");
         }
+
         [HttpDelete("Delete")]
         public async Task<ActionResult> Delete([FromBody] string id)
         {
             var family = await _familySV.Delete(id);
             return Ok();
         }
-        
-<<<<<<< HEAD
-<<<<<<< HEAD
-        [HttpGet("GetById")]
-        public async Task<ActionResult> getID([FromBody] string id)
-=======
         [HttpGet("{id}")]
         public async Task<ActionResult> getID([FromForm] string id)
->>>>>>> paging
-=======
-        [HttpGet("{id}")]
-        public async Task<ActionResult> getID([FromForm] string id)
->>>>>>> manageMember
+
         {
             var family = await _familySV.GetById(id);
             return Ok(family);
