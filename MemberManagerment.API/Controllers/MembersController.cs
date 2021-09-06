@@ -33,6 +33,27 @@ namespace MemberManagement.API.Controllers
             var member = await _memberSV.Create(request);
             return Ok(member);
         }
+        [HttpGet("{id}")]
+        public async Task<ActionResult> getID([FromQuery] string id)
+
+        {
+            var member = await _memberSV.GetById(id);
+            return Ok(member);
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Update([FromRoute] string id, [FromBody] MemberEditRequest request)
+        {
+            try
+            {
+                var member = await _memberSV.Update(id, request);
+                return Ok(member);
+            }
+            catch (Exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+        }
 
     }
 }

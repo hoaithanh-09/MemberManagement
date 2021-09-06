@@ -9,6 +9,7 @@ using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using MemberManagerment.Data.Entities;
 using ManaberManagement.Utilities;
+using MemberManagement.ViewModels.AddressViewModels;
 
 namespace MemberManagement.Services.Members
 {
@@ -93,5 +94,59 @@ namespace MemberManagement.Services.Members
             };
             return paging;
         }
+
+        public async Task<MemberVM> GetById(string id)
+        {
+            if (string.IsNullOrEmpty(id))
+                throw new MemberManagementException("Không tim thấy id");
+            var member = await _context.Members.FindAsync(id);
+            if (member == null)
+                throw new MemberManagementException("Không tìm thấy gia đình");
+            var memberVN = new MemberVM()
+            {
+                Name = member.Name,
+                Birth = member.Birth,
+                Gender = member.Gender,
+                JoinDate = member.JoinDate,
+                Idcard = member.Idcard,
+                Notes = member.Notes,
+        };
+            return memberVN;
+        }
+
+        public async Task<Member> Update(string id, MemberEditRequest request)
+        {
+            var member = await _context.Members.FindAsync(id);
+
+            if (member == null)
+            {
+                throw new MemberManagementException("Không tìm thấy địa chỉ");
+            }
+            member.Name = request.Name;
+            member.Birth = request.Birth;
+            member.Gender = request.Gender;
+            member.JoinDate = request.JoinDate;
+            member.Idcard = request.Idcard;
+            member.Notes = request.Notes;
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateException)
+            {
+                if (GetById(id) == null)
+                {
+                    throw new MemberManagementException("Không tìm thấy địa chỉ");
+                }
+                else
+                {
+                    throw;
+                }
+            }
+            return member;
+        }
+
+   
+        
     }
 }
