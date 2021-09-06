@@ -11,7 +11,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MemberManagement.API", "Mem
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MemberManagement.ViewModels", "MemberManagement.ViewModels\MemberManagement.ViewModels.csproj", "{3B542FF2-F2CF-40D6-8F03-9270532A3085}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ManaberManagement.Utilities", "ManaberManagement.Utilities\ManaberManagement.Utilities.csproj", "{122F5459-FC7A-48B2-9016-661AE493CA5C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ManaberManagement.Utilities", "ManaberManagement.Utilities\ManaberManagement.Utilities.csproj", "{122F5459-FC7A-48B2-9016-661AE493CA5C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MenaberManagement.Admin", "MenaberManagement.Admin\MenaberManagement.Admin.csproj", "{D7350C13-F61B-4B8B-8BED-E8D65DE5F442}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{122F5459-FC7A-48B2-9016-661AE493CA5C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{122F5459-FC7A-48B2-9016-661AE493CA5C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{122F5459-FC7A-48B2-9016-661AE493CA5C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D7350C13-F61B-4B8B-8BED-E8D65DE5F442}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D7350C13-F61B-4B8B-8BED-E8D65DE5F442}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D7350C13-F61B-4B8B-8BED-E8D65DE5F442}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D7350C13-F61B-4B8B-8BED-E8D65DE5F442}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
