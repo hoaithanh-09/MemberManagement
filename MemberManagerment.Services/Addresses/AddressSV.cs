@@ -21,12 +21,6 @@ namespace MemberManagement.Services.Addresses
         }
         public async Task<string> Create(AddressCreatRequest request)
         {
-            //var family = await _context.Addresses.FindAsync();
-            //if (family != null)
-            //{
-            //    throw new MemberManagementException("Lỗi khi tạo");
-            //}
-
             var address = new Address()
             {
                 Id = request.Province + request.Ward,
@@ -38,7 +32,7 @@ namespace MemberManagement.Services.Addresses
                 Notes = request.Notes,
             };
              _context.Add(address);
-             _context.SaveChanges();
+             await _context.SaveChangesAsync();
             return address.Id;
         }
 
@@ -104,28 +98,13 @@ namespace MemberManagement.Services.Addresses
             return pagedResult;
         }
 
-        public async Task<int> Update(string id, AddressEditRequest request)
-        {
-          
-                var address = await _context.Addresses.FindAsync(id);
-
-            if (address == null)
-            {
-                throw new MemberManagementException("Không tìm thấy id");
-            }
-
-             _context.Addresses.Update(address);
-            return await _context.SaveChangesAsync();
-           
-        }
-
-        public async Task<Address> Update2(string id, AddressEditRequest request)
+        public async Task<Address> Update(string id, AddressEditRequest request)
         {
             var address = await _context.Addresses.FindAsync(id);
 
             if (address == null)
             {
-                throw new MemberManagementException("Không tìm thấy id");
+                throw new MemberManagementException("Không tìm thấy địa chỉ");
             }
             address.Nationality = request.Nationality;
             address.Province = request.Province;
@@ -133,19 +112,21 @@ namespace MemberManagement.Services.Addresses
             address.District = request.District;
             address.StayingAddress = request.StayingAddress;
             address.Notes = request.Notes;
-
-            // address2 = new Address()
-            //{
-            //    Id = request.Id,
-            //    StayingAddress = request.StayingAddress,
-            //    Nationality = request.Nationality,
-            //    Province = request.Province,
-            //    Ward = request.Ward,
-            //    District = request.District,
-            //    Notes = request.Notes,
-
-            //};
-             await _context.SaveChangesAsync();
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch(DbUpdateException)
+            {
+                if (GetById(id)==null)
+                {
+                    throw new MemberManagementException("Không tìm thấy địa chỉ");
+                }
+                else
+                {
+                    throw;
+                }
+            }
             return address;
 
         }

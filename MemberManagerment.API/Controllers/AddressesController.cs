@@ -48,33 +48,17 @@ namespace MemberManagement.API.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult> Update( string id, [FromForm] AddressEditRequest request)
-        {
-            if (!ModelState.IsValid)
-                return BadRequest();
-           
-            var family = await _address.Update(id,request);
-            if(family > 0)
-            return Ok("cập nhật thành công");
-
-            return Ok("Cập nhật thất bại");
-        }
-        [HttpPut("{id:string}")]
-        public async Task<IActionResult> GetById(string id, [FromForm] AddressEditRequest request)
+        public async Task<IActionResult> Update([FromRoute]string id, [FromBody] AddressEditRequest request)
         {
             try
             {
-                var address = await _address.Update2(id, request);
-
+                var address = await _address.Update(id, request);
                 return Ok(address);
             }
             catch (Exception)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
-          
-
-          
         }
 
     }

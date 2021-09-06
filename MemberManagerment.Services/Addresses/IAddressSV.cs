@@ -14,7 +14,6 @@ namespace MemberManagement.Services.Addresses
         Task<int> Delete(string id);
         Task<AddressVM> GetById(string id);
         Task<PagedResult<AddressVM>> GetPagedResult(GetAddressPagingRequest request);
-        Task<int> Update(string id,AddressEditRequest request);
-        Task<Address> Update2(string id, AddressEditRequest request);
+        Task<Address> Update(string id, AddressEditRequest request);
     }
 }
