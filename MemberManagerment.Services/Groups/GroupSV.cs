@@ -85,14 +85,5 @@ namespace MemberManagement.Services.Groups
             return groupVM;
 
         }
-
-        public async Task<int> Update(string id, GroupUpdateRequest request)
-        {
-            return 1;
-
-
-
-
-        }
     }
 }

@@ -21,5 +21,7 @@ namespace MemberManagement.ViewModels.MemberViewModels
         [Required(ErrorMessage = "Vui lòng nhập chứng minh thư")]
         public string Idcard { get; set; }
         public string Notes { get; set; }
+
+        public string IdAddress { get; set; }
     }
 }

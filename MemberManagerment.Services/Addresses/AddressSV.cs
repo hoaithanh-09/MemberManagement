@@ -86,6 +86,7 @@ namespace MemberManagement.Services.Addresses
                     Ward = x.Ward,
                     District = x.District,
                     Notes = x.Notes,
+                    StayingAddress = x.StayingAddress,
                 }).ToListAsync();
 
             var pagedResult = new PagedResult<AddressVM>()

@@ -9,11 +9,8 @@ using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using MemberManagerment.Data.Entities;
 using ManaberManagement.Utilities;
-<<<<<<< HEAD
 using MemberManagement.ViewModels.AddressMemberViewModels;
-=======
 using MemberManagement.ViewModels.AddressViewModels;
->>>>>>> 4a479bdac3c55e2400cf0b75fd1301913b4afb10
 
 namespace MemberManagement.Services.Members
 {
@@ -53,8 +50,6 @@ namespace MemberManagement.Services.Members
 
         public async Task<string> Create(MemberCreatRequest request)
         {
-            var address =  _context.Addresses;
-            var Addresses = new List<AddressMember>();
             var member = await _context.Members.FindAsync(request.Idcard);
             if (member != null)
             {
@@ -85,12 +80,23 @@ namespace MemberManagement.Services.Members
                 FamilyId = request.FamilyId,
                 GroupId = request.GroupId,
                 Birth = request.Birth,
-                ImageId = "Sdasdas",
-                
+                ImageId = "Sdasdas",           
             };
+           
+            if(request.IdAddress != null)
+            {
+                member.AddressMembers = new List<AddressMember>()
+                { new AddressMember()
+                    {
+                        AddressId =request.IdAddress,
+                        MemberId = member.Id,
+                    }
+                };
+            }
+
             _context.Add(member);
             await _context.SaveChangesAsync();
-            return member.Name;
+            return member.Id;
         }
 
         public async Task<PagedResult<MemberVM>> GetAllPaging(MemberPaingRequest request)
@@ -116,7 +122,6 @@ namespace MemberManagement.Services.Members
                    Idcard = x.m.Idcard,
                    JoinDate = x.m.JoinDate,
                    Notes = x.m.Notes,
-                   GroupName = x.g.Name,
                 }).ToListAsync();
             var paging = new PagedResult<MemberVM>()
             {
@@ -131,10 +136,30 @@ namespace MemberManagement.Services.Members
         public async Task<MemberVM> GetById(string id)
         {
             if (string.IsNullOrEmpty(id))
-                throw new MemberManagementException("Không tim thấy id");
-            var member = await _context.Members.FindAsync(id);
+                throw new MemberManagementException("Vui lòng nhập id");
+            var member = await _context.Members.Include(x => x.AddressMembers).
+                Where(x => x.Id == id).FirstOrDefaultAsync();
             if (member == null)
                 throw new MemberManagementException("Không tìm thấy gia đình");
+            
+            var address = await _context.AddressMembers.Where(x=>x.MemberId == id).FirstOrDefaultAsync();
+            var addresses = await _context.Addresses.Where(x => x.Id == address.AddressId).FirstOrDefaultAsync();
+
+            var addresVM = new AddressVM()
+            {
+                Nationality = addresses.Nationality,
+                Province = addresses.Province,
+                Ward = addresses.Ward,
+                District = addresses.District,
+                Notes = addresses.Notes,
+                StayingAddress = addresses.StayingAddress,
+            };
+            
+            var addressMember = new AddressMemberVM()
+            {
+                Address = addresVM,
+            };
+
             var memberVN = new MemberVM()
             {
                 Name = member.Name,
@@ -143,6 +168,7 @@ namespace MemberManagement.Services.Members
                 JoinDate = member.JoinDate,
                 Idcard = member.Idcard,
                 Notes = member.Notes,
+                AddressMembers = addressMember,
         };
             return memberVN;
         }

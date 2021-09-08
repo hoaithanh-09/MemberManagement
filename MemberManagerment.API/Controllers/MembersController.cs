@@ -35,7 +35,7 @@ namespace MemberManagement.API.Controllers
             return Ok(member);
         }
         [HttpGet("{id}")]
-        public async Task<ActionResult> getID([FromQuery] string id)
+        public async Task<ActionResult> getID([FromRoute] string id)
 
         {
             var member = await _memberSV.GetById(id);

@@ -13,7 +13,6 @@ namespace MemberManagement.API.Controllers
     public class GroupsController : ControllerBase
     {
         private readonly IGroupSV _groupSV;
-//dd
         public GroupsController(IGroupSV groupSV)
         {
             _groupSV = groupSV;
@@ -43,11 +42,11 @@ namespace MemberManagement.API.Controllers
             return Ok(group);
         }
 
-        [HttpPut("Update")]
-        public async Task<IActionResult> Update([FromRoute] string id, [FromForm] GroupUpdateRequest request)
-        {
-            var group = await _groupSV.Update(id,request);
-            return Ok();
-        }
+        //[HttpPut("Update")]
+        //public async Task<IActionResult> Update([FromRoute] string id, [FromForm] GroupUpdateRequest request)
+        //{
+        //    var group = await _groupSV.Update(id,request);
+        //    return Ok();
+        //}
     }
 }

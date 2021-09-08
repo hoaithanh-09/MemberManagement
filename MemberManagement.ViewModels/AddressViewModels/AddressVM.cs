@@ -12,6 +12,5 @@ namespace MemberManagement.ViewModels.AddressViewModels
         public string Ward { get; set; }
         public string StayingAddress { get; set; }
         public string Notes { get; set; }
-        public string ParentId { get; set; }
     }
 }
