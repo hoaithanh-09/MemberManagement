@@ -9,6 +9,7 @@ using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using MemberManagerment.Data.Entities;
 using ManaberManagement.Utilities;
+using MemberManagement.ViewModels.AddressMemberViewModels;
 
 namespace MemberManagement.Services.Members
 {
@@ -20,8 +21,36 @@ namespace MemberManagement.Services.Members
             _context = context;
         }
 
+        public async Task<string> AddAddress(string memberId, AddressMemberCreateRequest request)
+        {
+
+            if (string.IsNullOrEmpty(request.IdAddress) || string.IsNullOrEmpty(request.IdAddress))
+            {
+                throw new MemberManagementException("chưa nhập địa chỉ");
+            }
+
+            var address = await _context.Addresses.FindAsync(request.IdAddress);
+
+            if(address==null)
+            {
+                throw new MemberManagementException("địa chỉ không hợp lệ");
+            }
+
+            var addressMember = new AddressMember()
+            {
+                MemberId = request.IdMember,
+                AddressId = address.Id,
+            };
+
+            _context.AddressMembers.Add(addressMember);
+            await _context.SaveChangesAsync();
+            return address.Id;
+        }
+
         public async Task<string> Create(MemberCreatRequest request)
         {
+            var address =  _context.Addresses;
+            var Addresses = new List<AddressMember>();
             var member = await _context.Members.FindAsync(request.Idcard);
             if (member != null)
             {
@@ -38,6 +67,7 @@ namespace MemberManagement.Services.Members
             {
                 throw new MemberManagementException("Chi hội chưa tồn tại");
             }
+            
             member = new Member()
             {
                 Id = request.Name + DateTime.Now.Year.ToString(),
@@ -52,6 +82,7 @@ namespace MemberManagement.Services.Members
                 GroupId = request.GroupId,
                 Birth = request.Birth,
                 ImageId = "Sdasdas",
+                
             };
             _context.Add(member);
             await _context.SaveChangesAsync();
@@ -61,11 +92,11 @@ namespace MemberManagement.Services.Members
         public async Task<PagedResult<MemberVM>> GetAllPaging(MemberPaingRequest request)
         {
             var query = from m in _context.Members
-                        join f in _context.Families on m.Id equals f.IdMember
-                        join g in _context.Groups on m.Id equals g.IdMember
+                        join f in _context.Families on m.FamilyId equals f.Id
+                        join g in _context.Groups on m.GroupId equals g.Id
                         select new { m, f,g };
 
-            if (string.IsNullOrEmpty(request.KeyWord))
+            if (!string.IsNullOrEmpty(request.KeyWord))
             {
                 query = query.Where(x => x.m.Name.Contains(request.KeyWord));
             }
@@ -82,7 +113,6 @@ namespace MemberManagement.Services.Members
                    JoinDate = x.m.JoinDate,
                    Notes = x.m.Notes,
                    GroupName = x.g.Name,
-                   
                 }).ToListAsync();
             var paging = new PagedResult<MemberVM>()
             {

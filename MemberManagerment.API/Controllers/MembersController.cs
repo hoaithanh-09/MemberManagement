@@ -1,5 +1,6 @@
 ﻿
 using MemberManagement.Services.Members;
+using MemberManagement.ViewModels.AddressMemberViewModels;
 using MemberManagement.ViewModels.MemberViewModels;
 using MemberManagerment.ViewModels.FamilyViewModels;
 using Microsoft.AspNetCore.Http;
@@ -31,6 +32,13 @@ namespace MemberManagement.API.Controllers
         public async Task<ActionResult> Create([FromForm] MemberCreatRequest request)
         {
             var member = await _memberSV.Create(request);
+            return Ok(member);
+        }
+
+        [HttpPost("Creat-AddreesMember")]
+        public async Task<ActionResult> AddAdreesMember([FromRoute]string memberId, [FromForm] AddressMemberCreateRequest request)
+        {
+            var member = await _memberSV.AddAddress(memberId, request);
             return Ok(member);
         }
 
