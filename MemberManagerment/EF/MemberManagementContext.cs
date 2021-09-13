@@ -1,5 +1,7 @@
 ﻿using System;
+using MemberManagement.Data.Entities;
 using MemberManagerment.Data.Entities;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
@@ -7,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace MemberManagerment.Data.EF
 {
-    public partial class MemberManagementContext : DbContext
+    public partial class MemberManagementContext : IdentityDbContext<AppUser>
     {
         public MemberManagementContext()
         {
@@ -17,7 +19,7 @@ namespace MemberManagerment.Data.EF
             : base(options)
         {
         }
-
+        public virtual DbSet<AppUser> AppUsers { get; set; }
         public virtual DbSet<Address> Addresses { get; set; }
         public virtual DbSet<AddressMember> AddressMembers { get; set; }
         public virtual DbSet<Contact> Contacts { get; set; }
@@ -26,7 +28,7 @@ namespace MemberManagerment.Data.EF
         public virtual DbSet<Group> Groups { get; set; }
         public virtual DbSet<Image> Images { get; set; }
         public virtual DbSet<Member> Members { get; set; }
-        public virtual DbSet<Role> Roles { get; set; }
+        public virtual DbSet<Role> Roless { get; set; }
         public virtual DbSet<RoleMember> RoleMembers { get; set; }
 
   
@@ -285,9 +287,43 @@ namespace MemberManagerment.Data.EF
                 entity.Property(e => e.Name)
                     .IsRequired()
                     .HasMaxLength(100)
-                    .IsUnicode(false);
+                    .IsUnicode(true);
             });
+            modelBuilder.Entity<AppUser>(entity =>
+            {
+                entity.ToTable("AppUser");
 
+                entity.Property(e => e.Id).ValueGeneratedNever();
+
+                entity.Property(e => e.MemberId)
+                    .IsRequired()
+                    .HasMaxLength(450);
+
+                entity.Property(e => e.Email)
+                    .IsRequired()
+                    .HasMaxLength(256);
+
+                entity.Property(e => e.PasswordHash).IsRequired();
+
+                entity.Property(e => e.UserName)
+                    .IsRequired()
+                    .HasMaxLength(200);
+
+
+                entity.HasOne(d => d.Member)
+                   .WithMany(p => p.Users)
+                   .HasForeignKey(d => d.MemberId)
+                   .OnDelete(DeleteBehavior.ClientSetNull)
+                   .HasConstraintName("FK__Member__FamilyId__2E1BDASD");
+            });
+            modelBuilder.Entity<AppRole>(entity =>
+            {
+                entity.Property(e => e.Id)
+                    .ValueGeneratedNever()
+                    .HasColumnName("id");
+
+                entity.Property(e => e.Name).HasMaxLength(256);
+            });
             modelBuilder.Entity<RoleMember>(entity =>
             {
                 entity.HasKey(e => new { e.MemberId, e.RoleId })
@@ -315,7 +351,7 @@ namespace MemberManagerment.Data.EF
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK__Role_Memb__RoleI__3D5E1FD2");
             });
-
+            base.OnModelCreating(modelBuilder);
             OnModelCreatingPartial(modelBuilder);
         }
 

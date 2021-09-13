@@ -2,7 +2,9 @@
 using MemberManagement.Services.Families;
 using MemberManagement.ViewModels.FamilyViewModels;
 using MemberManagerment.ViewModels.FamilyViewModels;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Threading.Tasks;
 
 namespace MemberManagerment.API.Controllers
@@ -51,5 +53,20 @@ namespace MemberManagerment.API.Controllers
             var family = await _familySV.GetById(id);
             return Ok(family);
         }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Update([FromRoute] string id, [FromBody] FamilyEditRequest request)
+        {
+            try
+            {
+                var member = await _familySV.Update(id, request);
+                return Ok(member);
+            }
+            catch (Exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+        }
+
     }
 }

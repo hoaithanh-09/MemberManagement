@@ -8,6 +8,6 @@ namespace MemberManagement.ViewModels.AddressMemberViewModels
 {
     public class AddressMemberVM
     {
-        public virtual AddressVM Address { get; set; }
+        public  AddressVM Address { get; set; }
     }
 }

@@ -3,7 +3,6 @@ using MemberManagement.ViewModels.MemberViewModels;
 using MemberManagerment.Data.EF;
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
@@ -11,6 +10,10 @@ using MemberManagerment.Data.Entities;
 using ManaberManagement.Utilities;
 using MemberManagement.ViewModels.AddressMemberViewModels;
 using MemberManagement.ViewModels.AddressViewModels;
+using MemberManagement.ViewModels.ContactViewModels;
+using MemberManagement.ViewModels.ContractMemberViewModels;
+using MemberManagement.ViewModels.RoleMemberViewModels;
+using MemberManagement.ViewModels.RoleViewModels;
 
 namespace MemberManagement.Services.Members
 {
@@ -46,6 +49,58 @@ namespace MemberManagement.Services.Members
             _context.AddressMembers.Add(addressMember);
             await _context.SaveChangesAsync();
             return address.Id;
+        }
+
+
+        public async Task<string> AddContact(string memberId, ContactMemberCreateRequest request)
+        {
+
+            if (string.IsNullOrEmpty(request.MemberId) || string.IsNullOrEmpty(request.ContactId))
+            {
+                throw new MemberManagementException("chưa nhập liên hệ");
+            }
+
+            var contact = await _context.Addresses.FindAsync(request.ContactId);
+
+            if (contact == null)
+            {
+                throw new MemberManagementException("Thông tin không hợp lệ");
+            }
+
+            var contracMember = new ContactMember()
+            {
+                MemberId = request.MemberId,
+                ContactId = contact.Id,
+            };
+
+            _context.ContactMembers.Add(contracMember);
+            await _context.SaveChangesAsync();
+            return contact.Id;
+        }
+
+        public async Task<string> AddRole(string memberId, RoleMemberCreateRequest request)
+        {
+            if (string.IsNullOrEmpty(request.MemberId) || string.IsNullOrEmpty(request.RoleId))
+            {
+                throw new MemberManagementException("chưa nhập vai trò");
+            }
+
+            var role = await _context.Roless.FindAsync(request.RoleId);
+
+            if (role == null)
+            {
+                throw new MemberManagementException("Thông tin không hợp lệ");
+            }
+
+            var roleMember = new RoleMember()
+            {
+                MemberId = request.MemberId,
+                RoleId = role.Id,
+            };
+
+            _context.RoleMembers.Add(roleMember);
+            await _context.SaveChangesAsync();
+            return roleMember.RoleId;
         }
 
         public async Task<string> Create(MemberCreatRequest request)
@@ -145,6 +200,13 @@ namespace MemberManagement.Services.Members
             var address = await _context.AddressMembers.Where(x=>x.MemberId == id).FirstOrDefaultAsync();
             var addresses = await _context.Addresses.Where(x => x.Id == address.AddressId).FirstOrDefaultAsync();
 
+
+            var contactMember = await _context.ContactMembers.Where(x => x.MemberId == id).FirstOrDefaultAsync();
+            var contact = await _context.Contacts.Where(x => x.Id == contactMember.ContactId).FirstOrDefaultAsync();
+
+            var roleMember = await _context.RoleMembers.Where(x => x.MemberId == id).FirstOrDefaultAsync();
+            var role = await _context.Roless.Where(x => x.Id == roleMember.RoleId).FirstOrDefaultAsync();
+
             var addresVM = new AddressVM()
             {
                 Nationality = addresses.Nationality,
@@ -154,11 +216,40 @@ namespace MemberManagement.Services.Members
                 Notes = addresses.Notes,
                 StayingAddress = addresses.StayingAddress,
             };
-            
+            var contactVM = new ContactVM()
+            {
+                FullName = contact.FullName,
+                Nickname = contact.Nickname,
+                PersonalTtles = contact.PersonalTtles,
+                Email = contact.Email,
+                PhoneNumber = contact.PhoneNumber,
+                Word = contact.Word,
+                UserName = contact.UserName,
+                Notes = contact.Notes,
+            };
+
+            var roleVM = new RoleVM()
+            {
+                Name = role.Name,
+                Description = role.Description,
+                Note = role.Note,
+            };
+
+            var roleMembers = new RoleMemberVM()
+            {
+                 Role = roleVM,
+            };
             var addressMember = new AddressMemberVM()
             {
                 Address = addresVM,
             };
+
+            var contractMember = new ContactMemberVM()
+            {
+                Contact = contactVM,
+            };
+
+
 
             var memberVN = new MemberVM()
             {
@@ -169,7 +260,9 @@ namespace MemberManagement.Services.Members
                 Idcard = member.Idcard,
                 Notes = member.Notes,
                 AddressMembers = addressMember,
-        };
+                ContactMembers = contractMember,
+                RoleMembers = roleMembers,
+            };
             return memberVN;
         }
 
@@ -205,7 +298,7 @@ namespace MemberManagement.Services.Members
             return member;
         }
 
-   
+        
         
     }
 }

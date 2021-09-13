@@ -1,5 +1,6 @@
 ﻿using MemberManagement.Services.Contacts;
 using MemberManagement.ViewModels.ContactViewModels;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -43,6 +44,26 @@ namespace MemberManagement.API.Controllers
             var contact = await _contactSV.GetById(id);
             return Ok(contact);
         }
-        
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Update([FromRoute] string id, [FromBody] ContactEditRequest request)
+        {
+            try
+            {
+                var member = await _contactSV.Update(id, request);
+                return Ok(member);
+            }
+            catch (Exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+        }
+        [HttpGet("paging")]
+        public async Task<IActionResult> GetPaing([FromQuery] GetContactPagingRequest request)
+        {
+            var family = await _contactSV.GetPagedResult(request);
+            return Ok(family.Items);
+        }
+
     }
 }

@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using ManaberManagement.Utilities;
+using MemberManagement.ViewModels.Common;
 
 namespace MemberManagement.Services.Contacts
 {
@@ -27,7 +28,7 @@ namespace MemberManagement.Services.Contacts
             }
             var contactAdd = new Contact()
             {
-                Id = DateTime.Now.ToString(),
+                Id = request.FullName,
                 FullName=request.FullName,
                 Nickname=request.Nickname,
                 PersonalTtles=request.PersonalTtles,
@@ -95,6 +96,75 @@ namespace MemberManagement.Services.Contacts
                 Notes = contact.Notes,
             };
             return contactVM;
+        }
+
+        public async Task<PagedResult<ContactVM>> GetPagedResult(GetContactPagingRequest request)
+        {
+            var query = from f in _context.Contacts select f;
+
+            if (!string.IsNullOrEmpty(request.Keyword))
+                query = query.Where(x => x.FullName.Contains(request.Keyword)
+                || x.Email.Contains(request.Keyword)
+                || x.Nickname.Contains(request.Keyword));
+
+            int totalRow = await query.CountAsync();
+
+            var data = await query.Skip((request.PageIndex - 1) * request.PageSize).Take(request.PageSize)
+                .Select(x => new ContactVM()
+                {
+                    FullName = x.FullName,
+                    Nickname = x.Nickname,
+                    PersonalTtles = x.PersonalTtles,
+                    Email = x.Email,
+                    PhoneNumber = x.PhoneNumber,
+                    Word = x.Word,
+                    UserName = x.UserName,
+                    Notes = x.Notes,
+                }).ToListAsync();
+
+            var pagedResult = new PagedResult<ContactVM>()
+            {
+                PageIndex = request.PageIndex,
+                PageSize = request.PageSize,
+                TotalRecords = totalRow,
+                Items = data
+            };
+            return pagedResult;
+        }
+
+        public async Task<Contact> Update(string id, ContactEditRequest request)
+        {
+            var contact = await _context.Contacts.FindAsync(id);
+            if (string.IsNullOrEmpty(id))
+                throw new MemberManagementException("vui lòng chọn thông tin");
+            if (contact == null)
+            {
+                throw new MemberManagementException("Không tìm thấy thông tin !");
+            }
+            contact.FullName = request.FullName;
+            contact.Nickname = request.Nickname;
+            contact.PersonalTtles = request.PersonalTtles;
+            contact.Email = request.Email;
+            contact.PhoneNumber = request.PhoneNumber;
+            contact.Word = request.Word;
+            contact.UserName = request.UserName;
+            contact.Notes = request.Notes;
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateException)
+            {
+                if (GetById(id) == null)
+                {
+                    throw new MemberManagementException("Không tìm thấy thông tin");
+                }
+                else
+                {
+                    throw;
+                }
+            }
+            return contact;
         }
     }
 }

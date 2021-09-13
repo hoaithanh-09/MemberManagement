@@ -1,5 +1,6 @@
 ﻿using MemberManagement.Services.Groups;
 using MemberManagement.ViewModels.GroupViewModels;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -42,11 +43,18 @@ namespace MemberManagement.API.Controllers
             return Ok(group);
         }
 
-        //[HttpPut("Update")]
-        //public async Task<IActionResult> Update([FromRoute] string id, [FromForm] GroupUpdateRequest request)
-        //{
-        //    var group = await _groupSV.Update(id,request);
-        //    return Ok();
-        //}
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Update([FromRoute] string id, [FromBody] GroupEditRequest request)
+        {
+            try
+            {
+                var member = await _groupSV.Update(id, request);
+                return Ok(member);
+            }
+            catch (Exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+        }
     }
 }

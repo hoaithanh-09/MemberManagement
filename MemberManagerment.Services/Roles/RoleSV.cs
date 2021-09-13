@@ -20,19 +20,19 @@ namespace MemberManagement.Services.Roles
         }
         public async Task<string> Create(RoleCreateRequest request)
         {
-            var role = await _context.Contacts.FindAsync(request.Name);
+            var role = await _context.Roless.FindAsync(request.Name);
             if (role != null)
             {
                 //
             }
             var roleAdd = new Role()
             {
-                Id = DateTime.Now.ToString(),
+                Id = DateTime.Now.Second.ToString(),
                 Name=request.Name,
                 Description=request.Description,
                 Note=request.Note,
             };
-            _context.Add(roleAdd);
+            _context.Roless.Add(roleAdd);
             await _context.SaveChangesAsync();
             return roleAdd.Id;
         }
@@ -44,7 +44,7 @@ namespace MemberManagement.Services.Roles
             {
                 throw new MemberManagementException("Không tồn tại!");
             }
-            var role = await _context.Roles.FindAsync(id);
+            var role = await _context.Roless.FindAsync(id);
             if (role != null)
             {
                 _context.Remove(role);
@@ -55,7 +55,7 @@ namespace MemberManagement.Services.Roles
 
         public async Task<List<RoleVM>> GetAll()
         {
-            var query = from f in _context.Roles select f;
+            var query = from f in _context.Roless select f;
             var role = await query.Select(x => new RoleVM()
             {
                 Name = x.Name,
@@ -71,7 +71,7 @@ namespace MemberManagement.Services.Roles
         {
             if (string.IsNullOrEmpty(id))
                 throw new MemberManagementException("Không tồn tại!");
-            var role = await _context.Roles.FindAsync(id);
+            var role = await _context.Roless.FindAsync(id);
             if (role == null)
                 throw new MemberManagementException("Không tìm thấy!");
             var roleVM = new RoleVM()
@@ -83,6 +83,35 @@ namespace MemberManagement.Services.Roles
             return roleVM;
         }
 
-       
+        public async Task<Role> Update(string id, RoleEditRequest request)
+        {
+            var rold = await _context.Roless.FindAsync(id);
+            if (string.IsNullOrEmpty(id))
+                throw new MemberManagementException("vui lòng chọn thông tin");
+            if (rold == null)
+            {
+                throw new MemberManagementException("Không tìm thấy vai trò !");
+            }
+            rold.Name = request.Name;
+            rold.Description = request.Description;
+            rold.Note = request.Description;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateException)
+            {
+                if (GetById(id) == null)
+                {
+                    throw new MemberManagementException("Không tìm thấy vai trò");
+                }
+                else
+                {
+                    throw;
+                }
+            }
+            return rold;
+        }
     }
 }

@@ -1,7 +1,9 @@
 ﻿
 using MemberManagement.Services.Members;
 using MemberManagement.ViewModels.AddressMemberViewModels;
+using MemberManagement.ViewModels.ContractMemberViewModels;
 using MemberManagement.ViewModels.MemberViewModels;
+using MemberManagement.ViewModels.RoleMemberViewModels;
 using MemberManagerment.ViewModels.FamilyViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -63,5 +65,18 @@ namespace MemberManagement.API.Controllers
             return Ok(member);
         }
 
+        [HttpPost("Creat-Contact")]
+        public async Task<ActionResult> ContactMember([FromRoute] string memberId, [FromForm] ContactMemberCreateRequest request)
+        {
+            var member = await _memberSV.AddContact(memberId, request);
+            return Ok(member);
+        }
+
+        [HttpPost("Creat-Role")]
+        public async Task<ActionResult> RoleMember([FromRoute] string memberId, [FromForm] RoleMemberCreateRequest request)
+        {
+            var member = await _memberSV.AddRole(memberId, request);
+            return Ok(member);
+        }
     }
 }

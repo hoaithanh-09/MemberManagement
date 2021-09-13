@@ -1,4 +1,6 @@
 ﻿using MemberManagement.ViewModels.AddressMemberViewModels;
+using MemberManagement.ViewModels.ContractMemberViewModels;
+using MemberManagement.ViewModels.RoleMemberViewModels;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -15,6 +17,8 @@ namespace MemberManagement.ViewModels.MemberViewModels
         public string Idcard { get; set; }
         public string Notes { get; set; }
 
-        public virtual AddressMemberVM AddressMembers { get; set; }
+        public AddressMemberVM AddressMembers { get; set; }
+        public ContactMemberVM ContactMembers { get; set; }
+        public RoleMemberVM RoleMembers { get; set; }
     }
 }

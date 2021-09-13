@@ -123,5 +123,41 @@ namespace MemberManagement.Services.Families
             };
             return pagedResult;
         }
+
+        public async Task<Family> Update(string id, FamilyEditRequest request)
+        {
+            var family = await _context.Families.FindAsync(id);
+            if (string.IsNullOrEmpty(id))
+                throw new MemberManagementException("vui lòng chọn thông tin");
+            if (family == null)
+            {
+                throw new MemberManagementException("Không tìm thấy hộ gia đình!");
+            }
+
+            family.HousldRepre = request.HousldRepre;
+            family.IdMember = request.IdMember;
+            family.MumberMembers = request.MumberMembers;
+            family.Number = request.Number;
+            family.PhoneNumber = request.PhoneNumber;
+            family.YearBirth = request.YearBirth;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateException)
+            {
+                if (GetById(id) == null)
+                {
+                    throw new MemberManagementException("Không tìm thấy hộ gia đình");
+                }
+                else
+                {
+                    throw;
+                }
+            }
+            return family;
+        }
     }
+    
 }

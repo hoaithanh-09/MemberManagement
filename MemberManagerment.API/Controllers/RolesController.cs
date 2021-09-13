@@ -1,5 +1,6 @@
 ﻿using MemberManagement.Services.Roles;
 using MemberManagement.ViewModels.RoleViewModels;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -43,5 +44,20 @@ namespace MemberManagement.API.Controllers
             var role = await _roleSV.GetById(id);
             return Ok(role);
         }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Update([FromRoute] string id, [FromBody] RoleEditRequest request)
+        {
+            try
+            {
+                var member = await _roleSV.Update(id, request);
+                return Ok(member);
+            }
+            catch (Exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+        }
     }
 }
+    

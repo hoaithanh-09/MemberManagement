@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using ManaberManagement.Utilities;
+using MemberManagement.ViewModels.Common;
 
 namespace MemberManagement.Services.Groups
 {
@@ -84,6 +85,67 @@ namespace MemberManagement.Services.Groups
             };
             return groupVM;
 
+        }
+
+        public async Task<PagedResult<GroupVM>> GetPagedResult(GetGroupPagingRequest request)
+        {
+            var query = from g in _context.Groups select g;
+
+            if (!string.IsNullOrEmpty(request.KeyWord))
+            {
+                query = query.Where(x => x.Name.Contains(request.KeyWord));
+            }
+
+            int totalRow = await query.CountAsync();
+
+            var data = await query.Skip((request.PageIndex - 1) * request.PageSize).Take(request.PageSize)
+                .Select(x => new GroupVM()
+                {
+                    Name = x.Name,
+                    Region = x.Region,
+                    Description = x.Description,
+                    IdMember = x.IdMember,
+                }).ToListAsync();
+            var paging = new PagedResult<GroupVM>()
+            {
+                PageIndex = request.PageIndex,
+                PageSize = request.PageSize,
+                TotalRecords = totalRow,
+                Items = data,
+            };
+            return paging;
+        }
+
+        public async Task<Group> Update(string id, GroupEditRequest request)
+        {
+            var group = await _context.Groups.FindAsync(id);
+            if (string.IsNullOrEmpty(id))
+                throw new MemberManagementException("vui lòng chọn thông tin");
+            if (group == null)
+            {
+                throw new MemberManagementException("Không tìm thấy chi hội !");
+            }
+            group.Name = request.Name;
+            group.Description = request.Description;
+            group.Region = group.Region;
+            
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateException)
+            {
+                if (GetById(id) == null)
+                {
+                    throw new MemberManagementException("Không tìm thấy chi hội");
+                }
+                else
+                {
+                    throw;
+                }
+            }
+            return group;
         }
     }
 }

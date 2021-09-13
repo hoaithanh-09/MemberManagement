@@ -72,9 +72,9 @@ namespace MemberManagement.Services.Addresses
 
             if (!string.IsNullOrEmpty(request.Keyword))
                 query = query.Where(x => x.Nationality.Contains(request.Keyword) 
-                && x.Province.Contains(request.Keyword) 
-                && x.Ward.Contains(request.Keyword) 
-                && x.District.Contains(request.Keyword));
+                || x.Province.Contains(request.Keyword)
+                || x.Ward.Contains(request.Keyword)
+                || x.District.Contains(request.Keyword));
 
             int totalRow = await query.CountAsync();
 

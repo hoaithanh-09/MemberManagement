@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MemberManagement.Data.Entities;
+using System;
 using System.Collections.Generic;
 
 #nullable disable
@@ -32,5 +33,6 @@ namespace MemberManagerment.Data.Entities
         public virtual ICollection<ContactMember> ContactMembers { get; set; }
         public virtual ICollection<Image> Images { get; set; }
         public virtual ICollection<RoleMember> RoleMembers { get; set; }
+        public virtual ICollection<AppUser> Users { get; set; }
     }
 }

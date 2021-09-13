@@ -1,4 +1,5 @@
 ﻿using MemberManagement.ViewModels.RoleViewModels;
+using MemberManagerment.Data.Entities;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -12,5 +13,6 @@ namespace MemberManagement.Services.Roles
         Task<string> Create(RoleCreateRequest request);
         Task<int> Delete(string id);
         Task<RoleVM> GetById(string id);
+        Task<Role> Update(string id, RoleEditRequest request);
     }
 }
