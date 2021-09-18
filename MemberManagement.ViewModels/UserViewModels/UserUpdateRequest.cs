@@ -6,5 +6,7 @@ namespace MemberManagement.ViewModels.UserViewModels
 {
     public class UserUpdateRequest
     {
+        public string Email { get; set; }
+        public string PhoneNumber { get; set; }
     }
 }

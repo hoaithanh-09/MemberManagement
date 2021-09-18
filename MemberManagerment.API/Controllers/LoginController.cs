@@ -26,11 +26,27 @@ namespace MemberManagement.API.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
             var result = await _userService.Authencate(request);
-            if (string.IsNullOrEmpty(result))
+            if (string.IsNullOrEmpty(result.ResultObj))
             {
                 return BadRequest(result);
             }
 
+            return Ok(result);
+        }
+
+
+        [HttpPost("Register")]
+        [AllowAnonymous]
+        public async Task<IActionResult> Register([FromBody] RegisterRequest request)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var result = await _userService.Register(request);
+            if (!result.IsSuccessed)
+            {
+                return BadRequest(result.ResultObj);
+            }
             return Ok(result);
         }
     }

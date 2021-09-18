@@ -21,14 +21,14 @@ namespace MemberManagement.Services.Groups
         }
         public async Task<string> Create(GroupCreateRequest request)
         {
-            var group = await _context.Groups.FindAsync(request.IdMember);
+            var group = await _context.Groups.FindAsync(request.Name);
             if(group!=null)
             {
-                //return
+                return "Chi hội đã tồn tại";
             }
             var groupAdd = new Group()
             {
-                Id =  request.Name + DateTime.Now.Year.ToString(),
+                Id =  DateTime.Now.Minute.ToString(),
                 Name = request.Name,
                 Region = request.Region,
                 Description = request.Description,

@@ -65,7 +65,7 @@ namespace MemberManagement.Services.Members
             if (contact == null)
             {
                 throw new MemberManagementException("Thông tin không hợp lệ");
-            }
+            }  
 
             var contracMember = new ContactMember()
             {
@@ -124,7 +124,7 @@ namespace MemberManagement.Services.Members
             
             member = new Member()
             {
-                Id = request.Name + DateTime.Now.Year.ToString(),
+                Id = DateTime.Now.Minute.ToString(),
                 Name = request.Name,
                 Gender = request.Gender,
                 Idcard = request.Idcard,

@@ -13,7 +13,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MemberManagement.ViewModels
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ManaberManagement.Utilities", "ManaberManagement.Utilities\ManaberManagement.Utilities.csproj", "{122F5459-FC7A-48B2-9016-661AE493CA5C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MenaberManagement.Admin", "MenaberManagement.Admin\MenaberManagement.Admin.csproj", "{D7350C13-F61B-4B8B-8BED-E8D65DE5F442}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MenaberManagement.Admin", "MenaberManagement.Admin\MenaberManagement.Admin.csproj", "{D7350C13-F61B-4B8B-8BED-E8D65DE5F442}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

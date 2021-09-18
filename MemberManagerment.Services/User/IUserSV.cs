@@ -9,19 +9,20 @@ namespace MemberManagement.Services.User
 {
     public interface IUserSV
     {
-        Task<string> Authencate(LoginRequest request);
+        Task<ApiResult<string>> Authencate(LoginRequest request);
 
-        Task<bool> Register(RegisterRequest request);
+        Task<ApiResult<bool>> Register(RegisterRequest request);
 
         Task<PagedResult<UserVM>> GetUserPaging(GetUserPagingRequest request);
 
-        Task<bool> Update(string id, UserUpdateRequest request);
+        Task<ApiResult<bool>> Update(string id, UserUpdateRequest request);
 
-        Task<PagedResult<UserVM>> GetUsersPaging(GetUserPagingRequest request);
+        Task<ApiResult<PagedResult<UserVM>>> GetUsersPaging(GetUserPagingRequest request);
 
-        Task<UserVM> GetById(string id);
+        Task<ApiResult<UserVM>> GetById(string id);
 
-        Task<bool> Delete(string id);
+        Task<ApiResult<bool>> Delete(string id);
+
 
     }
 }
