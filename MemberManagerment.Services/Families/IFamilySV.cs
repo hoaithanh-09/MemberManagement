@@ -1,6 +1,7 @@
-﻿using MemberManagement.ViewModels.Common;
+﻿using MemberManagement.Data.Entities;
+using MemberManagement.ViewModels.Common;
 using MemberManagement.ViewModels.FamilyViewModels;
-using MemberManagerment.Data.Entities;
+
 using MemberManagerment.ViewModels.FamilyViewModels;
 using System;
 using System.Collections.Generic;
@@ -12,10 +13,10 @@ namespace MemberManagement.Services.Families
     public interface IFamilySV
     {
         Task<List<FamilyVM>> getAll();
-        Task<string> Create(FamilyCreatRequest request);
-        Task<int> Delete(string id);
-        Task<FamilyVM> GetById(string id);
+        Task<int> Create(FamilyCreatRequest request);
+        Task<int> Delete(int id);
+        Task<FamilyVM> GetById(int id);
         Task<PagedResult<FamilyVM>> GetPagedResult(GetFamilyPagingRequest request);
-        Task<Family> Update(string id, FamilyEditRequest request);
+        Task<Family> Update(int id, FamilyEditRequest request);
     }
 }

@@ -41,13 +41,13 @@ namespace MemberManagerment.API.Controllers
         }
 
         [HttpDelete("Delete")]
-        public async Task<ActionResult> Delete([FromBody] string id)
+        public async Task<ActionResult> Delete([FromBody] int id)
         {
             var family = await _familySV.Delete(id);
             return Ok();
         }
         [HttpGet("{id}")]
-        public async Task<ActionResult> getID([FromForm] string id)
+        public async Task<ActionResult> getID([FromForm] int id)
 
         {
             var family = await _familySV.GetById(id);
@@ -55,7 +55,7 @@ namespace MemberManagerment.API.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Update([FromRoute] string id, [FromBody] FamilyEditRequest request)
+        public async Task<IActionResult> Update([FromRoute] int id, [FromBody] FamilyEditRequest request)
         {
             try
             {

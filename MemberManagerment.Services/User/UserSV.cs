@@ -136,7 +136,6 @@ namespace MemberManagement.Services.User
                 UserName = request.UserName,
                 Email = request.Email,
                 SecurityStamp = Guid.NewGuid().ToString(),
-                MemberId = request.MemberId,
             };
             var result = await _userManager.CreateAsync(user, request.Password);
             if (result.Succeeded)

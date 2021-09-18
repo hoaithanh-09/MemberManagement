@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 
+#nullable disable
 
-
-namespace MemberManagerment.Data.Entities
+namespace MemberManagement.Data.Entities
 {
     public partial class Contact
     {
@@ -12,7 +12,7 @@ namespace MemberManagerment.Data.Entities
             ContactMembers = new HashSet<ContactMember>();
         }
 
-        public string Id { get; set; }
+        public int Id { get; set; }
         public string FullName { get; set; }
         public string Nickname { get; set; }
         public string PersonalTtles { get; set; }

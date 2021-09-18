@@ -8,9 +8,9 @@ namespace MemberManagement.ViewModels.MemberViewModels
    public class MemberCreatRequest
     {
         [Required(ErrorMessage = "Vui lòng nhập FamilyId")]
-        public string FamilyId { get; set; }
+        public int FamilyId { get; set; }
         [Required(ErrorMessage ="Vui lòng nhập GroupId")]
-        public string GroupId { get; set; }
+        public int GroupId { get; set; }
         [Required(ErrorMessage = "Vui lòng nhập tên")]
         public string Name { get; set; }
         [Required(ErrorMessage = "Vui lòng nhập ngày sinh")]
@@ -22,6 +22,6 @@ namespace MemberManagement.ViewModels.MemberViewModels
         public string Idcard { get; set; }
         public string Notes { get; set; }
 
-        public string IdAddress { get; set; }
+        public int IdAddress { get; set; }
     }
 }

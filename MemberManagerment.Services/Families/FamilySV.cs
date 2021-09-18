@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using MemberManagerment.ViewModels.FamilyViewModels;
-using MemberManagerment.Data.Entities;
 using ManaberManagement.Utilities;
 using MemberManagement.ViewModels.FamilyViewModels;
 using MemberManagement.ViewModels.Common;
+using MemberManagement.Data.Entities;
 
 namespace MemberManagement.Services.Families
 {
@@ -22,7 +22,7 @@ namespace MemberManagement.Services.Families
             _context = context;
         }
 
-        public async Task<string> Create(FamilyCreatRequest request)
+        public async Task<int> Create(FamilyCreatRequest request)
         {
             var family = await _context.Families.FindAsync(request.IdMember);
             if (family != null)
@@ -32,7 +32,6 @@ namespace MemberManagement.Services.Families
 
             var familyAdd = new Family()
             {
-                Id = DateTime.Now.Minute.ToString(),
                 IdMember =request.IdMember,
                 HousldRepre = request.HousldRepre,
                 MumberMembers = request.MumberMembers,
@@ -45,10 +44,9 @@ namespace MemberManagement.Services.Families
             return familyAdd.Id;
         }
 
-        public async Task<int> Delete(string id)
+        public async Task<int> Delete(int id)
         {
-            if (string.IsNullOrEmpty(id))
-                 throw new MemberManagementException("Không tìm thấy :" + id);
+        
             var family = await _context.Families.FindAsync(id);
 
             if (family != null)
@@ -76,10 +74,9 @@ namespace MemberManagement.Services.Families
             return family;
         }
 
-        public async Task<FamilyVM> GetById(string id)
+        public async Task<FamilyVM> GetById(int id)
         {
-            if (string.IsNullOrEmpty(id))
-                throw new  MemberManagementException("Không tim thấy id");
+           
             var family = await _context.Families.FindAsync(id);
             if (family == null)
                 throw new MemberManagementException("Không tìm thấy gia đình");
@@ -124,11 +121,10 @@ namespace MemberManagement.Services.Families
             return pagedResult;
         }
 
-        public async Task<Family> Update(string id, FamilyEditRequest request)
+        public async Task<Family> Update(int id, FamilyEditRequest request)
         {
             var family = await _context.Families.FindAsync(id);
-            if (string.IsNullOrEmpty(id))
-                throw new MemberManagementException("vui lòng chọn thông tin");
+           
             if (family == null)
             {
                 throw new MemberManagementException("Không tìm thấy hộ gia đình!");

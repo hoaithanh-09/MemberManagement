@@ -32,21 +32,21 @@ namespace MemberManagement.API.Controllers
             return Ok();
         }
         [HttpDelete("Delete")]
-        public async Task<ActionResult> Delete([FromBody] string id)
+        public async Task<ActionResult> Delete([FromBody] int id)
         {
             var role = await _roleSV.Delete(id);
             return Ok();
         }
 
         [HttpGet("GetById")]
-        public async Task<IActionResult> GetById(string id)
+        public async Task<IActionResult> GetById(int id)
         {
             var role = await _roleSV.GetById(id);
             return Ok(role);
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Update([FromRoute] string id, [FromBody] RoleEditRequest request)
+        public async Task<IActionResult> Update([FromRoute] int id, [FromBody] RoleEditRequest request)
         {
             try
             {

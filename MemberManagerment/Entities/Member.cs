@@ -1,10 +1,9 @@
-﻿using MemberManagement.Data.Entities;
-using System;
+﻿using System;
 using System.Collections.Generic;
 
 #nullable disable
 
-namespace MemberManagerment.Data.Entities
+namespace MemberManagement.Data.Entities
 {
     public partial class Member
     {
@@ -12,13 +11,13 @@ namespace MemberManagerment.Data.Entities
         {
             AddressMembers = new HashSet<AddressMember>();
             ContactMembers = new HashSet<ContactMember>();
-            Images = new HashSet<Image>();
+            MemberUsers = new HashSet<MemberUser>();
             RoleMembers = new HashSet<RoleMember>();
         }
 
-        public string Id { get; set; }
-        public string FamilyId { get; set; }
-        public string GroupId { get; set; }
+        public int Id { get; set; }
+        public int FamilyId { get; set; }
+        public int GroupId { get; set; }
         public string Name { get; set; }
         public DateTime Birth { get; set; }
         public string Gender { get; set; }
@@ -31,8 +30,7 @@ namespace MemberManagerment.Data.Entities
         public virtual Group Group { get; set; }
         public virtual ICollection<AddressMember> AddressMembers { get; set; }
         public virtual ICollection<ContactMember> ContactMembers { get; set; }
-        public virtual ICollection<Image> Images { get; set; }
+        public virtual ICollection<MemberUser> MemberUsers { get; set; }
         public virtual ICollection<RoleMember> RoleMembers { get; set; }
-        public virtual ICollection<AppUser> Users { get; set; }
     }
 }

@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
-using MemberManagerment.Data.Entities;
 using ManaberManagement.Utilities;
 using MemberManagement.ViewModels.AddressMemberViewModels;
 using MemberManagement.ViewModels.AddressViewModels;
@@ -14,6 +13,7 @@ using MemberManagement.ViewModels.ContactViewModels;
 using MemberManagement.ViewModels.ContractMemberViewModels;
 using MemberManagement.ViewModels.RoleMemberViewModels;
 using MemberManagement.ViewModels.RoleViewModels;
+using MemberManagement.Data.Entities;
 
 namespace MemberManagement.Services.Members
 {
@@ -25,13 +25,10 @@ namespace MemberManagement.Services.Members
             _context = context;
         }
 
-        public async Task<string> AddAddress(string memberId, AddressMemberCreateRequest request)
+        public async Task<int> AddAddress(int memberId, AddressMemberCreateRequest request)
         {
 
-            if (string.IsNullOrEmpty(request.IdAddress) || string.IsNullOrEmpty(request.IdAddress))
-            {
-                throw new MemberManagementException("chưa nhập địa chỉ");
-            }
+          
 
             var address = await _context.Addresses.FindAsync(request.IdAddress);
 
@@ -52,13 +49,8 @@ namespace MemberManagement.Services.Members
         }
 
 
-        public async Task<string> AddContact(string memberId, ContactMemberCreateRequest request)
+        public async Task<int> AddContact(int memberId, ContactMemberCreateRequest request)
         {
-
-            if (string.IsNullOrEmpty(request.MemberId) || string.IsNullOrEmpty(request.ContactId))
-            {
-                throw new MemberManagementException("chưa nhập liên hệ");
-            }
 
             var contact = await _context.Addresses.FindAsync(request.ContactId);
 
@@ -78,12 +70,9 @@ namespace MemberManagement.Services.Members
             return contact.Id;
         }
 
-        public async Task<string> AddRole(string memberId, RoleMemberCreateRequest request)
+        public async Task<int> AddRole(int memberId, RoleMemberCreateRequest request)
         {
-            if (string.IsNullOrEmpty(request.MemberId) || string.IsNullOrEmpty(request.RoleId))
-            {
-                throw new MemberManagementException("chưa nhập vai trò");
-            }
+           
 
             var role = await _context.Roless.FindAsync(request.RoleId);
 
@@ -103,7 +92,7 @@ namespace MemberManagement.Services.Members
             return roleMember.RoleId;
         }
 
-        public async Task<string> Create(MemberCreatRequest request)
+        public async Task<int> Create(MemberCreatRequest request)
         {
             var member = await _context.Members.FindAsync(request.Idcard);
             if (member != null)
@@ -124,7 +113,6 @@ namespace MemberManagement.Services.Members
             
             member = new Member()
             {
-                Id = DateTime.Now.Minute.ToString(),
                 Name = request.Name,
                 Gender = request.Gender,
                 Idcard = request.Idcard,
@@ -138,7 +126,7 @@ namespace MemberManagement.Services.Members
                 ImageId = "Sdasdas",           
             };
            
-            if(request.IdAddress != null)
+            if(request.IdAddress != 0)
             {
                 member.AddressMembers = new List<AddressMember>()
                 { new AddressMember()
@@ -188,10 +176,9 @@ namespace MemberManagement.Services.Members
             return paging;
         }
 
-        public async Task<MemberVM> GetById(string id)
+        public async Task<MemberVM> GetById(int id)
         {
-            if (string.IsNullOrEmpty(id))
-                throw new MemberManagementException("Vui lòng nhập id");
+
             var member = await _context.Members.Include(x => x.AddressMembers).
                 Where(x => x.Id == id).FirstOrDefaultAsync();
             if (member == null)
@@ -266,7 +253,7 @@ namespace MemberManagement.Services.Members
             return memberVN;
         }
 
-        public async Task<Member> Update(string id, MemberEditRequest request)
+        public async Task<Member> Update(int id, MemberEditRequest request)
         {
             var member = await _context.Members.FindAsync(id);
 

@@ -31,20 +31,20 @@ namespace MemberManagement.API.Controllers
             return Ok();
         }
         [HttpDelete("Delete")]
-        public async Task<ActionResult> Delete([FromBody] string id)
+        public async Task<ActionResult> Delete([FromBody] int id)
         {
             var group = await _groupSV.Delete(id);
             return Ok();
         }
         [HttpGet("GetById")]
-        public async Task<IActionResult> GetById(string id)
+        public async Task<IActionResult> GetById(int id)
         {
             var group = await _groupSV.GetById(id);
             return Ok(group);
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Update([FromRoute] string id, [FromBody] GroupEditRequest request)
+        public async Task<IActionResult> Update([FromRoute] int id, [FromBody] GroupEditRequest request)
         {
             try
             {

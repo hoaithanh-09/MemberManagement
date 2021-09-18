@@ -1,5 +1,5 @@
-﻿using MemberManagement.ViewModels.RoleViewModels;
-using MemberManagerment.Data.Entities;
+﻿using MemberManagement.Data.Entities;
+using MemberManagement.ViewModels.RoleViewModels;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -10,9 +10,9 @@ namespace MemberManagement.Services.Roles
     public interface IRoleSV
     {
         Task<List<RoleVM>> GetAll();
-        Task<string> Create(RoleCreateRequest request);
-        Task<int> Delete(string id);
-        Task<RoleVM> GetById(string id);
-        Task<Role> Update(string id, RoleEditRequest request);
+        Task<int> Create(RoleCreateRequest request);
+        Task<int> Delete(int id);
+        Task<RoleVM> GetById(int id);
+        Task<Data.Entities.Roles> Update(int id, RoleEditRequest request);
     }
 }

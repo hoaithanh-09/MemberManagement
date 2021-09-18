@@ -1,6 +1,6 @@
 ﻿using MemberManagement.ViewModels.GroupViewModels;
 using MemberManagerment.Data.EF;
-using MemberManagerment.Data.Entities;
+
 using System;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using ManaberManagement.Utilities;
 using MemberManagement.ViewModels.Common;
+using MemberManagement.Data.Entities;
 
 namespace MemberManagement.Services.Groups
 {
@@ -19,16 +20,16 @@ namespace MemberManagement.Services.Groups
         {
             _context = context;
         }
-        public async Task<string> Create(GroupCreateRequest request)
+        public async Task<int> Create(GroupCreateRequest request)
         {
             var group = await _context.Groups.FindAsync(request.Name);
             if(group!=null)
             {
-                return "Chi hội đã tồn tại";
+                return 0;
             }
             var groupAdd = new Group()
             {
-                Id =  DateTime.Now.Minute.ToString(),
+               
                 Name = request.Name,
                 Region = request.Region,
                 Description = request.Description,
@@ -39,19 +40,16 @@ namespace MemberManagement.Services.Groups
             return groupAdd.Id;
         }
 
-        public async Task<string> Delete(string id)
+        public async Task<int> Delete(int id)
         {
-            if(string.IsNullOrEmpty(id))
-            {
-                return "Chi hoi khong ton tai";
-            }
+           
             var group = await _context.Groups.FindAsync(id);
             if(group!=null)
             {
                 _context.Remove(group);
                 await _context.SaveChangesAsync();
             }
-            return "Chi hoi khong ton tai";
+            return 0;
         }
 
         public async Task<List<GroupVM>> GetAll()
@@ -69,10 +67,9 @@ namespace MemberManagement.Services.Groups
 
         }
 
-        public async Task<GroupVM> GetById(string id)
+        public async Task<GroupVM> GetById(int id)
         {
-            if (string.IsNullOrEmpty(id))
-                throw new MemberManagementException("Không tồn tại!");
+           
             var group = await _context.Groups.FindAsync(id);
             if (group == null)
                 throw new MemberManagementException("Không tìm thấy!");
@@ -116,11 +113,10 @@ namespace MemberManagement.Services.Groups
             return paging;
         }
 
-        public async Task<Group> Update(string id, GroupEditRequest request)
+        public async Task<Group> Update(int id, GroupEditRequest request)
         {
             var group = await _context.Groups.FindAsync(id);
-            if (string.IsNullOrEmpty(id))
-                throw new MemberManagementException("vui lòng chọn thông tin");
+           
             if (group == null)
             {
                 throw new MemberManagementException("Không tìm thấy chi hội !");

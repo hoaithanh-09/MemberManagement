@@ -3,16 +3,16 @@ using System.Collections.Generic;
 
 #nullable disable
 
-namespace MemberManagerment.Data.Entities
+namespace MemberManagement.Data.Entities
 {
-    public partial class Role
+    public partial class Roles
     {
-        public Role()
+        public Roles()
         {
             RoleMembers = new HashSet<RoleMember>();
         }
 
-        public string Id { get; set; }
+        public int Id { get; set; }
         public string Name { get; set; }
         public string Note { get; set; }
         public string Description { get; set; }

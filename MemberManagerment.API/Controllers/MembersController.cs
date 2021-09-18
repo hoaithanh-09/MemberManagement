@@ -37,7 +37,7 @@ namespace MemberManagement.API.Controllers
             return Ok(member);
         }
         [HttpGet("{id}")]
-        public async Task<ActionResult> getID([FromRoute] string id)
+        public async Task<ActionResult> getID([FromRoute] int id)
 
         {
             var member = await _memberSV.GetById(id);
@@ -45,7 +45,7 @@ namespace MemberManagement.API.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Update([FromRoute] string id, [FromBody] MemberEditRequest request)
+        public async Task<IActionResult> Update([FromRoute] int id, [FromBody] MemberEditRequest request)
         {
             try
             {
@@ -59,21 +59,21 @@ namespace MemberManagement.API.Controllers
         }
 
         [HttpPost("Creat-AddreesMember")]
-        public async Task<ActionResult> AddAdreesMember([FromRoute]string memberId, [FromForm] AddressMemberCreateRequest request)
+        public async Task<ActionResult> AddAdreesMember([FromRoute]int memberId, [FromForm] AddressMemberCreateRequest request)
         {
             var member = await _memberSV.AddAddress(memberId, request);
             return Ok(member);
         }
 
         [HttpPost("Creat-Contact")]
-        public async Task<ActionResult> ContactMember([FromRoute] string memberId, [FromForm] ContactMemberCreateRequest request)
+        public async Task<ActionResult> ContactMember([FromRoute] int memberId, [FromForm] ContactMemberCreateRequest request)
         {
             var member = await _memberSV.AddContact(memberId, request);
             return Ok(member);
         }
 
         [HttpPost("Creat-Role")]
-        public async Task<ActionResult> RoleMember([FromRoute] string memberId, [FromForm] RoleMemberCreateRequest request)
+        public async Task<ActionResult> RoleMember([FromRoute] int memberId, [FromForm] RoleMemberCreateRequest request)
         {
             var member = await _memberSV.AddRole(memberId, request);
             return Ok(member);

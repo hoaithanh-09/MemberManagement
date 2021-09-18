@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 #nullable disable
 
-namespace MemberManagerment.Data.Entities
+namespace MemberManagement.Data.Entities
 {
     public partial class Address
     {
@@ -12,7 +12,7 @@ namespace MemberManagerment.Data.Entities
             AddressMembers = new HashSet<AddressMember>();
         }
 
-        public string Id { get; set; }
+        public int Id { get; set; }
         public string Nationality { get; set; }
         public string Province { get; set; }
         public string District { get; set; }

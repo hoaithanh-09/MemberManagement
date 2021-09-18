@@ -6,7 +6,7 @@ namespace MemberManagement.ViewModels.AddressMemberViewModels
 {
     public class AddressMemberCreateRequest
     {
-        public string IdAddress { get; set; }
-        public string IdMember { get; set; }
+        public int IdAddress { get; set; }
+        public int IdMember { get; set; }
     }
 }

@@ -31,16 +31,16 @@ namespace MemberManagement.API.Controllers
         public async Task<ActionResult> Create([FromBody] AddressCreatRequest request)
         {
             var family = await _address.Create(request);
-            return Ok("Tạo mới thành công");
+            return Ok(family);
         }
         [HttpDelete("Delete")]
-        public async Task<ActionResult> Delete([FromBody] string id)
+        public async Task<ActionResult> Delete([FromBody] int id)
         {
             var family = await _address.Delete(id);
-            return Ok();
+            return Ok(family);
         }
         [HttpGet("{id}")]
-        public async Task<ActionResult> getID([FromQuery] string id)
+        public async Task<ActionResult> getID([FromQuery] int id)
 
         {
             var family = await _address.GetById(id);
@@ -48,7 +48,7 @@ namespace MemberManagement.API.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Update([FromRoute]string id, [FromBody] AddressEditRequest request)
+        public async Task<IActionResult> Update([FromRoute]int id, [FromBody] AddressEditRequest request)
         {
             try
             {

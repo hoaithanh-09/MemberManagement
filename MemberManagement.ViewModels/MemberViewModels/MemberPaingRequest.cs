@@ -8,7 +8,7 @@ namespace MemberManagement.ViewModels.MemberViewModels
     public class MemberPaingRequest : PagingRequestBase
     {
         public string KeyWord { get; set; }
-        public string GroupId { get; set; }
-        public string FamilyId { get; set; }
+        public int GroupId { get; set; }
+        public int FamilyId { get; set; }
     }
 }

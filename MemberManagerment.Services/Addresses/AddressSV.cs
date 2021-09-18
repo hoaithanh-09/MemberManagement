@@ -2,13 +2,13 @@
 using MemberManagement.ViewModels.AddressViewModels;
 using MemberManagement.ViewModels.Common;
 using MemberManagerment.Data.EF;
-using MemberManagerment.Data.Entities;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
+using MemberManagement.Data.Entities;
 
 namespace MemberManagement.Services.Addresses
 {
@@ -19,11 +19,10 @@ namespace MemberManagement.Services.Addresses
         {
             _context = context;
         }
-        public async Task<string> Create(AddressCreatRequest request)
+        public async Task<int> Create(AddressCreatRequest request)
         {
             var address = new Address()
             {
-                Id = request.Province + request.Ward,
                 Nationality = request.Nationality,
                 Province = request.Province,
                 Ward = request.Ward,
@@ -36,10 +35,9 @@ namespace MemberManagement.Services.Addresses
             return address.Id;
         }
 
-        public async Task<int> Delete(string id)
+        public async Task<int> Delete(int id)
         {
-            if (string.IsNullOrEmpty(id))
-                throw new MemberManagementException("Không tìm thấy :" + id);
+           
             var family = await _context.Contacts.FindAsync(id);
             if (family != null)
             {
@@ -48,10 +46,9 @@ namespace MemberManagement.Services.Addresses
             return  _context.SaveChanges();
         }
 
-        public async Task<AddressVM> GetById(string id)
+        public async Task<AddressVM> GetById(int id)
         {
-            if (string.IsNullOrEmpty(id))
-                throw new MemberManagementException("Không tim thấy id");
+         
             var family = await _context.Addresses.FindAsync(id);
             if (family == null)
                 throw new MemberManagementException("Không tìm thấy gia đình");
@@ -99,7 +96,7 @@ namespace MemberManagement.Services.Addresses
             return pagedResult;
         }
 
-        public async Task<Address> Update(string id, AddressEditRequest request)
+        public async Task<Address> Update(int id, AddressEditRequest request)
         {
             var address = await _context.Addresses.FindAsync(id);
 

@@ -1,6 +1,5 @@
 ﻿using MemberManagement.ViewModels.RoleViewModels;
 using MemberManagerment.Data.EF;
-using MemberManagerment.Data.Entities;
 using System;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
@@ -8,6 +7,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using ManaberManagement.Utilities;
+using MemberManagement.Data.Entities;
 
 namespace MemberManagement.Services.Roles
 {
@@ -18,19 +18,18 @@ namespace MemberManagement.Services.Roles
         {
             _context = context;
         }
-        public async Task<string> Create(RoleCreateRequest request)
+        public async Task<int> Create(RoleCreateRequest request)
         {
             var role = await _context.Roless.FindAsync(request.Name);
             if (role != null)
             {
                 //
             }
-            var roleAdd = new Role()
+            var roleAdd = new Data.Entities.Roles()
             {
-                Id = DateTime.Now.Second.ToString(),
-                Name=request.Name,
-                Description=request.Description,
-                Note=request.Note,
+                Name= request.Name,
+                Description= request.Description,
+                Note= request.Note,
             };
             _context.Roless.Add(roleAdd);
             await _context.SaveChangesAsync();
@@ -38,12 +37,9 @@ namespace MemberManagement.Services.Roles
         }
 
 
-        public async Task<int> Delete(string id)
+        public async Task<int> Delete(int id)
         {
-            if (string.IsNullOrEmpty(id))
-            {
-                throw new MemberManagementException("Không tồn tại!");
-            }
+           
             var role = await _context.Roless.FindAsync(id);
             if (role != null)
             {
@@ -67,10 +63,9 @@ namespace MemberManagement.Services.Roles
             return role;
         }
 
-        public async Task<RoleVM> GetById(string id)
+        public async Task<RoleVM> GetById(int id)
         {
-            if (string.IsNullOrEmpty(id))
-                throw new MemberManagementException("Không tồn tại!");
+            
             var role = await _context.Roless.FindAsync(id);
             if (role == null)
                 throw new MemberManagementException("Không tìm thấy!");
@@ -83,11 +78,9 @@ namespace MemberManagement.Services.Roles
             return roleVM;
         }
 
-        public async Task<Role> Update(string id, RoleEditRequest request)
+        public async Task<Data.Entities.Roles> Update(int id, RoleEditRequest request)
         {
             var rold = await _context.Roless.FindAsync(id);
-            if (string.IsNullOrEmpty(id))
-                throw new MemberManagementException("vui lòng chọn thông tin");
             if (rold == null)
             {
                 throw new MemberManagementException("Không tìm thấy vai trò !");

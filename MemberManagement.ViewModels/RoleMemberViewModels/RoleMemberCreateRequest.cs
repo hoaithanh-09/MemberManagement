@@ -7,7 +7,7 @@ namespace MemberManagement.ViewModels.RoleMemberViewModels
     public class RoleMemberCreateRequest
     {
         
-        public string MemberId { get; set; }
-        public string RoleId { get; set; }
+        public int MemberId { get; set; }
+        public int RoleId { get; set; }
     }
 }

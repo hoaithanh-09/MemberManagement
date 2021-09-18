@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 #nullable disable
 
-namespace MemberManagerment.Data.Entities
+namespace MemberManagement.Data.Entities
 {
     public partial class Family
     {
@@ -12,7 +12,7 @@ namespace MemberManagerment.Data.Entities
             Members = new HashSet<Member>();
         }
 
-        public string Id { get; set; }
+        public int Id { get; set; }
         public int Number { get; set; }
         public string HousldRepre { get; set; }
         public DateTime YearBirth { get; set; }

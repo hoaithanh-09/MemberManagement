@@ -1,6 +1,6 @@
 ﻿using MemberManagement.ViewModels.ContactViewModels;
 using MemberManagerment.Data.EF;
-using MemberManagerment.Data.Entities;
+
 using System;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using ManaberManagement.Utilities;
 using MemberManagement.ViewModels.Common;
+using MemberManagement.Data.Entities;
 
 namespace MemberManagement.Services.Contacts
 {
@@ -19,7 +20,7 @@ namespace MemberManagement.Services.Contacts
         {
             _context = context;
         }
-        public async Task<string> Create(ContactCreateRequest request)
+        public async Task<int> Create(ContactCreateRequest request)
         {
             var contact = await _context.Contacts.FindAsync(request.UserName);
             if(contact!=null)
@@ -28,7 +29,6 @@ namespace MemberManagement.Services.Contacts
             }
             var contactAdd = new Contact()
             {
-                Id = request.FullName,
                 FullName=request.FullName,
                 Nickname=request.Nickname,
                 PersonalTtles=request.PersonalTtles,
@@ -44,12 +44,9 @@ namespace MemberManagement.Services.Contacts
         }
       
 
-        public async Task<int> Delete(string id)
+        public async Task<int> Delete(int id)
         {
-            if(string.IsNullOrEmpty(id))
-            {
-                throw new MemberManagementException("Không tồn tại!");
-            }
+           
             var contact = await _context.Contacts.FindAsync(id);
             if(contact!=null)
             {
@@ -77,10 +74,9 @@ namespace MemberManagement.Services.Contacts
             return contact;
         }
 
-        public async Task<ContactVM> GetById(string id)
+        public async Task<ContactVM> GetById(int id)
         {
-            if (string.IsNullOrEmpty(id))
-                throw new MemberManagementException("Không tồn tại!");
+            
             var contact = await _context.Contacts.FindAsync(id);
             if (contact == null)
                 throw new MemberManagementException("Không tìm thấy!");
@@ -132,11 +128,10 @@ namespace MemberManagement.Services.Contacts
             return pagedResult;
         }
 
-        public async Task<Contact> Update(string id, ContactEditRequest request)
+        public async Task<Contact> Update(int id, ContactEditRequest request)
         {
             var contact = await _context.Contacts.FindAsync(id);
-            if (string.IsNullOrEmpty(id))
-                throw new MemberManagementException("vui lòng chọn thông tin");
+          
             if (contact == null)
             {
                 throw new MemberManagementException("Không tìm thấy thông tin !");

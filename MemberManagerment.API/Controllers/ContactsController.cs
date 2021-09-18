@@ -32,21 +32,21 @@ namespace MemberManagement.API.Controllers
             return Ok();
         }
         [HttpDelete("Delete")]
-        public async Task<ActionResult> Delete([FromBody] string id)
+        public async Task<ActionResult> Delete([FromBody] int id)
         {
             var contact = await _contactSV.Delete(id);
             return Ok();
         }
 
         [HttpGet("GetById")]
-        public async Task<IActionResult> GetById(string id)
+        public async Task<IActionResult> GetById(int id)
         {
             var contact = await _contactSV.GetById(id);
             return Ok(contact);
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Update([FromRoute] string id, [FromBody] ContactEditRequest request)
+        public async Task<IActionResult> Update([FromRoute] int id, [FromBody] ContactEditRequest request)
         {
             try
             {
