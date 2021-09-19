@@ -1,6 +1,5 @@
 ﻿using MemberManagement.ViewModels.GroupViewModels;
 using MemberManagerment.Data.EF;
-
 using System;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
@@ -22,7 +21,7 @@ namespace MemberManagement.Services.Groups
         }
         public async Task<int> Create(GroupCreateRequest request)
         {
-            var group = await _context.Groups.FindAsync(request.Name);
+            var group = await _context.Groups.FirstOrDefaultAsync(x => x.Name == request.Name);
             if(group!=null)
             {
                 return 0;

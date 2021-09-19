@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace MemberManagement.Data.Entities
 {
-    public partial class AppRole : IdentityRole
+    public partial class AppRole : IdentityRole<int>
     {
         public AppRole()
         {

@@ -66,14 +66,14 @@ namespace MemberManagement.Services.User
             return new ApiSuccessResult<string>(new JwtSecurityTokenHandler().WriteToken(token));
         }
 
-        public Task<ApiResult<bool>> Delete(string id)
+        public Task<ApiResult<bool>> Delete(int id)
         {
             throw new NotImplementedException();
         }
 
-        public async Task<ApiResult<UserVM>> GetById(string id)
+        public async Task<ApiResult<UserVM>> GetByGmail(string id)
         {
-            var user = await _userManager.FindByIdAsync(id);
+            var user = await _userManager.FindByEmailAsync(id);
             if (user == null)
                 return new ApiErrorResult<UserVM>("Tài khoản không tồn tại");
             var userVM = new UserVM()
@@ -145,7 +145,7 @@ namespace MemberManagement.Services.User
             return new ApiErrorResult<bool>("Đăng ký không thành công");
         }
 
-        public async Task<ApiResult<bool>> Update(string id, UserUpdateRequest request)
+        public async Task<ApiResult<bool>> Update(int id, UserUpdateRequest request)
         {
             if (await _userManager.Users.AnyAsync(x => x.Email == request.Email && x.Id != id))
             {

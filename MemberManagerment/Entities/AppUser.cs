@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace MemberManagement.Data.Entities
 {
-    public partial class AppUser : IdentityUser
+    public partial class AppUser : IdentityUser<int>
     {
         public AppUser()
         {

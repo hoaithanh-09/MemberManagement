@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace MemberManagerment.Data.EF
 {
-    public partial class MemberManagementContext : IdentityDbContext<AppUser>
+    public partial class MemberManagementContext : IdentityDbContext<AppUser,AppRole,int>
     {
         public MemberManagementContext()
         {
@@ -324,11 +324,9 @@ namespace MemberManagerment.Data.EF
 
                 entity.Property(e => e.Name).HasMaxLength(50);
             });
-
+            base.OnModelCreating(modelBuilder);
 
         }
 
-
-        partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
     }
 }
