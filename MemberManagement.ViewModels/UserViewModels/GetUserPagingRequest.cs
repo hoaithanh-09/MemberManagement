@@ -8,5 +8,6 @@ namespace MemberManagement.ViewModels.UserViewModels
     public class GetUserPagingRequest : PagingRequestBase
     {
         public string KeyWord { get; set; }
+        public string BearerToken { get; set; }
     }
 }

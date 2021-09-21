@@ -23,5 +23,7 @@ namespace MemberManagement.ViewModels.MemberViewModels
         public string Notes { get; set; }
 
         public int IdAddress { get; set; }
+        public int RoleId { get; set; }
+        public int ContactId { get; set; }
     }
 }

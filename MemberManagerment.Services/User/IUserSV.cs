@@ -13,13 +13,12 @@ namespace MemberManagement.Services.User
 
         Task<ApiResult<bool>> Register(RegisterRequest request);
 
-        Task<PagedResult<UserVM>> GetUserPaging(GetUserPagingRequest request);
+        Task<ApiResult<PagedResult<UserVM>>> GetUsersPaging(GetUserPagingRequest request);
 
         Task<ApiResult<bool>> Update(int id, UserUpdateRequest request);
 
-        Task<ApiResult<PagedResult<UserVM>>> GetUsersPaging(GetUserPagingRequest request);
 
-        Task<ApiResult<UserVM>> GetByGmail(string id);
+        Task<ApiResult<UserVM>> GetById(int id);
 
         Task<ApiResult<bool>> Delete(int id);
 

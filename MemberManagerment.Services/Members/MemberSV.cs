@@ -94,18 +94,18 @@ namespace MemberManagement.Services.Members
 
         public async Task<int> Create(MemberCreatRequest request)
         {
-            var member = await _context.Members.FindAsync(request.Idcard);
+            var member = await _context.Members.FirstOrDefaultAsync(x=>x.Idcard == request.Idcard);
             if (member != null)
             {
                 throw new MemberManagementException("Hội viên đã tồn tại");
             }
 
-            var family = await _context.Families.FindAsync(request.FamilyId);
+            var family = await _context.Families.FirstOrDefaultAsync(x =>x.Id == request.FamilyId);
             if(family == null)
             {
                 throw new MemberManagementException("Gia đình chưa tồn tại");
             }
-            var group = await _context.Groups.FindAsync(request.GroupId);
+            var group = await _context.Groups.FirstOrDefaultAsync(x => x.Id == request.GroupId);
             if (group == null)
             {
                 throw new MemberManagementException("Chi hội chưa tồn tại");
@@ -132,6 +132,28 @@ namespace MemberManagement.Services.Members
                 { new AddressMember()
                     {
                         AddressId =request.IdAddress,
+                        MemberId = member.Id,
+                    }
+                };
+            }
+
+            if (request.RoleId != 0)
+            {
+                member.RoleMembers = new List<RoleMember>()
+                { new RoleMember()
+                    {
+                        RoleId =request.RoleId,
+                        MemberId = member.Id,
+                    }
+                };
+            }
+
+            if (request.ContactId != 0)
+            {
+                member.ContactMembers = new List<ContactMember>()
+                { new ContactMember()
+                    {
+                        ContactId = request.ContactId,
                         MemberId = member.Id,
                     }
                 };
@@ -178,50 +200,55 @@ namespace MemberManagement.Services.Members
 
         public async Task<MemberVM> GetById(int id)
         {
-
+            var addresVM = new AddressVM();
+            var contactVM = new ContactVM();
+            var roleVM = new RoleVM();
             var member = await _context.Members.Include(x => x.AddressMembers).
                 Where(x => x.Id == id).FirstOrDefaultAsync();
             if (member == null)
                 throw new MemberManagementException("Không tìm thấy gia đình");
             
             var address = await _context.AddressMembers.Where(x=>x.MemberId == id).FirstOrDefaultAsync();
-            var addresses = await _context.Addresses.Where(x => x.Id == address.AddressId).FirstOrDefaultAsync();
-
-
-            var contactMember = await _context.ContactMembers.Where(x => x.MemberId == id).FirstOrDefaultAsync();
-            var contact = await _context.Contacts.Where(x => x.Id == contactMember.ContactId).FirstOrDefaultAsync();
-
-            var roleMember = await _context.RoleMembers.Where(x => x.MemberId == id).FirstOrDefaultAsync();
-            var role = await _context.Roless.Where(x => x.Id == roleMember.RoleId).FirstOrDefaultAsync();
-
-            var addresVM = new AddressVM()
+            if (address != null)
             {
-                Nationality = addresses.Nationality,
-                Province = addresses.Province,
-                Ward = addresses.Ward,
-                District = addresses.District,
-                Notes = addresses.Notes,
-                StayingAddress = addresses.StayingAddress,
-            };
-            var contactVM = new ContactVM()
+                var addresses = await _context.Addresses.Where(x => x.Id == address.AddressId).FirstOrDefaultAsync();
+                 addresVM = new AddressVM()
+                {
+                    Nationality = addresses.Nationality,
+                    Province = addresses.Province,
+                    Ward = addresses.Ward,
+                    District = addresses.District,
+                    Notes = addresses.Notes,
+                    StayingAddress = addresses.StayingAddress,
+                };
+            }
+            var contactMember = await _context.ContactMembers.FirstOrDefaultAsync(x => x.MemberId == id);
+            if(contactMember!= null)
             {
-                FullName = contact.FullName,
-                Nickname = contact.Nickname,
-                PersonalTtles = contact.PersonalTtles,
-                Email = contact.Email,
-                PhoneNumber = contact.PhoneNumber,
-                Word = contact.Word,
-                UserName = contact.UserName,
-                Notes = contact.Notes,
-            };
-
-            var roleVM = new RoleVM()
+                var contact = await _context.Contacts.FirstOrDefaultAsync(x => x.Id == contactMember.ContactId);
+                 contactVM = new ContactVM()
+                {
+                    FullName = contact.FullName,
+                    Nickname = contact.Nickname,
+                    PersonalTtles = contact.PersonalTtles,
+                    Email = contact.Email,
+                    PhoneNumber = contact.PhoneNumber,
+                    Word = contact.Word,
+                    UserName = contact.UserName,
+                    Notes = contact.Notes,
+                };
+            }
+            var roleMember = await _context.RoleMembers.FirstOrDefaultAsync(x => x.MemberId == id);
+            if (roleMember != null)
             {
-                Name = role.Name,
-                Description = role.Description,
-                Note = role.Note,
-            };
-
+                var role = await _context.Roless.FirstOrDefaultAsync(x => x.Id == roleMember.RoleId);
+                roleVM = new RoleVM()
+                {
+                    Name = role.Name,
+                    Description = role.Description,
+                    Note = role.Note,
+                };
+            }
             var roleMembers = new RoleMemberVM()
             {
                  Role = roleVM,
@@ -230,14 +257,10 @@ namespace MemberManagement.Services.Members
             {
                 Address = addresVM,
             };
-
             var contractMember = new ContactMemberVM()
             {
                 Contact = contactVM,
             };
-
-
-
             var memberVN = new MemberVM()
             {
                 Name = member.Name,
@@ -252,7 +275,6 @@ namespace MemberManagement.Services.Members
             };
             return memberVN;
         }
-
         public async Task<Member> Update(int id, MemberEditRequest request)
         {
             var member = await _context.Members.FindAsync(id);
@@ -284,8 +306,6 @@ namespace MemberManagement.Services.Members
             }
             return member;
         }
-
-        
         
     }
 }

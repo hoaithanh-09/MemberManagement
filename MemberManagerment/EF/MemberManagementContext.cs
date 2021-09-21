@@ -27,7 +27,7 @@ namespace MemberManagerment.Data.EF
         public virtual DbSet<Group> Groups { get; set; }
         public virtual DbSet<Image> Images { get; set; }
         public virtual DbSet<Member> Members { get; set; }
-        public virtual DbSet<Roles> Roless { get; set; }
+        public virtual DbSet<Roless> Roless { get; set; }
         public virtual DbSet<RoleMember> RoleMembers { get; set; }
 
 
@@ -290,12 +290,18 @@ namespace MemberManagerment.Data.EF
                     .HasForeignKey(d => d.AuthorId);
             });
 
-            modelBuilder.Entity<Roles>(entity =>
+            modelBuilder.Entity<Roless>(entity =>
             {
+                entity.ToTable("Roless");
+
                 entity.Property(e => e.Name)
                     .IsRequired()
                     .HasMaxLength(100)
                     .IsUnicode(false);
+
+                entity.Property(e => e.Description).IsUnicode(true);
+                entity.Property(e => e.Description).IsUnicode(true);
+
             });
 
             modelBuilder.Entity<RoleMember>(entity =>

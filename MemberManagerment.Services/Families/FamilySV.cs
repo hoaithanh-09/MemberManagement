@@ -24,7 +24,7 @@ namespace MemberManagement.Services.Families
 
         public async Task<int> Create(FamilyCreatRequest request)
         {
-            var family = await _context.Families.FindAsync(request.IdMember);
+            var family = await _context.Families.FirstOrDefaultAsync(x=>x.IdMember == request.IdMember);
             if (family != null)
             {
                 throw new MemberManagementException("Lỗi khi tạo");

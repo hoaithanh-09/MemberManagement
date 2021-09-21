@@ -1,5 +1,9 @@
+using MemberManagement.ViewModels.UserViewModels;
+using MenaberManagement.Admin.Services;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -23,7 +27,25 @@ namespace MenaberManagement.Admin
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddHttpClient();
+            
+            services.AddRazorPages()
+                .AddRazorRuntimeCompilation();
             services.AddControllersWithViews();
+            services.AddSession(op => {
+                op.IdleTimeout = TimeSpan.FromMinutes(30);
+            });
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(options =>
+                {
+                    options.LoginPath = "/Login/Login/";
+                    options.AccessDeniedPath = "/Login/Forbidden/";
+                });
+            services.AddTransient<IHttpContextAccessor, HttpContextAccessor>();
+
+            services.AddTransient<IUserApiClient, UserApiClient>();
+
+            IMvcBuilder builder = services.AddRazorPages();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -41,11 +63,12 @@ namespace MenaberManagement.Admin
             }
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+            app.UseAuthentication();
 
             app.UseRouting();
 
             app.UseAuthorization();
-
+            app.UseSession();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(

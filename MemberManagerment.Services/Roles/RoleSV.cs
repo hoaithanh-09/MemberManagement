@@ -20,12 +20,8 @@ namespace MemberManagement.Services.Roles
         }
         public async Task<int> Create(RoleCreateRequest request)
         {
-            var role = await _context.Roless.FindAsync(request.Name);
-            if (role != null)
-            {
-                //
-            }
-            var roleAdd = new Data.Entities.Roles()
+           
+            var roleAdd = new Roless()
             {
                 Name= request.Name,
                 Description= request.Description,
@@ -78,7 +74,7 @@ namespace MemberManagement.Services.Roles
             return roleVM;
         }
 
-        public async Task<Data.Entities.Roles> Update(int id, RoleEditRequest request)
+        public async Task<Data.Entities.Roless> Update(int id, RoleEditRequest request)
         {
             var rold = await _context.Roless.FindAsync(id);
             if (rold == null)

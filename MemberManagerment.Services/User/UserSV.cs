@@ -71,9 +71,9 @@ namespace MemberManagement.Services.User
             throw new NotImplementedException();
         }
 
-        public async Task<ApiResult<UserVM>> GetByGmail(string id)
+        public async Task<ApiResult<UserVM>> GetById(int id)
         {
-            var user = await _userManager.FindByEmailAsync(id);
+            var user = await _userManager.FindByIdAsync(id.ToString());
             if (user == null)
                 return new ApiErrorResult<UserVM>("Tài khoản không tồn tại");
             var userVM = new UserVM()
@@ -85,10 +85,7 @@ namespace MemberManagement.Services.User
             return new ApiSuccessResult<UserVM>(userVM);
         }
 
-        public Task<PagedResult<UserVM>> GetUserPaging(GetUserPagingRequest request)
-        {
-            throw new NotImplementedException();
-        }
+
 
         public async Task<ApiResult<PagedResult<UserVM>>> GetUsersPaging(GetUserPagingRequest request)
         {

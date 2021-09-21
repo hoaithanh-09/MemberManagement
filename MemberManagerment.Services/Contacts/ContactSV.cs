@@ -22,11 +22,7 @@ namespace MemberManagement.Services.Contacts
         }
         public async Task<int> Create(ContactCreateRequest request)
         {
-            var contact = await _context.Contacts.FindAsync(request.UserName);
-            if(contact!=null)
-            {
-                //
-            }
+           
             var contactAdd = new Contact()
             {
                 FullName=request.FullName,
