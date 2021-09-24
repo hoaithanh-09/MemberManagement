@@ -28,11 +28,11 @@ namespace MemberManagement.Services.Members
         public async Task<int> AddAddress(int memberId, AddressMemberCreateRequest request)
         {
 
-          
+
 
             var address = await _context.Addresses.FindAsync(request.IdAddress);
 
-            if(address==null)
+            if (address == null)
             {
                 throw new MemberManagementException("địa chỉ không hợp lệ");
             }
@@ -57,7 +57,7 @@ namespace MemberManagement.Services.Members
             if (contact == null)
             {
                 throw new MemberManagementException("Thông tin không hợp lệ");
-            }  
+            }
 
             var contracMember = new ContactMember()
             {
@@ -72,7 +72,7 @@ namespace MemberManagement.Services.Members
 
         public async Task<int> AddRole(int memberId, RoleMemberCreateRequest request)
         {
-           
+
 
             var role = await _context.Roless.FindAsync(request.RoleId);
 
@@ -94,14 +94,14 @@ namespace MemberManagement.Services.Members
 
         public async Task<int> Create(MemberCreatRequest request)
         {
-            var member = await _context.Members.FirstOrDefaultAsync(x=>x.Idcard == request.Idcard);
+            var member = await _context.Members.FirstOrDefaultAsync(x => x.Idcard == request.Idcard);
             if (member != null)
             {
                 throw new MemberManagementException("Hội viên đã tồn tại");
             }
 
-            var family = await _context.Families.FirstOrDefaultAsync(x =>x.Id == request.FamilyId);
-            if(family == null)
+            var family = await _context.Families.FirstOrDefaultAsync(x => x.Id == request.FamilyId);
+            if (family == null)
             {
                 throw new MemberManagementException("Gia đình chưa tồn tại");
             }
@@ -110,7 +110,7 @@ namespace MemberManagement.Services.Members
             {
                 throw new MemberManagementException("Chi hội chưa tồn tại");
             }
-            
+
             member = new Member()
             {
                 Name = request.Name,
@@ -123,10 +123,10 @@ namespace MemberManagement.Services.Members
                 FamilyId = request.FamilyId,
                 GroupId = request.GroupId,
                 Birth = request.Birth,
-                ImageId = "Sdasdas",           
+                ImageId = "Sdasdas",
             };
-           
-            if(request.IdAddress != 0)
+
+            if (request.IdAddress != 0)
             {
                 member.AddressMembers = new List<AddressMember>()
                 { new AddressMember()
@@ -169,7 +169,7 @@ namespace MemberManagement.Services.Members
             var query = from m in _context.Members
                         join f in _context.Families on m.FamilyId equals f.Id
                         join g in _context.Groups on m.GroupId equals g.Id
-                        select new { m, f,g };
+                        select new { m, f, g };
 
             if (!string.IsNullOrEmpty(request.KeyWord))
             {
@@ -181,12 +181,12 @@ namespace MemberManagement.Services.Members
             var data = await query.Skip((request.PageIndex - 1) * request.PageSize).Take(request.PageSize)
                 .Select(x => new MemberVM()
                 {
-                   Name = x.m.Name,
-                   Birth = x.m.Birth,
-                   Gender = x.m.Gender,
-                   Idcard = x.m.Idcard,
-                   JoinDate = x.m.JoinDate,
-                   Notes = x.m.Notes,
+                    Name = x.m.Name,
+                    Birth = x.m.Birth,
+                    Gender = x.m.Gender,
+                    Idcard = x.m.Idcard,
+                    JoinDate = x.m.JoinDate,
+                    Notes = x.m.Notes,
                 }).ToListAsync();
             var paging = new PagedResult<MemberVM>()
             {
@@ -207,12 +207,12 @@ namespace MemberManagement.Services.Members
                 Where(x => x.Id == id).FirstOrDefaultAsync();
             if (member == null)
                 throw new MemberManagementException("Không tìm thấy gia đình");
-            
-            var address = await _context.AddressMembers.Where(x=>x.MemberId == id).FirstOrDefaultAsync();
+
+            var address = await _context.AddressMembers.Where(x => x.MemberId == id).FirstOrDefaultAsync();
             if (address != null)
             {
                 var addresses = await _context.Addresses.Where(x => x.Id == address.AddressId).FirstOrDefaultAsync();
-                 addresVM = new AddressVM()
+                addresVM = new AddressVM()
                 {
                     Nationality = addresses.Nationality,
                     Province = addresses.Province,
@@ -223,10 +223,10 @@ namespace MemberManagement.Services.Members
                 };
             }
             var contactMember = await _context.ContactMembers.FirstOrDefaultAsync(x => x.MemberId == id);
-            if(contactMember!= null)
+            if (contactMember != null)
             {
                 var contact = await _context.Contacts.FirstOrDefaultAsync(x => x.Id == contactMember.ContactId);
-                 contactVM = new ContactVM()
+                contactVM = new ContactVM()
                 {
                     FullName = contact.FullName,
                     Nickname = contact.Nickname,
@@ -251,7 +251,7 @@ namespace MemberManagement.Services.Members
             }
             var roleMembers = new RoleMemberVM()
             {
-                 Role = roleVM,
+                Role = roleVM,
             };
             var addressMember = new AddressMemberVM()
             {
@@ -306,6 +306,6 @@ namespace MemberManagement.Services.Members
             }
             return member;
         }
-        
+
     }
 }

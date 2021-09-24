@@ -1,4 +1,5 @@
 ﻿using MemberManagement.ViewModels.Common;
+using MemberManagement.ViewModels.RoleAppVM;
 using MemberManagement.ViewModels.UserViewModels;
 using System;
 using System.Collections.Generic;
@@ -21,7 +22,6 @@ namespace MemberManagement.Services.User
         Task<ApiResult<UserVM>> GetById(int id);
 
         Task<ApiResult<bool>> Delete(int id);
-
-
+        Task<ApiResult<bool>> RoleAssign(int id, RoleAssignRequest request);
     }
 }

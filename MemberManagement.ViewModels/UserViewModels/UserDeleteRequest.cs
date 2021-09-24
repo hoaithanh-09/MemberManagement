@@ -4,11 +4,8 @@ using System.Text;
 
 namespace MemberManagement.ViewModels.UserViewModels
 {
-    public class UserUpdateRequest
+   public class UserDeleteRequest
     {
         public int Id { get; set; }
-        public string Email { get; set; }
-        public string PhoneNumber { get; set; }
-        public string UserName { get; set; }
     }
 }

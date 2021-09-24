@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Logging;
 using Microsoft.IdentityModel.Tokens;
-
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
@@ -27,18 +26,15 @@ namespace MenaberManagement.Admin.Controllers
             _configuration = configuration;
         }
 
-        public IActionResult Index()
-        {
-            return View();
-        }
+       
         [HttpGet]
-        public async Task<IActionResult> Login()
+        public async Task<IActionResult> Index()
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             return View();
         }
         [HttpPost]
-        public async Task<IActionResult> Login(LoginRequest request)
+        public async Task<IActionResult> Index(LoginRequest request)
         {
                 if (!ModelState.IsValid)
                 return View(ModelState);
@@ -65,7 +61,8 @@ namespace MenaberManagement.Admin.Controllers
         public async Task<IActionResult> Logout()
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-            return RedirectToAction("Login", "Login");
+            return RedirectToAction("Index", "Login");
+            
         }
         private ClaimsPrincipal ValidateToken(string jwtToken)
         {

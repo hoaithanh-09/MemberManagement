@@ -14,7 +14,7 @@ namespace MenaberManagement.Admin.Controllers
         {
             var sessions = context.HttpContext.Session.GetString("JWT");
             if (sessions == null)
-                context.Result = new RedirectToActionResult("Login", "Login", null);
+                context.Result = new RedirectToActionResult("Index", "Login", null);
             base.OnActionExecuting(context);
         }
     }

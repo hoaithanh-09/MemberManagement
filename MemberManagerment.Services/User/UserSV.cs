@@ -1,5 +1,7 @@
 ﻿using MemberManagement.Data.Entities;
+using MemberManagement.Services.Roles;
 using MemberManagement.ViewModels.Common;
+using MemberManagement.ViewModels.RoleAppVM;
 using MemberManagement.ViewModels.UserViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -18,28 +20,24 @@ namespace MemberManagement.Services.User
     public class UserSV : IUserSV
     {
         private readonly UserManager<AppUser> _userManager;
-        private readonly RoleManager<AppRole> _roleManager;
+        private readonly IRoleSV _roleManager;
         private readonly IConfiguration _configuration;
-        
-        public UserSV(UserManager<AppUser> userManager, RoleManager<AppRole> roleManager, IConfiguration configuration)
+
+        public UserSV(UserManager<AppUser> userManager, IRoleSV roleManager, IConfiguration configuration)
         {
             _userManager = userManager;
             _roleManager = roleManager;
             _configuration = configuration;
         }
 
-          public async Task<ApiResult<string>> Authencate(LoginRequest request)
+        public async Task<ApiResult<string>> Authencate(LoginRequest request)
         {
             var user = await _userManager.FindByNameAsync(request.UserName);
             if (user == null) return new ApiErrorResult<string>("Tài khoản không tồn tại");
-
-
-            //if (user!=null & await _userManager.CheckPasswordAsync(user,request.Password))
-            //{
             var check = await _userManager.CheckPasswordAsync(user, request.Password);
             if (!check)
             {
-                return new ApiErrorResult<string>("Sai mất khẩu");
+                return new ApiErrorResult<string>("Sai mật khẩu");
             }
             var userRoles = await _userManager.GetRolesAsync(user);
             var authClaims = new List<Claim>
@@ -47,7 +45,6 @@ namespace MemberManagement.Services.User
                     new Claim(ClaimTypes.Name,user.UserName),
                     new Claim(JwtRegisteredClaimNames.Jti,Guid.NewGuid().ToString()),
                 };
-
             foreach (var userRole in userRoles)
             {
                 authClaims.Add(new Claim(ClaimTypes.Role, userRole));
@@ -60,15 +57,22 @@ namespace MemberManagement.Services.User
                    expires: DateTime.Now.AddHours(3),
                    claims: authClaims,
                    signingCredentials: new SigningCredentials(authSigninKey, SecurityAlgorithms.HmacSha256)
-
                     );
-
             return new ApiSuccessResult<string>(new JwtSecurityTokenHandler().WriteToken(token));
         }
 
-        public Task<ApiResult<bool>> Delete(int id)
+        public async Task<ApiResult<bool>> Delete(int id)
         {
-            throw new NotImplementedException();
+            var user = await _userManager.FindByIdAsync(id.ToString());
+            if (user == null)
+            {
+                return new ApiErrorResult<bool>("User không tồn tại");
+            }
+            var reult = await _userManager.DeleteAsync(user);
+            if (reult.Succeeded)
+                return new ApiSuccessResult<bool>();
+
+            return new ApiErrorResult<bool>("Xóa không thành công");
         }
 
         public async Task<ApiResult<UserVM>> GetById(int id)
@@ -76,17 +80,33 @@ namespace MemberManagement.Services.User
             var user = await _userManager.FindByIdAsync(id.ToString());
             if (user == null)
                 return new ApiErrorResult<UserVM>("Tài khoản không tồn tại");
+            var roles = await _userManager.GetRolesAsync(user);
             var userVM = new UserVM()
             {
+                Id = id,
                 UserName = user.UserName,
                 PhoneNumber = user.PhoneNumber,
                 Email = user.Email,
+                Roles = roles,
             };
             return new ApiSuccessResult<UserVM>(userVM);
         }
-
-
-
+        //public async Task<ApiResult<string>> GetRoleById(int id)
+        //{
+        //    var user = await _userManager.FindByIdAsync(id.ToString());
+        //    if (user == null)
+        //        return new ApiErrorResult<string>("Tài khoản không tồn tại");
+        //    var roles = await _userManager.GetRolesAsync(user);
+        //    var userVM = new UserVM()
+        //    {
+        //        Id = id,
+        //        UserName = user.UserName,
+        //        PhoneNumber = user.PhoneNumber,
+        //        Email = user.Email,
+        //        Roles = roles,
+        //    };
+        //    return roles.;
+        //}
         public async Task<ApiResult<PagedResult<UserVM>>> GetUsersPaging(GetUserPagingRequest request)
         {
             var query = _userManager.Users;
@@ -97,13 +117,12 @@ namespace MemberManagement.Services.User
             }
             var data = await query.OrderBy(x => x.UserName).Skip((request.PageIndex - 1) * request.PageSize)
                 .Take(request.PageSize)
-
                 .Select(x => new UserVM()
                 {
+                    Id = x.Id,
                     UserName = x.UserName,
                     PhoneNumber = x.PhoneNumber,
                     Email = x.Email,
-
                 }).ToListAsync();
 
             int totalRow = await query.CountAsync();
@@ -113,6 +132,7 @@ namespace MemberManagement.Services.User
                 Items = data,
                 PageIndex = request.PageIndex,
                 PageSize = request.PageSize,
+
             };
             return new ApiSuccessResult<PagedResult<UserVM>>(pagedResult);
         }
@@ -133,6 +153,7 @@ namespace MemberManagement.Services.User
                 UserName = request.UserName,
                 Email = request.Email,
                 SecurityStamp = Guid.NewGuid().ToString(),
+                PhoneNumber = request.PhoneNumber,
             };
             var result = await _userManager.CreateAsync(user, request.Password);
             if (result.Succeeded)
@@ -140,6 +161,35 @@ namespace MemberManagement.Services.User
                 return new ApiSuccessResult<bool>();
             }
             return new ApiErrorResult<bool>("Đăng ký không thành công");
+        }
+
+        public async Task<ApiResult<bool>> RoleAssign(int id, RoleAssignRequest request)
+        {
+            var user = await _userManager.FindByIdAsync(id.ToString());
+            if (user == null)
+            {
+                return new ApiErrorResult<bool>("Tài khoản không tồn tại");
+            }
+            var removedRoles = request.Roles.Where(x => x.Selected == false).Select(x => x.Name).ToList();
+            foreach (var roleName in removedRoles)
+            {
+                if (await _userManager.IsInRoleAsync(user, roleName) == true)
+                {
+                    await _userManager.RemoveFromRoleAsync(user, roleName);
+                }
+            }
+            await _userManager.RemoveFromRolesAsync(user, removedRoles);
+
+            var addedRoles = request.Roles.Where(x => x.Selected).Select(x => x.Name).ToList();
+            foreach (var roleName in addedRoles)
+            {
+                if (await _userManager.IsInRoleAsync(user, roleName) == false)
+                {
+                    await _userManager.AddToRoleAsync(user, roleName);
+                }
+            }
+
+            return new ApiSuccessResult<bool>();
         }
 
         public async Task<ApiResult<bool>> Update(int id, UserUpdateRequest request)
@@ -160,6 +210,6 @@ namespace MemberManagement.Services.User
             return new ApiErrorResult<bool>("Cập nhật không thành công");
         }
 
-       
+
     }
 }

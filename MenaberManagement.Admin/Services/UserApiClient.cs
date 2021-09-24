@@ -10,6 +10,7 @@ using System.Net.Http.Headers;
 using Microsoft.AspNetCore.Http;
 using MemberManagement.ViewModels.Common;
 using MemberManagement.ViewModels.UserViewModels;
+using MemberManagement.ViewModels.RoleAppVM;
 
 namespace MenaberManagement.Admin.Services
 {
@@ -43,13 +44,28 @@ namespace MenaberManagement.Admin.Services
             // return new ApiErrorResult<string>(await response.Content.ReadAsStringAsync());
         }
 
-        public async Task<ApiResult<UserVM>> GetById(string id)
+        public async Task<ApiResult<bool>> Delete(int id)
+        {
+            var sessions = _httpContextAccessor.HttpContext.Session.GetString("JWT");
+            var client = _httpClientFactory.CreateClient();
+            client.BaseAddress = new Uri(_configuration["BaseAddress"]);
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", sessions);
+            var response = await client.DeleteAsync($"/api/users/{id}");
+            var body = await response.Content.ReadAsStringAsync();
+            if (response.IsSuccessStatusCode)
+                return JsonConvert.DeserializeObject<ApiSuccessResult<bool>>(body);
+
+            return JsonConvert.DeserializeObject<ApiErrorResult<bool>>(body);
+        }
+
+        public async Task<ApiResult<UserVM>> GetById(int id)
         {
             var session = _httpContextAccessor.HttpContext.Session.GetString("JWT");
             var client = _httpClientFactory.CreateClient();
             client.BaseAddress = new Uri(_configuration["BaseAddress"]);
+           // string b = id.ToString();
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", session);
-            var response = await client.GetAsync($"/api/Login/{id}");
+            var response = await client.GetAsync($"/api/Users/{id}");
             var body = await response.Content.ReadAsStringAsync();
             if (response.IsSuccessStatusCode)
             {
@@ -73,7 +89,7 @@ namespace MenaberManagement.Admin.Services
             return users;
         }
 
-        public async Task<ApiResult<bool>> RegisterUser(RegisterRequest request)
+        public async Task<ApiResult<string>> RegisterUser(RegisterRequest request)
         {
             var client = _httpClientFactory.CreateClient();
             client.BaseAddress = new Uri(_configuration["BaseAddress"]);
@@ -84,20 +100,41 @@ namespace MenaberManagement.Admin.Services
             var response = await client.PostAsync($"/api/Login/Register", httpContent);
             var result = await response.Content.ReadAsStringAsync();
             if (response.IsSuccessStatusCode)
+                return JsonConvert.DeserializeObject<ApiSuccessResult<string>>(result);
+            return new ApiErrorResult<string>(result);
+        }
+
+        public async Task<ApiResult<bool>> RoleAssign(int id, RoleAssignRequest request)
+        {
+            var client = _httpClientFactory.CreateClient();
+            client.BaseAddress = new Uri(_configuration["BaseAddress"]);
+            var sessions = _httpContextAccessor.HttpContext.Session.GetString("JWT");
+
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", sessions);
+
+            var json = JsonConvert.SerializeObject(request);
+            var httpContent = new StringContent(json, Encoding.UTF8, "application/json");
+
+            var response = await client.PutAsync($"/api/users/{id}/roles", httpContent);
+            var result = await response.Content.ReadAsStringAsync();
+            if (response.IsSuccessStatusCode)
                 return JsonConvert.DeserializeObject<ApiSuccessResult<bool>>(result);
 
             return JsonConvert.DeserializeObject<ApiErrorResult<bool>>(result);
         }
 
-        public async Task<ApiResult<bool>> Update(string id, UserUpdateRequest request)
+        public async Task<ApiResult<bool>> Update(int id, UserUpdateRequest request)
         {
             var client = _httpClientFactory.CreateClient();
             client.BaseAddress = new Uri(_configuration["BaseAddress"]);
+            var sessions = _httpContextAccessor.HttpContext.Session.GetString("JWT");
+
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", sessions);
 
             var json = JsonConvert.SerializeObject(request);
             var httpContent = new StringContent(json, Encoding.UTF8, "application/json");
 
-            var response = await client.PutAsync($"/api/Login/Register/{id}", httpContent);
+            var response = await client.PutAsync($"/api/users/{id}", httpContent);
             var result = await response.Content.ReadAsStringAsync();
             if (response.IsSuccessStatusCode)
                 return JsonConvert.DeserializeObject<ApiSuccessResult<bool>>(result);

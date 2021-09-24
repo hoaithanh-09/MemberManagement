@@ -4,7 +4,7 @@ using System.Text;
 
 namespace MemberManagement.ViewModels.PostViewModels
 {
-   public class PostVM
+    public class PostCreatRequest
     {
         public int UserId { get; set; }
         public string Longitude { get; set; }

@@ -28,7 +28,7 @@ namespace MemberManagement.API.Controllers
             var result = await _userService.Authencate(request);
             if (string.IsNullOrEmpty(result.ResultObj))
             {
-                return BadRequest(result);
+                return BadRequest(result.Message);
             }
 
             return Ok(result);
@@ -45,7 +45,7 @@ namespace MemberManagement.API.Controllers
             var result = await _userService.Register(request);
             if (!result.IsSuccessed)
             {
-                return BadRequest(result.ResultObj);
+                return BadRequest(result.Message);
             }
             return Ok(result);
         }

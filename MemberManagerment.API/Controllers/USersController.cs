@@ -1,4 +1,5 @@
 ﻿using MemberManagement.Services.User;
+using MemberManagement.ViewModels.RoleAppVM;
 using MemberManagement.ViewModels.UserViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -20,7 +21,6 @@ namespace MemberManagement.API.Controllers
         {
             _userService = userService;
         }
-
        
         [HttpGet("paging")]
         [AllowAnonymous]
@@ -53,5 +53,27 @@ namespace MemberManagement.API.Controllers
             }
             return Ok(result);
         }
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var result = await _userService.Delete(id);
+            return Ok(result);
+        }
+
+        [HttpPut("{id}/roles")]
+        public async Task<IActionResult> RoleAssign(int id, [FromBody] RoleAssignRequest request)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var result = await _userService.RoleAssign(id, request);
+            if (!result.IsSuccessed)
+            {
+                return BadRequest(result);
+            }
+            return Ok(result);
+        }
+        
+
     }
 }

@@ -29,7 +29,7 @@ namespace MemberManagerment.Data.EF
         public virtual DbSet<Member> Members { get; set; }
         public virtual DbSet<Roless> Roless { get; set; }
         public virtual DbSet<RoleMember> RoleMembers { get; set; }
-
+        public virtual DbSet<Post> Postes { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

@@ -38,13 +38,13 @@ namespace MenaberManagement.Admin
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(options =>
                 {
-                    options.LoginPath = "/Login/Login/";
+                    options.LoginPath = "/Login/Index/";
                     options.AccessDeniedPath = "/Login/Forbidden/";
                 });
             services.AddTransient<IHttpContextAccessor, HttpContextAccessor>();
 
             services.AddTransient<IUserApiClient, UserApiClient>();
-
+            services.AddTransient<IRoleAppApiClient, RoleAppApiClient>();
             IMvcBuilder builder = services.AddRazorPages();
         }
 
