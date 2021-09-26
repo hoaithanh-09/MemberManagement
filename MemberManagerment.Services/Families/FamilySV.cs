@@ -24,7 +24,7 @@ namespace MemberManagement.Services.Families
 
         public async Task<int> Create(FamilyCreatRequest request)
         {
-            var family = await _context.Families.FirstOrDefaultAsync(x=>x.IdMember == request.IdMember);
+            var family = await _context.Families.FirstOrDefaultAsync(x => x.IdMember == request.IdMember);
             if (family != null)
             {
                 throw new MemberManagementException("Lỗi khi tạo");
@@ -32,37 +32,38 @@ namespace MemberManagement.Services.Families
 
             var familyAdd = new Family()
             {
-                IdMember =request.IdMember,
+                IdMember = request.IdMember,
                 HousldRepre = request.HousldRepre,
                 MumberMembers = request.MumberMembers,
                 Number = request.Number,
                 PhoneNumber = request.PhoneNumber,
                 YearBirth = request.YearBirth,
             };
-             _context.Add(familyAdd);
+            _context.Add(familyAdd);
             _context.SaveChanges();
             return familyAdd.Id;
         }
 
         public async Task<int> Delete(int id)
         {
-        
+
             var family = await _context.Families.FindAsync(id);
 
             if (family != null)
             {
-              _context.Remove(family);
-             
+                _context.Remove(family);
+
             }
 
             return await _context.SaveChangesAsync(); ;
         }
 
         public async Task<List<FamilyVM>> getAll()
-            {
-              var query =  from f in _context.Families select f;
+        {
+            var query = from f in _context.Families select f;
             var family = await query.Select(x => new FamilyVM()
             {
+                Id = x.Id,
                 HousldRepre = x.HousldRepre,
                 IdMember = x.IdMember,
                 MumberMembers = x.MumberMembers,
@@ -76,7 +77,7 @@ namespace MemberManagement.Services.Families
 
         public async Task<FamilyVM> GetById(int id)
         {
-           
+
             var family = await _context.Families.FindAsync(id);
             if (family == null)
                 throw new MemberManagementException("Không tìm thấy gia đình");
@@ -100,16 +101,18 @@ namespace MemberManagement.Services.Families
 
             int totalRow = await query.CountAsync();
 
-            var data = await query.Skip((request.PageIndex-1)*request.PageSize).Take(request.PageSize)
+            var data = await query.OrderBy(x => x.Number).Skip((request.PageIndex - 1) * request.PageSize)
+                .Take(request.PageSize)
                 .Select(x => new FamilyVM()
-            {
-                HousldRepre = x.HousldRepre,
-                IdMember = x.IdMember,
-                MumberMembers = x.MumberMembers,
-                Number = x.Number,
-                PhoneNumber = x.PhoneNumber,
-                YearBirth = x.YearBirth,
-            }).ToListAsync();
+                {
+                    Id = x.Id,
+                    HousldRepre = x.HousldRepre,
+                    IdMember = x.IdMember,
+                    MumberMembers = x.MumberMembers,
+                    Number = x.Number,
+                    PhoneNumber = x.PhoneNumber,
+                    YearBirth = x.YearBirth,
+                }).ToListAsync();
 
             var pagedResult = new PagedResult<FamilyVM>()
             {
@@ -124,7 +127,7 @@ namespace MemberManagement.Services.Families
         public async Task<Family> Update(int id, FamilyEditRequest request)
         {
             var family = await _context.Families.FindAsync(id);
-           
+
             if (family == null)
             {
                 throw new MemberManagementException("Không tìm thấy hộ gia đình!");
@@ -155,5 +158,5 @@ namespace MemberManagement.Services.Families
             return family;
         }
     }
-    
+
 }

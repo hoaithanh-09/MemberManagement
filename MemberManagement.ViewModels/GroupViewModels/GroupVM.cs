@@ -10,6 +10,6 @@ namespace MemberManagement.ViewModels.GroupViewModels
         public string Region { get; set; }
         public string Description { get; set; }
         public int? IdMember { get; set; }
-
+        public int Id { get; set; }
     }
 }

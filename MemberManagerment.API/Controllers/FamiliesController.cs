@@ -39,15 +39,15 @@ namespace MemberManagerment.API.Controllers
             var family = await _familySV.Create(request);
             return Ok("Tạo mới thành công");
         }
-
-        [HttpDelete("Delete")]
-        public async Task<ActionResult> Delete([FromBody] int id)
+        
+        [HttpDelete("{id}")]
+        public async Task<ActionResult> Delete(int id)
         {
             var family = await _familySV.Delete(id);
             return Ok();
         }
         [HttpGet("{id}")]
-        public async Task<ActionResult> getID([FromForm] int id)
+        public async Task<ActionResult> getID( int id)
 
         {
             var family = await _familySV.GetById(id);

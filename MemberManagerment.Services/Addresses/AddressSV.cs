@@ -54,6 +54,7 @@ namespace MemberManagement.Services.Addresses
                 throw new MemberManagementException("Không tìm thấy gia đình");
             var familyVm = new AddressVM()
             {
+                Id = family.Id,
                 Nationality = family.Nationality,
                 Province = family.Province,
                 Ward = family.Ward,
@@ -78,6 +79,7 @@ namespace MemberManagement.Services.Addresses
             var data = await query.Skip((request.PageIndex - 1) * request.PageSize).Take(request.PageSize)
                 .Select(x => new AddressVM()
                 {
+                    Id = x.Id,
                     Nationality = x.Nationality,
                     Province = x.Province,
                     Ward = x.Ward,

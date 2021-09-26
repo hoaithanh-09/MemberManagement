@@ -181,6 +181,7 @@ namespace MemberManagement.Services.Members
             var data = await query.Skip((request.PageIndex - 1) * request.PageSize).Take(request.PageSize)
                 .Select(x => new MemberVM()
                 {
+                    Id = x.m.Id,
                     Name = x.m.Name,
                     Birth = x.m.Birth,
                     Gender = x.m.Gender,
@@ -214,6 +215,7 @@ namespace MemberManagement.Services.Members
                 var addresses = await _context.Addresses.Where(x => x.Id == address.AddressId).FirstOrDefaultAsync();
                 addresVM = new AddressVM()
                 {
+
                     Nationality = addresses.Nationality,
                     Province = addresses.Province,
                     Ward = addresses.Ward,
@@ -263,6 +265,7 @@ namespace MemberManagement.Services.Members
             };
             var memberVN = new MemberVM()
             {
+                Id = member.Id,
                 Name = member.Name,
                 Birth = member.Birth,
                 Gender = member.Gender,

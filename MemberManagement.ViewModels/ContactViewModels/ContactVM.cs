@@ -14,5 +14,6 @@ namespace MemberManagement.ViewModels.ContactViewModels
         public string Word { get; set; }
         public string UserName { get; set; }
         public string Notes { get; set; }
+        public int Id { get; set; }
     }
 }

@@ -6,6 +6,7 @@ namespace MemberManagerment.ViewModels.FamilyViewModels
 {
     public class FamilyVM
     {
+        public int Id { get; set; }
         public int Number { get; set; }
         public string HousldRepre { get; set; }
         public DateTime YearBirth { get; set; }

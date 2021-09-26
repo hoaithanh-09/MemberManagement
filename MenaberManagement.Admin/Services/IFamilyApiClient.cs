@@ -10,7 +10,7 @@ namespace MenaberManagement.Admin.Services
 {
     public interface IFamilyApiClient
     {
-        Task<PagedResult<FamilyVM>> GetUserPaging(GetFamilyPagingRequest request);
+        Task<PagedResult<FamilyVM>> GetFamilyPaging(GetFamilyPagingRequest request);
 
         Task<bool> Create(FamilyCreatRequest request);
 

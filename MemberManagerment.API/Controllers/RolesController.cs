@@ -29,16 +29,16 @@ namespace MemberManagement.API.Controllers
         public async Task<ActionResult> Create([FromBody] RoleCreateRequest request)
         {
             var role = await _roleSV.Create(request);
-            return Ok();
+            return Ok(role);
         }
-        [HttpDelete("Delete")]
-        public async Task<ActionResult> Delete([FromBody] int id)
+        [HttpDelete("{id}")]
+        public async Task<ActionResult> Delete(int id)
         {
             var role = await _roleSV.Delete(id);
-            return Ok();
+            return Ok(role);
         }
 
-        [HttpGet("GetById")]
+        [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
             var role = await _roleSV.GetById(id);

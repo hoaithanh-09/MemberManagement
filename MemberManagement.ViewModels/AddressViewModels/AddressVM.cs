@@ -6,6 +6,7 @@ namespace MemberManagement.ViewModels.AddressViewModels
 {
    public class AddressVM
     {
+        public int Id { get; set; }
         public string Nationality { get; set; }
         public string Province { get; set; }
         public string District { get; set; }

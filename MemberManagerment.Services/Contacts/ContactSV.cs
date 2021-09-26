@@ -57,6 +57,7 @@ namespace MemberManagement.Services.Contacts
             var query = from f in _context.Contacts select f;
             var contact = await query.Select(x => new ContactVM()
             {
+                Id = x.Id,
                 FullName = x.FullName,
                 Nickname = x.Nickname,
                 PersonalTtles = x.PersonalTtles,
@@ -78,6 +79,7 @@ namespace MemberManagement.Services.Contacts
                 throw new MemberManagementException("Không tìm thấy!");
             var contactVM = new ContactVM()
             {
+                Id = contact.Id,
                 FullName = contact.FullName,
                 Nickname = contact.Nickname,
                 PersonalTtles = contact.PersonalTtles,

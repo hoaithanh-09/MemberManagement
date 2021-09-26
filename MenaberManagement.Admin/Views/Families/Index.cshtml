@@ -1,7 +1,7 @@
 ﻿
 @using MemberManagement.ViewModels.Common
-@using MemberManagement.ViewModels.UserViewModels
-@model PagedResult<UserVM>
+@using MemberManagerment.ViewModels.FamilyViewModels
+@model PagedResult<FamilyVM>
 
 @{
     ViewData["Title"] = "Index";
@@ -13,18 +13,18 @@
         }, 2000);
     </script>
 }
-<div class="container-fluid px-4"> 
+<div class="container-fluid px-4">
     <h1 class="mt-4">Danh sách người dùng</h1>
     <ol class="breadcrumb mb-4">
         <li class="breadcrumb-item"><a href="/">Trang chủ</a></li>
-        <li class="breadcrumb-item active">Danh sách người dùng</li>
+        <li class="breadcrumb-item active">Danh sách gia đình</li>
     </ol>
 
     <div class="card mb-12">
         <div class="card-header">
             <div class="row">
                 <div class="col-md-5 col-xs-12">
-                    <a class="btn btn-success" asp-action="Create" asp-controller="Users">Tạo mới</a>
+                    <a class="btn btn-success" asp-action="Create" asp-controller="Families">Tạo mới</a>
                 </div>
                 <div class="col-md-7 col-xs-12">
                     <form asp-action="Index" method="get">
@@ -34,7 +34,7 @@
                             </div>
                             <div class="col-md-3">
                                 <button type="submit" class="btn btn-primary">Tìm</button>
-                                <button type="button" onclick="window.location.href='/Users/Index'" class="btn btn-dark">Reset</button>
+                                <button type="button" onclick="window.location.href='/Families/Index'" class="btn btn-dark">Reset</button>
                             </div>
                         </div>
                     </form>
@@ -43,30 +43,32 @@
         </div>
 
         <div class="card-body">
-            <div class="row">
-                @if (ViewBag.SuccessMsg != null)
-                {
-            <div id="msgAlert" class="alert alert-success" role="alert">
-                @ViewBag.SuccessMsg
-            </div>
+            @if (ViewBag.SuccessMsg != null)
+            {
+                <div id="msgAler" class="alert alert-success" role="alert">
+                    @ViewBag.SuccessMsg
+                </div>
             }
-            </div>
-            
 
             <div class="table-responsive">
                 <table class="table table-bordered">
                     <thead>
                         <tr>
                             <th>
-                                Tên đăng nhập
+                                Số thứ tự
+                            </th>
+                            <th>
+                                Tên chủ hộ
+                            </th>
+                            <th>
+                                Năm sinh
+                            </th>
+                            <th>
+                                Số thành viên
                             </th>
                             <th>
                                 Số điện thoại
                             </th>
-                            <th>
-                                Email
-                            </th>
-                            <th></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -74,20 +76,27 @@
                         {
                             <tr>
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.UserName)
+                                    @Html.DisplayFor(modelItem => item.Number)
+                                </td>
+
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.HousldRepre)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.YearBirth)
+                                </td>
+
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.MumberMembers)
                                 </td>
 
                                 <td>
                                     @Html.DisplayFor(modelItem => item.PhoneNumber)
                                 </td>
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.Email)
-                                </td>
-                                <td>
                                     <a asp-action="Edit" asp-route-id="@item.Id">Sửa</a> |
                                     <a asp-action="Details" asp-route-id="@item.Id">Chi tiết</a> |
                                     <a asp-action="Delete" asp-route-id="@item.Id">Xóa</a>|
-                                    <a asp-action="RoleAssign" asp-route-id="@item.Id">Gáng quyền</a>
                                 </td>
                             </tr>
                         }

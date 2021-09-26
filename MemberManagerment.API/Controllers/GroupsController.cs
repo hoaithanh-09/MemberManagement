@@ -28,15 +28,15 @@ namespace MemberManagement.API.Controllers
         public async Task<ActionResult> Create([FromBody] GroupCreateRequest request)
         {
             var group = await _groupSV.Create(request);
-            return Ok();
+            return Ok(group);
         }
-        [HttpDelete("Delete")]
-        public async Task<ActionResult> Delete([FromBody] int id)
+        [HttpDelete("{id}")]
+        public async Task<ActionResult> Delete(int id)
         {
             var group = await _groupSV.Delete(id);
-            return Ok();
+            return Ok(group);
         }
-        [HttpGet("GetById")]
+        [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
             var group = await _groupSV.GetById(id);

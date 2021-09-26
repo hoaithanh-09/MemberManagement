@@ -56,6 +56,7 @@ namespace MemberManagement.Services.Groups
             var query = from f in _context.Groups select f;
             var group = await query.Select(x => new GroupVM()
             {
+                Id = x.Id,
                 Name = x.Name,
                 Region = x.Region,
                 Description = x.Description,
@@ -74,6 +75,7 @@ namespace MemberManagement.Services.Groups
                 throw new MemberManagementException("Không tìm thấy!");
             var groupVM = new GroupVM()
             {
+                Id = group.Id,
                 Name = group.Name,
                 Region = group.Region,
                 Description = group.Description,
@@ -97,6 +99,7 @@ namespace MemberManagement.Services.Groups
             var data = await query.Skip((request.PageIndex - 1) * request.PageSize).Take(request.PageSize)
                 .Select(x => new GroupVM()
                 {
+                    Id = x.Id,
                     Name = x.Name,
                     Region = x.Region,
                     Description = x.Description,

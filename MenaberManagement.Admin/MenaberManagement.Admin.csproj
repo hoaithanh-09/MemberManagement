@@ -20,6 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\ManaberManagement.Utilities\ManaberManagement.Utilities.csproj" />
     <ProjectReference Include="..\MemberManagement.ViewModels\MemberManagement.ViewModels.csproj" />
   </ItemGroup>
 

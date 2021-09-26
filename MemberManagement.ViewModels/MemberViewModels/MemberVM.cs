@@ -20,5 +20,6 @@ namespace MemberManagement.ViewModels.MemberViewModels
         public AddressMemberVM AddressMembers { get; set; }
         public ContactMemberVM ContactMembers { get; set; }
         public RoleMemberVM RoleMembers { get; set; }
+        public object Id { get; set; }
     }
 }

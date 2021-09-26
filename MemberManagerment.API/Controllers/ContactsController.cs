@@ -31,14 +31,14 @@ namespace MemberManagement.API.Controllers
             var contact = await _contactSV.Create(request);
             return Ok();
         }
-        [HttpDelete("Delete")]
-        public async Task<ActionResult> Delete([FromBody] int id)
+        [HttpDelete("{id}")]
+        public async Task<ActionResult> Delete(int id)
         {
             var contact = await _contactSV.Delete(id);
             return Ok();
         }
 
-        [HttpGet("GetById")]
+        [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
             var contact = await _contactSV.GetById(id);

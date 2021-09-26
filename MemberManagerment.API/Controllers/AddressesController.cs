@@ -24,7 +24,7 @@ namespace MemberManagement.API.Controllers
         public async Task<IActionResult> GetPaing([FromQuery] GetAddressPagingRequest request)
         {
             var family = await _address.GetPagedResult(request);
-            return Ok(family.Items);
+            return Ok(family);
         }
         [HttpPost("Creat-Family")]
 
@@ -33,8 +33,8 @@ namespace MemberManagement.API.Controllers
             var family = await _address.Create(request);
             return Ok(family);
         }
-        [HttpDelete("Delete")]
-        public async Task<ActionResult> Delete([FromBody] int id)
+        [HttpDelete("{id}")]
+        public async Task<ActionResult> Delete( int id)
         {
             var family = await _address.Delete(id);
             return Ok(family);

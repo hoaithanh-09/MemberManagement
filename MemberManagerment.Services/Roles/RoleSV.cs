@@ -50,6 +50,7 @@ namespace MemberManagement.Services.Roles
             var query = from f in _context.Roless select f;
             var role = await query.Select(x => new RoleVM()
             {
+                Id = x.Id,
                 Name = x.Name,
                 Description = x.Description,
                 Note = x.Note,
@@ -67,6 +68,7 @@ namespace MemberManagement.Services.Roles
                 throw new MemberManagementException("Không tìm thấy!");
             var roleVM = new RoleVM()
             {
+                Id = id,
                 Name = role.Name,
                 Description = role.Description,
                 Note = role.Note,

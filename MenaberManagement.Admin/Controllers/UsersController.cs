@@ -30,7 +30,6 @@ namespace MenaberManagement.Admin.Controllers
             {
                 BearerToken = sessions,
                 KeyWord = keyword,
-
                 PageIndex = pageIndex,
                 PageSize = pageSize,
             };
