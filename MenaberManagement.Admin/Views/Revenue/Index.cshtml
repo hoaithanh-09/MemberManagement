@@ -1,0 +1,374 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+    <link rel="stylesheet" href="./css/base.css">
+    <link rel="stylesheet" href="./css/style2.css">
+    <title>Document</title>
+</head>
+<body>
+    <div class="H_wrapper grid">
+        <!-- Thông báo chung thu -->
+        <div class="H_container_head grid__row">
+            <div class="H_head_notify grid__column-8">
+                <div class="H_general_nofi ">
+                    <div class="H_general_nofi_icon">
+                        <i class="far fa-bell"></i>
+                    </div>
+                    <div class="H_general_nofi_detail">
+                        <h4>Này Admin!</h4>
+                        <p>!</p>
+                    </div>
+
+                </div>
+                <div class="H_general_moneycards ">
+                    <div class="H_general_profit small_card ">
+                        <div class="small_card_flex">
+                            <div class="small_card_icon">
+                                <i class="fas fa-money-bill"></i>
+                            </div>
+
+                            <div class="small_card_detail">
+                                <h4>Tổng quỹ</h4>
+                                <h2>$150,000</h2>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="H_general_revenue small_card ">
+                        <div class="small_card_flex">
+                            <div class="small_card_icon">
+                                <i class="fas fa-coins"></i>
+                            </div>
+
+                            <div class="small_card_detail">
+                                <h4>Thu</h4>
+                                <h2>$150,000</h2>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="H_general_spend_profit small_card ">
+                        <div class="small_card_flex">
+                            <div class="small_card_icon ">
+                                <i class=" fas fa-hand-holding-usd"></i>
+                            </div>
+
+                            <div class="small_card_detail">
+                                <h4>Chi tiêu</h4>
+                                <h2>$150,000</h2>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="H_head_contact grid__column-4">
+                <div class="H_contact_head">
+                    <h4>Danh sách Admin</h4>
+                    <p>Hãy nhớ gọi vào giờ làm việc nhé!</p>
+                </div>
+
+                <div class="H_contact_table">
+                    <div class="H_contact_table_img">
+                        <img src="https://www.facebook.com/photo/?fbid=1187727671685186&set=a.100137447110886" alt="" class="H_contact_img">
+                    </div>
+
+                    <div class="H_contact_table_name">
+                        <h5>Trần Anh Quốc</h5>
+                        <p>Giám đốc</p>
+                    </div>
+                    <div class="H_contact_table_icon">
+                        <i class="fas fa-envelope"></i>
+                        <i class="fas fa-phone-alt"></i>
+                    </div>
+                </div>
+
+                <div class="H_contact_table">
+                    <div class="H_contact_table_img">
+                        <img src="" alt="" class="H_contact_img">
+                    </div>
+
+                    <div class="H_contact_table_name">
+                        <h5>Trần Thị Thanh Hoài</h5>
+                        <p>Lính</p>
+                    </div>
+                    <div class="H_contact_table_icon">
+                        <i class="fas fa-envelope"></i>
+                        <i class="fas fa-phone-alt"></i>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+        <div class="H_container_chart grid__row">
+            <div class="H_chart_head grid__full-width">
+                <div class="H_chart_name">
+                    <h3>Biểu đồ quản lý doanh thu</h3>
+                    <p>Đơn vị (USD)</p>
+                </div>
+                <div class="H_chart_optiony H_btns">
+                    <button class="H_chart_day H_btn">Ngày</button>
+                    <button class="H_chart_week H_btn">Tuần</button>
+                    <button class="H_chart_year H_btn">Tháng</button>
+                </div>
+            </div>
+
+            <div class="H_chart_content grid__full-width">
+                <div class="H_chart_total grid__column-9">
+                    <canvas id="myChart1"></canvas>
+                </div>
+
+                <div class="H_chart_infor grid__column-3 ">
+                    <div class="H_chart_note">
+                        <div class="color_chart H_main_color_b"></div>
+                        <p>Tổng quỹ</p>
+                        <i class="fas fa-caret-up"></i>
+                        <p>3%</p>
+                    </div>
+                    <div class="H_chart_note">
+                        <div class="color_chart H_green"></div>
+                        <p>Thu</p>
+                        <i class="fas fa-caret-up"></i>
+                        <p>3%</p>
+                    </div>
+                    <div class="H_chart_note">
+                        <div class="color_chart H_main_color"></div>
+                        <p>Chi tiêu</p>
+                        <i class="fas fa-caret-down"></i>
+                        <p>3%</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Chi tiết doanh thu-->
+        <div class="H_container_revenue grid__row">
+
+            <div class="H_revenue_content grid__column-8">
+
+                <div class="H_general_moneycards ">
+                    <div class=" small_card ">
+                        <div class="small_card_flex">
+                            <div class="small_card_icon">
+                                <i class="fas fa-money-bill"></i>
+                            </div>
+
+                            <div class="small_card_detail">
+                                <h4>Khoản thu</h4>
+                                <h2>$150,000</h2>
+                            </div>
+                        </div>
+                    </div>
+                    <div class=" small_card ">
+                        <div class="small_card_flex">
+                            <div class="small_card_icon">
+                                <i class="fas fa-book"></i>
+                            </div>
+
+                            <div class="small_card_detail">
+                                <h4>Khoản chi</h4>
+                                <h2>$150,000</h2>
+                            </div>
+                        </div>
+                    </div>
+                    <div class=" small_card ">
+                        <div class="small_card_flex">
+                            <div class="small_card_icon ">
+                                <i class="fas fa-user-circle"></i>
+                            </div>
+
+                            <div class="small_card_detail">
+                                <h4>Quản lý</h4>
+                                <h2>$150,000</h2>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="H_revenue_table">
+                    <div class="H_reveue_table_head">
+                        <div class="H_chart_name">
+                            <h3>Bảng chi tiết doanh thu</h3>
+                            <p>Đơn vị (USD)</p>
+                        </div>
+                        <div class="H_chart_optiony H_btns">
+                            <button class="H_chart_day H_btn">Ngày</button>
+                            <button class="H_chart_week H_btn">Tuần</button>
+                            <button class="H_chart_year H_btn">Tháng</button>
+                        </div>
+                    </div>
+
+                    <div class="H_revenue_table_content">
+                        <table class="table-scroll small-first-col">
+                            <thead>
+                                <tr>
+                                    <th>Tên</th>
+                                    <th>Ngày</th>
+                                    <th>Chi tiết</th>
+                                    <th>Số tiền</th>
+                                </tr>
+                            </thead>
+                            <tbody class="body-half-screen">
+                                <tr>
+                                    <td>Hồ Huy</td>
+                                    <td>22/8/2020</td>
+                                    <td>Tiền học tháng 4</td>
+                                    <td>400</td>
+                                </tr>
+                                <tr>
+                                    <td>Hồ Huy</td>
+                                    <td>22/8/2020</td>
+                                    <td>Tiền học tháng 4</td>
+                                    <td>400</td>
+                                </tr>
+                                <tr>
+                                    <td>Hồ Huy</td>
+                                    <td>22/8/2020</td>
+                                    <td>Tiền học tháng 4</td>
+                                    <td>400</td>
+                                </tr>
+                                <tr>
+                                    <td>Hồ Huy</td>
+                                    <td>22/8/2020</td>
+                                    <td>Tiền học tháng 4</td>
+                                    <td>400</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="H_revenue_chart grid__column-4">
+                <div class="H_contact_head">
+                    <h4>Biểu đồ thu</h4>
+
+                </div>
+                <div class="H_spend_chart_content">
+                    <canvas id="myChart" style="width:100%"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Chi tiết chi tiêu -->
+        <div class="H_container_spend grid__row">
+
+
+            <div class="H_spend_content grid__column-8">
+
+                <div class="H_general_moneycards ">
+                    <div class=" small_card ">
+                        <div class="small_card_flex">
+                            <div class="small_card_icon">
+                                <i class="fas fa-money-bill"></i>
+                            </div>
+
+                            <div class="small_card_detail">
+                                <h4>Lương</h4>
+                                <h2>$150,000</h2>
+                            </div>
+                        </div>
+                    </div>
+                    <div class=" small_card ">
+                        <div class="small_card_flex">
+                            <div class="small_card_icon">
+                                <i class="fas fa-book"></i>
+                            </div>
+
+                            <div class="small_card_detail">
+                                <h4>Điện Nước</h4>
+                                <h2>$150,000</h2>
+                            </div>
+                        </div>
+                    </div>
+                    <div class=" small_card ">
+                        <div class="small_card_flex">
+                            <div class="small_card_icon ">
+                                <i class="fas fa-user-circle"></i>
+                            </div>
+
+                            <div class="small_card_detail">
+                                <h4>Khác</h4>
+                                <h2>$150,000</h2>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="H_spend_table">
+                    <div class="H_spend_table_head">
+                        <div class="H_chart_name">
+                            <h3>Bảng chi tiết doanh thu</h3>
+                            <p>Đơn vị (VND)</p>
+                        </div>
+                        <div class="H_chart_optiony H_btns">
+                            <button class="H_chart_day H_btn">Ngày</button>
+                            <button class="H_chart_week H_btn">Tuần</button>
+                            <button class="H_chart_year H_btn">Tháng</button>
+                        </div>
+                    </div>
+
+                    <div class="H_spend_table_content">
+                        <table class="table-scroll small-first-col">
+                            <thead>
+                                <tr>
+                                    <th>Tên</th>
+                                    <th>Ngày</th>
+                                    <th>Chi tiết</th>
+                                    <th>Số tiền</th>
+                                </tr>
+                            </thead>
+                            <tbody class="body-half-screen">
+                                <tr>
+                                    <td>Hồ Huy</td>
+                                    <td>22/8/2020</td>
+                                    <td>Tiền học tháng 4</td>
+                                    <td>400</td>
+                                </tr>
+                                <tr>
+                                    <td>Hồ Huy</td>
+                                    <td>22/8/2020</td>
+                                    <td>Tiền học tháng 4</td>
+                                    <td>400</td>
+                                </tr>
+                                <tr>
+                                    <td>Hồ Huy</td>
+                                    <td>22/8/2020</td>
+                                    <td>Tiền học tháng 4</td>
+                                    <td>400</td>
+                                </tr>
+                                <tr>
+                                    <td>Hồ Huy</td>
+                                    <td>22/8/2020</td>
+                                    <td>Tiền học tháng 4</td>
+                                    <td>400</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="H_spend_chart grid__column-4">
+                <div class="H_contact_head">
+                    <h4>Biểu đồ chi</h4>
+                </div>
+
+                <div class="H_spend_chart_content">
+                    <canvas id="myChart12" style="height:240px"></canvas>
+                </div>
+
+            </div>
+        </div>
+
+
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script>
+    <script src="~/js/main.js"></script>
+    <script src="~/js/chart.js"></script>
+</body>
+</html>

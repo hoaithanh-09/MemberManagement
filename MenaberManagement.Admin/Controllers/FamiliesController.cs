@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace MenaberManagement.Admin.Controllers
 {
-    public class FamiliesController : Controller
+    public class FamiliesController : BaseController
     {
         private readonly IFamilyApiClient _familyApiClient;
         private readonly IConfiguration _configuration;

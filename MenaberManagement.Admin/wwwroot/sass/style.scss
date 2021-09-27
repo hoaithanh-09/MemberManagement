@@ -1,0 +1,326 @@
+/*Reset CSS*/
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  font-family: Helvetica, Arial, sans-serif;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+  font-family: "Oswald" !important;
+}
+body {
+  font-family: "Open Sans" !important;
+}
+
+//--variale
+$color-black: #000;
+$color-fff: #fff;
+$color-ccc: #ccc;
+
+.clear {
+  clear: both;
+}
+
+.mt-8 {
+  margin-top: 8px !important;
+}
+.mt-16 {
+  margin-top: 16px !important;
+}
+
+.pull-right {
+  float: right !important;
+}
+
+/* class gia */
+.row::after {
+  content: "";
+  display: block;
+  clear: both;
+}
+
+.row {
+  margin-left: -8px;
+  margin-right: -8px;
+}
+
+.col {
+  float: left;
+  padding-left: 8px;
+  padding-right: 8px;
+}
+
+.col-third {
+  width: 33.33333%;
+}
+
+.col-half {
+  width: 50%;
+}
+
+.col-full {
+  width: 100%;
+}
+
+.btn {
+  color: $color-fff;
+  background-color: $color-black;
+  text-decoration: none;
+  padding: 11px 16px;
+  margin-top: 15px;
+  display: inline-block;
+  border: none;
+}
+
+.btn:hover {
+  color: $color-black;
+  background-color: $color-ccc;
+}
+
+#header {
+  height: 46px;
+  background-color: $color-black;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1;
+  #nav {
+    display: inline-block;
+    > li {
+      display: inline-block;
+      &:hover {
+        > a {
+          color: $color-black;
+          background-color: $color-ccc;
+        }
+      }
+      > a {
+        color: $color-fff;
+        text-transform: uppercase;
+      }
+    }
+
+    li {
+      position: relative;
+      a {
+        text-decoration: none;
+        line-height: 46px;
+        padding: 0 24px;
+        display: block; /*note*/
+        font-size: 14px;
+      }
+      &:hover .subnav {
+        display: block;
+      }
+    }
+    .subnav {
+      list-style-type: none;
+      display: none;
+      min-width: 160px;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      background-color: $color-fff;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+      li {
+        &:hover a {
+          color: $color-black;
+          background-color: $color-ccc;
+        }
+      }
+      a {
+        color: $color-black;
+        padding: 0 12px;
+        line-height: 38px;
+      }
+    }
+    .nav-arrow-down {
+      font-size: 14px;
+    }
+  }
+  .login {
+    float: right;
+    padding: 0 21px;
+
+    &:hover {
+      background-color: #f44336;
+      cursor: pointer;
+    }
+    .login-icon {
+      color: $color-fff;
+      font-size: 20px;
+      line-height: 46px;
+      margin-right: 7px;
+    }
+    span {
+      color: $color-fff;
+    }
+  }
+}
+//SLIDER
+#slider {
+  position: relative;
+  width: 100%;
+  height: 700px;
+  //margin-bottom: 70px;
+  background: url("https://i2.wp.com/robgamers.com/wp-content/uploads/2020/12/Ghostwire-Tokyo-Wallpaper-Img.jpg?resize=1920%2C950&amp;ssl=1")
+    top center / cover no-repeat;
+}
+
+//CONTACT
+#contact {
+  margin-top: 48px;
+  width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 64px 0 112px;
+  .section-heading {
+    font-size: 50px;
+    font-weight: 400;
+    text-align: center;
+    letter-spacing: 4px;
+  }
+  .section-sub-heading {
+    font-size: 14px;
+    text-align: center;
+    margin-top: 25px;
+    font-style: italic;
+    opacity: 0.6;
+    margin-bottom: 50px;
+  }
+  .contact-info {
+    font-size: 18px;
+    line-height: 1.5;
+    i[class*="ti-"] {
+      width: 30px;
+      display: inline-block;
+    }
+  }
+  .contact-form {
+    font-size: 15px;
+    .form-control {
+      padding: 10px;
+      border: 1px solid #ccc;
+      width: 100%;
+    }
+  }
+}
+
+#content {
+  .activities {
+    .title {
+      height: 65px;
+      border-bottom: 2px solid black;
+      display: block;
+      h3 {
+        max-width: 145px;
+        height: 65px;
+        padding: 15px;
+        padding-left: 19px;
+        margin-top: -7px;
+        margin-left: -17px;
+        transform: skew(-15deg);
+        .event {
+          width: 273px !important;
+        }
+      }
+    }
+  }
+  .events {
+    .title {
+      height: 65px;
+      border-bottom: 2px solid black;
+      display: block;
+      h3 {
+        max-width: 200px;
+        height: 65px;
+        padding: 15px;
+        padding-left: 19px;
+        margin-top: -7px;
+        margin-left: -17px;
+        transform: skew(-15deg);
+      }
+    }
+  }
+
+  .image-lungcu {
+    width: 912px;
+    margin-bottom: 25px;
+    height: 550px;
+  }
+  .highlight {
+    .Inspiration {
+      .rrow {
+        margin-top: 17px;
+        img {
+          width: 100%;
+          height: 129px;
+          margin-bottom: 17px;
+          &:hover {
+            opacity: 0.7;
+          }
+        }
+      }
+    }
+    .tags {
+      p {
+        margin-top: 17px;
+      }
+    }
+  }
+  .w3-center {
+    h3 {
+      font-size: 30px;
+    }
+  }
+}
+.content-acti {
+  min-height: auto;
+  //width: 1140px;
+  display: flex;
+  justify-content: space-between;
+  margin: auto;
+  a {
+    text-decoration: none;
+  }
+  .content-left {
+    margin-top: 30px;
+    max-width: 362px;
+    img {
+      height: 267px;
+      object-fit: cover;
+      width: 362px;
+    }
+  }
+  .list-acti {
+    width: 522px;
+    float: left;
+    margin-top: 30px;
+
+    .row-avti {
+      //margin-bottom: 35px;
+      border: 1px solid #ccc;
+      height: 99px;
+      img {
+        width: 143px;
+        height: 93px;
+        float: left;
+        margin-right: 10px;
+      }
+      p {
+        padding-top: 20px;
+      }
+    }
+  }
+}

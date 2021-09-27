@@ -7,38 +7,54 @@
     <meta name="description" content="" />
     <meta name="author" content="" />
     <title>Dashboard - SB Admin</title>
+    <link rel="stylesheet" href="./sass/style.css">
+
     <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" />
     <link href="/css/styles.css" rel="stylesheet" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js" crossorigin="anonymous"></script>
 </head>
 <body class="sb-nav-fixed">
     <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
-        <!-- Navbar Brand-->
-        <a class="navbar-brand ps-3" href="index.html">Start Bootstrap</a>
-        <!-- Sidebar Toggle-->
-        <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
-        <!-- Navbar Search-->
-        <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
-            <div class="input-group">
-                <input class="form-control" type="text" placeholder="Search for..." aria-label="Search for..." aria-describedby="btnNavbarSearch" />
-                <button class="btn btn-primary" id="btnNavbarSearch" type="button"><i class="fas fa-search"></i></button>
-            </div>
-        </form>
-        <!-- Navbar-->
-        <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
-                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                    <li><a class="dropdown-item" href="/Profile/Index">@User.Identity.Name</a></li>
-                    <li><a class="dropdown-item" href="#!">Activity Log</a></li>
-                    <li><hr class="dropdown-divider" /></li>
+            <div id="header">
+                <ul id="nav">
+                    <li> <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button></li>
+                    <li><a href="#">Trang chủ</a></li>
+                    <li><a href="#content">Giới thiệu</a></li>
+                    <li><a href="#">Hoạt động</a></li>
                     <li>
-                        <form method="post" asp-controller="Login" asp-action="Logout">
-                            <button type="submit" class="dropdown-item">Đăng xuất</button>
-                        </form>
+                        <a href="">
+                            Tin tức - Sự kiện
+                            <i class="nav-arrow-down ti-angle-down"></i>
+                        </a>
+                        <ul class="subnav">
+                            <li><a href="">Tin nổi bật</a></li>
+                            <li><a href="">Hợp tác đầu tư</a></li>
+                            <li><a href="">Kinh tế</a></li>
+                            <li><a href="">Nhân đạo-Xã hội</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#">Đời sống - Du lịch</a></li>
+                    <li><a href="#">Văn hóa - Lịch sử</a></li>
+                    <li><a href="#">Diễn đàn</a></li>
+                    <li><a asp-controller="Home" asp-action="Contact">Liên hệ</a></li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" href="/Profile/Index">@User.Identity.Name</a></li>
+                            <li><a class="dropdown-item" href="#!">Activity Log</a></li>
+                            <li><hr class="dropdown-divider" /></li>
+                            <li>
+                                <form method="post" asp-controller="Login" asp-action="Logout">
+                                    <button type="submit" class="dropdown-item">Đăng xuất</button>
+                                </form>
+                            </li>
+                        </ul>
                     </li>
                 </ul>
-            </li>
+            </div>
+        <!-- Navbar-->
+        <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
+            
         </ul>
     </nav>
     <div id="layoutSidenav">
@@ -47,9 +63,9 @@
                 <div class="sb-sidenav-menu">
                     <div class="nav">
                         <div class="sb-sidenav-menu-heading">Core</div>
-                        <a class="nav-link" href="index.html">
+                        <a class="nav-link" asp-action="Index" asp-controller="Home">
                             <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
-                            Dashboard
+                            Admin
                         </a>
                         <div class="sb-sidenav-menu-heading">Interface</div>
                         <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
@@ -76,7 +92,7 @@
                                 </a>
                                 <div class="collapse" id="pagesCollapseAuth" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordionPages">
                                     <nav class="sb-sidenav-menu-nested nav">
-                                        <a class="nav-link" asp-action="Index" asp-controller="Users">Quản lý hội viên</a>
+                                        <a class="nav-link" asp-action="Index" asp-controller="Member">Quản lý hội viên</a>
                                         <a class="nav-link" asp-action="Index" asp-controller="Families">Quản lý hộ gia đình</a>
                                         <a class="nav-link" href="password.html">Quản lý chi hội</a>
                                     </nav>
@@ -89,8 +105,8 @@
                                     <nav class="sb-sidenav-menu-nested nav">
                                         <a class="nav-link" href="401.html">Quản lý chức vụ</a>
                                         <a class="nav-link" href="404.html">Quản lý ban liên lạc</a>
-                                        <a class="nav-link" href="500.html">Quản lý quỹ hội</a>
-                                        <a class="nav-link" href="500.html">Quản lý hoại động</a>
+                                        <a class="nav-link" asp-action="Index" asp-controller="Revenue">Quản lý quỹ hội</a>
+                                        <a class="nav-link" href="500.html">Quản lý hoạt động</a>
                                     </nav>
                                 </div>
                             </nav>
@@ -126,13 +142,10 @@
             </footer>
         </div>
     </div>
+    <script src="js/scripts.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
-    <script src="/js/scripts.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
-    <script src="/assets/demo/chart-area-demo.js"></script>
-    <script src="/assets/demo/chart-bar-demo.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
-    <script src="/js/datatables-simple-demo.js"></script>
     @RenderSection("Scripts", required: false)
 </body>
 </html>
