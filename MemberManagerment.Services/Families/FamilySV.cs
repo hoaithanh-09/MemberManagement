@@ -54,7 +54,6 @@ namespace MemberManagement.Services.Families
                 _context.Remove(family);
 
             }
-
             return await _context.SaveChangesAsync(); ;
         }
 

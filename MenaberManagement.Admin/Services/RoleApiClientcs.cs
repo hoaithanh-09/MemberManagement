@@ -1,7 +1,6 @@
 ﻿using ManaberManagement.Utilities;
 using MemberManagement.ViewModels.Common;
-using MemberManagement.ViewModels.FamilyViewModels;
-using MemberManagerment.ViewModels.FamilyViewModels;
+using MemberManagement.ViewModels.RoleViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
@@ -15,13 +14,13 @@ using System.Threading.Tasks;
 
 namespace MenaberManagement.Admin.Services
 {
-    public class FamilyApiClient : BaseApiClient, IFamilyApiClient
+    public class RoleApiClientcs : BaseApiClient , IRoleApiClient
     {
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IHttpClientFactory _httpClientFactory;
         private readonly IConfiguration _configuration;
 
-        public FamilyApiClient(IHttpClientFactory httpClientFactory,
+        public RoleApiClientcs(IHttpClientFactory httpClientFactory,
                     IHttpContextAccessor httpContextAccessor,
                      IConfiguration configuration)
              : base(httpClientFactory, httpContextAccessor, configuration)
@@ -30,7 +29,7 @@ namespace MenaberManagement.Admin.Services
             _configuration = configuration;
             _httpClientFactory = httpClientFactory;
         }
-        public async Task<bool> Create(FamilyCreatRequest request)
+        public async Task<bool> Create(RoleCreateRequest request)
         {
             var sessions = _httpContextAccessor
                 .HttpContext
@@ -43,39 +42,32 @@ namespace MenaberManagement.Admin.Services
 
             var json = JsonConvert.SerializeObject(request);
             var httpContent = new StringContent(json, Encoding.UTF8, "application/json");
-            var response = await client.PostAsync($"/api/Families/Creat-Family", httpContent);
+            var response = await client.PostAsync($"/api/Roles/Create", httpContent);
             return response.IsSuccessStatusCode;
         }
 
         public async Task<bool> Delete(int id)
         {
-            return await Delete($"api/Families/" + id);
+            return await Delete($"api/Roles/" + id);
         }
 
-        public async Task<PagedResult<FamilyVM>> GetAll(GetFamilyPagingRequest request)
+        public async Task<RoleVM> GetById(int id)
         {
-            var data = await GetAsync<PagedResult<FamilyVM>>(
-             $"/api/Families/GetAll");
-            return data;
-        }
-
-        public async Task<FamilyVM> GetById(int id)
-        {
-            var data = await GetAsync<FamilyVM>(
-              $"/api/Families/{id}");
+            var data = await GetAsync<RoleVM>(
+              $"/api/Roles/{id}");
 
             return data;
         }
-        
-        public async Task<PagedResult<FamilyVM>> GetFamilyPaging(GetFamilyPagingRequest request)
+
+        public async Task<PagedResult<RoleVM>> GetFamilyPaging(GetRolePagingRequest request)
         {
-            var data = await GetAsync<PagedResult<FamilyVM>>(
-              $"/api/Families/paging?pageIndex=" +
+            var data = await GetAsync<PagedResult<RoleVM>>(
+              $"/api/Roles/paging?pageIndex=" +
                 $"{request.PageIndex}&pageSize={request.PageSize}&keyword={request.Keyword}");
             return data;
         }
 
-        public async Task<bool> Update(int id, FamilyEditRequest request)
+        public async Task<bool> Update(int id, RoleEditRequest request)
         {
             var client = _httpClientFactory.CreateClient();
             client.BaseAddress = new Uri(_configuration["BaseAddress"]);
@@ -86,7 +78,7 @@ namespace MenaberManagement.Admin.Services
             var json = JsonConvert.SerializeObject(request);
             var httpContent = new StringContent(json, Encoding.UTF8, "application/json");
 
-            var response = await client.PutAsync($"/api/families/{id}", httpContent);
+            var response = await client.PutAsync($"/api/Roles/{id}", httpContent);
             var result = await response.Content.ReadAsStringAsync();
             if (response.IsSuccessStatusCode)
                 return true;

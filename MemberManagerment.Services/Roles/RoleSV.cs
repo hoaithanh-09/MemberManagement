@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using ManaberManagement.Utilities;
 using MemberManagement.Data.Entities;
+using MemberManagement.ViewModels.Common;
 
 namespace MemberManagement.Services.Roles
 {
@@ -74,6 +75,36 @@ namespace MemberManagement.Services.Roles
                 Note = role.Note,
             };
             return roleVM;
+        }
+
+        public async Task<PagedResult<RoleVM>> GetPagedResult(GetRolePagingRequest request)
+        {
+            var query = from f in _context.Roless select f;
+
+            if (!string.IsNullOrEmpty(request.Keyword))
+                query = query.Where(x => x.Name.Contains(request.Keyword));
+
+            int totalRow = await query.CountAsync();
+
+            var data = await query.OrderBy(x => x.Id).Skip((request.PageIndex - 1) * request.PageSize)
+                .Take(request.PageSize)
+                .Select(x => new RoleVM()
+                {
+                    Id = x.Id,
+                    Name = x.Name,
+                    Description = x.Description,
+                    Note = x.Note,
+                    
+                }).ToListAsync();
+
+            var pagedResult = new PagedResult<RoleVM>()
+            {
+                PageIndex = request.PageIndex,
+                PageSize = request.PageSize,
+                TotalRecords = totalRow,
+                Items = data
+            };
+            return pagedResult;
         }
 
         public async Task<Data.Entities.Roless> Update(int id, RoleEditRequest request)

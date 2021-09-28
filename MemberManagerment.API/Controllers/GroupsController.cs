@@ -24,6 +24,14 @@ namespace MemberManagement.API.Controllers
             var group = await _groupSV.GetAll();
             return Ok(group);
         }
+
+        [HttpGet("paging")]
+        public async Task<IActionResult> GetPaing([FromQuery] GetGroupPagingRequest request)
+        {
+            var family = await _groupSV.GetPagedResult(request);
+            return Ok(family);
+        }
+
         [HttpPost("Create")]
         public async Task<ActionResult> Create([FromBody] GroupCreateRequest request)
         {

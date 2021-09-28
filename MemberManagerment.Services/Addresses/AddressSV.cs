@@ -38,10 +38,10 @@ namespace MemberManagement.Services.Addresses
         public async Task<int> Delete(int id)
         {
            
-            var family = await _context.Contacts.FindAsync(id);
+            var family = await _context.Addresses.FindAsync(id);
             if (family != null)
             {
-                _context.Remove(family);
+                _context.Addresses.Remove(family);
             }
             return  _context.SaveChanges();
         }
@@ -51,7 +51,7 @@ namespace MemberManagement.Services.Addresses
          
             var family = await _context.Addresses.FindAsync(id);
             if (family == null)
-                throw new MemberManagementException("Không tìm thấy gia đình");
+                throw new MemberManagementException("Không tìm thấy địa chỉ");
             var familyVm = new AddressVM()
             {
                 Id = family.Id,

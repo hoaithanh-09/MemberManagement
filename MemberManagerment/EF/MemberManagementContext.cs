@@ -297,7 +297,7 @@ namespace MemberManagerment.Data.EF
                 entity.Property(e => e.Name)
                     .IsRequired()
                     .HasMaxLength(100)
-                    .IsUnicode(false);
+                    .IsUnicode(true);
 
                 entity.Property(e => e.Description).IsUnicode(true);
                 entity.Property(e => e.Description).IsUnicode(true);

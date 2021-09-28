@@ -46,6 +46,11 @@ namespace MenaberManagement.Admin
             services.AddTransient<IUserApiClient, UserApiClient>();
             services.AddTransient<IRoleAppApiClient, RoleAppApiClient>();
             services.AddTransient<IFamilyApiClient, FamilyApiClient>();
+            services.AddTransient<IAddressApiClient, AddressApiCliet>();
+            services.AddTransient<IContactApiClientcs, ContactApiClinet>();
+            services.AddTransient<IGroupApiClient, GroupApiClient>();
+            services.AddTransient<IRoleApiClient, RoleApiClientcs>();
+            services.AddTransient<IMemberApiClient, MemberApiClient>();
             IMvcBuilder builder = services.AddRazorPages();
         }
 

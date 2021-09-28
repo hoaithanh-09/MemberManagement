@@ -24,13 +24,13 @@ namespace MemberManagement.API.Controllers
         {
             _memberSV = memberSV;
         }
-        [HttpGet]
-        public async Task<IActionResult> GetAll([FromQuery]MemberPaingRequest request)
+        [HttpGet("paging")]
+        public async Task<IActionResult> GetPaging([FromQuery]MemberPaingRequest request)
         {
             var member = await _memberSV.GetAllPaging(request);
-            return Ok(member.Items);
+            return Ok(member);
         }
-        [HttpPost("Creat-Member")]
+        [HttpPost("Create-Member")]
         public async Task<ActionResult> Create([FromForm] MemberCreatRequest request)
         {
             var member = await _memberSV.Create(request);

@@ -1,7 +1,6 @@
 ﻿using ManaberManagement.Utilities;
+using MemberManagement.ViewModels.AddressViewModels;
 using MemberManagement.ViewModels.Common;
-using MemberManagement.ViewModels.FamilyViewModels;
-using MemberManagerment.ViewModels.FamilyViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
@@ -15,13 +14,13 @@ using System.Threading.Tasks;
 
 namespace MenaberManagement.Admin.Services
 {
-    public class FamilyApiClient : BaseApiClient, IFamilyApiClient
+    public class AddressApiCliet : BaseApiClient, IAddressApiClient
     {
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IHttpClientFactory _httpClientFactory;
         private readonly IConfiguration _configuration;
 
-        public FamilyApiClient(IHttpClientFactory httpClientFactory,
+        public AddressApiCliet(IHttpClientFactory httpClientFactory,
                     IHttpContextAccessor httpContextAccessor,
                      IConfiguration configuration)
              : base(httpClientFactory, httpContextAccessor, configuration)
@@ -30,7 +29,7 @@ namespace MenaberManagement.Admin.Services
             _configuration = configuration;
             _httpClientFactory = httpClientFactory;
         }
-        public async Task<bool> Create(FamilyCreatRequest request)
+        public async Task<bool> Create(AddressCreatRequest request)
         {
             var sessions = _httpContextAccessor
                 .HttpContext
@@ -43,39 +42,32 @@ namespace MenaberManagement.Admin.Services
 
             var json = JsonConvert.SerializeObject(request);
             var httpContent = new StringContent(json, Encoding.UTF8, "application/json");
-            var response = await client.PostAsync($"/api/Families/Creat-Family", httpContent);
+            var response = await client.PostAsync($"/api/Addresses/Creat", httpContent);
             return response.IsSuccessStatusCode;
         }
 
         public async Task<bool> Delete(int id)
         {
-            return await Delete($"api/Families/" + id);
+            return await Delete($"api/Addresses/" + id);
         }
 
-        public async Task<PagedResult<FamilyVM>> GetAll(GetFamilyPagingRequest request)
+        public async Task<AddressVM> GetById(int id)
         {
-            var data = await GetAsync<PagedResult<FamilyVM>>(
-             $"/api/Families/GetAll");
-            return data;
-        }
-
-        public async Task<FamilyVM> GetById(int id)
-        {
-            var data = await GetAsync<FamilyVM>(
-              $"/api/Families/{id}");
+            var data = await GetAsync<AddressVM>(
+              $"/api/Addresses/{id}");
 
             return data;
         }
-        
-        public async Task<PagedResult<FamilyVM>> GetFamilyPaging(GetFamilyPagingRequest request)
+
+        public async Task<PagedResult<AddressVM>> GetFamilyPaging(GetAddressPagingRequest request)
         {
-            var data = await GetAsync<PagedResult<FamilyVM>>(
-              $"/api/Families/paging?pageIndex=" +
+            var data = await GetAsync<PagedResult<AddressVM>>(
+              $"/api/Addresses/paging?pageIndex=" +
                 $"{request.PageIndex}&pageSize={request.PageSize}&keyword={request.Keyword}");
             return data;
         }
 
-        public async Task<bool> Update(int id, FamilyEditRequest request)
+        public async Task<bool> Update(int id, AddressEditRequest request)
         {
             var client = _httpClientFactory.CreateClient();
             client.BaseAddress = new Uri(_configuration["BaseAddress"]);
@@ -86,7 +78,7 @@ namespace MenaberManagement.Admin.Services
             var json = JsonConvert.SerializeObject(request);
             var httpContent = new StringContent(json, Encoding.UTF8, "application/json");
 
-            var response = await client.PutAsync($"/api/families/{id}", httpContent);
+            var response = await client.PutAsync($"/api/Addresses/{id}", httpContent);
             var result = await response.Content.ReadAsStringAsync();
             if (response.IsSuccessStatusCode)
                 return true;

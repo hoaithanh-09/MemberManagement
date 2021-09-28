@@ -1,7 +1,6 @@
 ﻿using ManaberManagement.Utilities;
 using MemberManagement.ViewModels.Common;
-using MemberManagement.ViewModels.FamilyViewModels;
-using MemberManagerment.ViewModels.FamilyViewModels;
+using MemberManagement.ViewModels.GroupViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
@@ -15,13 +14,13 @@ using System.Threading.Tasks;
 
 namespace MenaberManagement.Admin.Services
 {
-    public class FamilyApiClient : BaseApiClient, IFamilyApiClient
+    public class GroupApiClient : BaseApiClient, IGroupApiClient
     {
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IHttpClientFactory _httpClientFactory;
         private readonly IConfiguration _configuration;
 
-        public FamilyApiClient(IHttpClientFactory httpClientFactory,
+        public GroupApiClient(IHttpClientFactory httpClientFactory,
                     IHttpContextAccessor httpContextAccessor,
                      IConfiguration configuration)
              : base(httpClientFactory, httpContextAccessor, configuration)
@@ -30,7 +29,7 @@ namespace MenaberManagement.Admin.Services
             _configuration = configuration;
             _httpClientFactory = httpClientFactory;
         }
-        public async Task<bool> Create(FamilyCreatRequest request)
+        public async Task<bool> Create(GroupCreateRequest request)
         {
             var sessions = _httpContextAccessor
                 .HttpContext
@@ -43,39 +42,39 @@ namespace MenaberManagement.Admin.Services
 
             var json = JsonConvert.SerializeObject(request);
             var httpContent = new StringContent(json, Encoding.UTF8, "application/json");
-            var response = await client.PostAsync($"/api/Families/Creat-Family", httpContent);
+            var response = await client.PostAsync($"/api/Groups/Create", httpContent);
             return response.IsSuccessStatusCode;
         }
 
         public async Task<bool> Delete(int id)
         {
-            return await Delete($"api/Families/" + id);
+            return await Delete($"api/Groups/" + id);
         }
 
-        public async Task<PagedResult<FamilyVM>> GetAll(GetFamilyPagingRequest request)
+        public async Task<PagedResult<GroupVM>> GetAll(GetGroupPagingRequest request)
         {
-            var data = await GetAsync<PagedResult<FamilyVM>>(
-             $"/api/Families/GetAll");
+            var data = await GetAsync<PagedResult<GroupVM>>(
+              $"/api/Groups/GetAll");
             return data;
         }
 
-        public async Task<FamilyVM> GetById(int id)
+        public async Task<GroupVM> GetById(int id)
         {
-            var data = await GetAsync<FamilyVM>(
-              $"/api/Families/{id}");
+            var data = await GetAsync<GroupVM>(
+              $"/api/Groups/{id}");
 
             return data;
         }
-        
-        public async Task<PagedResult<FamilyVM>> GetFamilyPaging(GetFamilyPagingRequest request)
+
+        public async Task<PagedResult<GroupVM>> GetFamilyPaging(GetGroupPagingRequest request)
         {
-            var data = await GetAsync<PagedResult<FamilyVM>>(
-              $"/api/Families/paging?pageIndex=" +
-                $"{request.PageIndex}&pageSize={request.PageSize}&keyword={request.Keyword}");
+            var data = await GetAsync<PagedResult<GroupVM>>(
+              $"/api/Groups/paging?pageIndex=" +
+                $"{request.PageIndex}&pageSize={request.PageSize}&keyword={request.KeyWord}");
             return data;
         }
 
-        public async Task<bool> Update(int id, FamilyEditRequest request)
+        public async Task<bool> Update(int id, GroupEditRequest request)
         {
             var client = _httpClientFactory.CreateClient();
             client.BaseAddress = new Uri(_configuration["BaseAddress"]);
@@ -86,12 +85,13 @@ namespace MenaberManagement.Admin.Services
             var json = JsonConvert.SerializeObject(request);
             var httpContent = new StringContent(json, Encoding.UTF8, "application/json");
 
-            var response = await client.PutAsync($"/api/families/{id}", httpContent);
+            var response = await client.PutAsync($"/api/Groups/{id}", httpContent);
             var result = await response.Content.ReadAsStringAsync();
             if (response.IsSuccessStatusCode)
                 return true;
 
             return false;
         }
+
     }
 }

@@ -92,23 +92,23 @@ namespace MemberManagement.Services.Members
             return roleMember.RoleId;
         }
 
-        public async Task<int> Create(MemberCreatRequest request)
+        public async Task<ApiResult<string>> Create(MemberCreatRequest request)
         {
             var member = await _context.Members.FirstOrDefaultAsync(x => x.Idcard == request.Idcard);
             if (member != null)
             {
-                throw new MemberManagementException("Hội viên đã tồn tại");
+                return new ApiErrorResult<string>("Hội viên đã tồn tại");
             }
 
             var family = await _context.Families.FirstOrDefaultAsync(x => x.Id == request.FamilyId);
             if (family == null)
             {
-                throw new MemberManagementException("Gia đình chưa tồn tại");
+                return new ApiErrorResult<string>("Gia đình không tồn lại");
             }
             var group = await _context.Groups.FirstOrDefaultAsync(x => x.Id == request.GroupId);
             if (group == null)
             {
-                throw new MemberManagementException("Chi hội chưa tồn tại");
+                return new ApiErrorResult<string>("Chi hội không tồn lại");
             }
 
             member = new Member()
@@ -131,7 +131,7 @@ namespace MemberManagement.Services.Members
                 member.AddressMembers = new List<AddressMember>()
                 { new AddressMember()
                     {
-                        AddressId =request.IdAddress,
+                        AddressId = request.IdAddress,
                         MemberId = member.Id,
                     }
                 };
@@ -147,7 +147,6 @@ namespace MemberManagement.Services.Members
                     }
                 };
             }
-
             if (request.ContactId != 0)
             {
                 member.ContactMembers = new List<ContactMember>()
@@ -158,10 +157,9 @@ namespace MemberManagement.Services.Members
                     }
                 };
             }
-
-            _context.Add(member);
+            _context.Members.Add(member);
             await _context.SaveChangesAsync();
-            return member.Id;
+            return new ApiSuccessResult<string>("Tạo thành công");
         }
 
         public async Task<PagedResult<MemberVM>> GetAllPaging(MemberPaingRequest request)

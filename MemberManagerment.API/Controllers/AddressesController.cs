@@ -26,8 +26,8 @@ namespace MemberManagement.API.Controllers
             var family = await _address.GetPagedResult(request);
             return Ok(family);
         }
-        [HttpPost("Creat-Family")]
 
+        [HttpPost("Creat")]
         public async Task<ActionResult> Create([FromBody] AddressCreatRequest request)
         {
             var family = await _address.Create(request);
@@ -37,10 +37,11 @@ namespace MemberManagement.API.Controllers
         public async Task<ActionResult> Delete( int id)
         {
             var family = await _address.Delete(id);
+
             return Ok(family);
         }
         [HttpGet("{id}")]
-        public async Task<ActionResult> getID([FromQuery] int id)
+        public async Task<ActionResult> getID( int id)
 
         {
             var family = await _address.GetById(id);

@@ -25,6 +25,14 @@ namespace MemberManagement.API.Controllers
             var role = await _roleSV.GetAll();
             return Ok(role);
         }
+
+        [HttpGet("paging")]
+        public async Task<IActionResult> GetPaing([FromQuery] GetRolePagingRequest request)
+        {
+            var family = await _roleSV.GetPagedResult(request);
+            return Ok(family);
+        }
+
         [HttpPost("Create")]
         public async Task<ActionResult> Create([FromBody] RoleCreateRequest request)
         {
@@ -44,6 +52,9 @@ namespace MemberManagement.API.Controllers
             var role = await _roleSV.GetById(id);
             return Ok(role);
         }
+
+
+
 
         [HttpPut("{id}")]
         public async Task<IActionResult> Update([FromRoute] int id, [FromBody] RoleEditRequest request)

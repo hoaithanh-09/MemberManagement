@@ -6,6 +6,6 @@ namespace MemberManagement.ViewModels.RoleViewModels
 {
    public class RoleDeleteRequest
     {
-        public string Keyword { get; set; }
+        public int Id { get; set; }
     }
 }
