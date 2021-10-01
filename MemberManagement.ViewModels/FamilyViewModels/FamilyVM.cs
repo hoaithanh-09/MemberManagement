@@ -13,5 +13,7 @@ namespace MemberManagerment.ViewModels.FamilyViewModels
         public int MumberMembers { get; set; }
         public string IdMember { get; set; }
         public string PhoneNumber { get; set; }
+
+
     }
 }

@@ -6,13 +6,10 @@ namespace MemberManagement.ViewModels.ContactViewModels
 {
     public class ContactCreateRequest
     {
-        public string FullName { get; set; }
-        public string Nickname { get; set; }
-        public string PersonalTtles { get; set; }
-        public string Email { get; set; }
-        public string PhoneNumber { get; set; }
-        public string Word { get; set; }
-        public string UserName { get; set; }
-        public string Notes { get; set; }
+        public string Name { get; set; }
+        public string Note { get; set; }
+        public string Description { get; set; }
+        public int Id { get; set; }
+
     }
 }

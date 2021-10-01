@@ -25,14 +25,9 @@ namespace MemberManagement.Services.Contacts
            
             var contactAdd = new Contact()
             {
-                FullName=request.FullName,
-                Nickname=request.Nickname,
-                PersonalTtles=request.PersonalTtles,
-                Email=request.Email,
-                PhoneNumber=request.PhoneNumber,
-                Word=request.Word,
-                UserName=request.UserName,
-                Notes=request.Notes,
+                Name = request.Name,
+                Description = request.Description,
+                Note = request.Note,
             };
             _context.Add(contactAdd);
             await _context.SaveChangesAsync();
@@ -58,14 +53,9 @@ namespace MemberManagement.Services.Contacts
             var contact = await query.Select(x => new ContactVM()
             {
                 Id = x.Id,
-                FullName = x.FullName,
-                Nickname = x.Nickname,
-                PersonalTtles = x.PersonalTtles,
-                Email = x.Email,
-                PhoneNumber = x.PhoneNumber,
-                Word = x.Word,
-                UserName = x.UserName,
-                Notes = x.Notes,
+                Name = x.Name,
+                Description = x.Description,
+                Note = x.Note,
             }).ToListAsync();
 
             return contact;
@@ -80,14 +70,9 @@ namespace MemberManagement.Services.Contacts
             var contactVM = new ContactVM()
             {
                 Id = contact.Id,
-                FullName = contact.FullName,
-                Nickname = contact.Nickname,
-                PersonalTtles = contact.PersonalTtles,
-                Email = contact.Email,
-                PhoneNumber = contact.PhoneNumber,
-                Word = contact.Word,
-                UserName = contact.UserName,
-                Notes = contact.Notes,
+                Name = contact.Name,
+                Description = contact.Description,
+                Note = contact.Note,
             };
             return contactVM;
         }
@@ -97,23 +82,17 @@ namespace MemberManagement.Services.Contacts
             var query = from f in _context.Contacts select f;
 
             if (!string.IsNullOrEmpty(request.Keyword))
-                query = query.Where(x => x.FullName.Contains(request.Keyword)
-                || x.Email.Contains(request.Keyword)
-                || x.Nickname.Contains(request.Keyword));
+                query = query.Where(x => x.Name.Contains(request.Keyword));
 
             int totalRow = await query.CountAsync();
 
             var data = await query.Skip((request.PageIndex - 1) * request.PageSize).Take(request.PageSize)
                 .Select(x => new ContactVM()
                 {
-                    FullName = x.FullName,
-                    Nickname = x.Nickname,
-                    PersonalTtles = x.PersonalTtles,
-                    Email = x.Email,
-                    PhoneNumber = x.PhoneNumber,
-                    Word = x.Word,
-                    UserName = x.UserName,
-                    Notes = x.Notes,
+                    Id = x.Id,
+                    Name = x.Name,
+                    Description = x.Description,
+                    Note = x.Note,
                 }).ToListAsync();
 
             var pagedResult = new PagedResult<ContactVM>()
@@ -134,14 +113,10 @@ namespace MemberManagement.Services.Contacts
             {
                 throw new MemberManagementException("Không tìm thấy thông tin !");
             }
-            contact.FullName = request.FullName;
-            contact.Nickname = request.Nickname;
-            contact.PersonalTtles = request.PersonalTtles;
-            contact.Email = request.Email;
-            contact.PhoneNumber = request.PhoneNumber;
-            contact.Word = request.Word;
-            contact.UserName = request.UserName;
-            contact.Notes = request.Notes;
+
+            contact.Name = request.Name;
+            contact.Description = request.Description;
+            contact.Note = request.Note;
             try
             {
                 await _context.SaveChangesAsync();

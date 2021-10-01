@@ -78,14 +78,9 @@ namespace MemberManagement.Data.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    FullName = table.Column<string>(type: "nvarchar(450)", maxLength: 450, nullable: false),
-                    Nickname = table.Column<string>(type: "nvarchar(254)", maxLength: 254, nullable: true),
-                    PersonalTtles = table.Column<string>(type: "varchar(450)", unicode: false, maxLength: 450, nullable: true),
-                    Email = table.Column<string>(type: "varchar(450)", unicode: false, maxLength: 450, nullable: false),
-                    PhoneNumber = table.Column<string>(type: "varchar(15)", unicode: false, maxLength: 15, nullable: true),
-                    Word = table.Column<string>(type: "varchar(450)", unicode: false, maxLength: 450, nullable: true),
-                    UserName = table.Column<string>(type: "varchar(100)", unicode: false, maxLength: 100, nullable: true),
-                    notes = table.Column<string>(type: "varchar(450)", unicode: false, maxLength: 450, nullable: true)
+                    Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    notes = table.Column<string>(type: "nvarchar(450)", maxLength: 450, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -156,18 +151,18 @@ namespace MemberManagement.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Roless",
+                name: "Roles",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "varchar(100)", unicode: false, maxLength: 100, nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     Note = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Roless", x => x.Id);
+                    table.PrimaryKey("PK_Roles", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -330,7 +325,14 @@ namespace MemberManagement.Data.Migrations
                     JoinDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ImageId = table.Column<string>(type: "nvarchar(450)", maxLength: 450, nullable: false),
                     IDCard = table.Column<string>(type: "varchar(50)", unicode: false, maxLength: 50, nullable: true),
-                    notes = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    notes = table.Column<string>(type: "nvarchar(450)", maxLength: 450, nullable: true),
+                    FullName = table.Column<string>(type: "nvarchar(450)", maxLength: 450, nullable: false),
+                    Nickname = table.Column<string>(type: "nvarchar(254)", maxLength: 254, nullable: true),
+                    PersonalTtles = table.Column<string>(type: "varchar(450)", unicode: false, maxLength: 450, nullable: true),
+                    Email = table.Column<string>(type: "varchar(450)", unicode: false, maxLength: 450, nullable: false),
+                    PhoneNumber = table.Column<string>(type: "varchar(15)", unicode: false, maxLength: 15, nullable: true),
+                    Word = table.Column<string>(type: "varchar(450)", unicode: false, maxLength: 450, nullable: true),
+                    UserName = table.Column<string>(type: "varchar(100)", unicode: false, maxLength: 100, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -440,7 +442,7 @@ namespace MemberManagement.Data.Migrations
                     table.ForeignKey(
                         name: "FK__Role_Memb__RoleI__59063A47",
                         column: x => x.RoleId,
-                        principalTable: "Roless",
+                        principalTable: "Roles",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -577,7 +579,7 @@ namespace MemberManagement.Data.Migrations
                 name: "Member");
 
             migrationBuilder.DropTable(
-                name: "Roless");
+                name: "Roles");
 
             migrationBuilder.DropTable(
                 name: "Family");

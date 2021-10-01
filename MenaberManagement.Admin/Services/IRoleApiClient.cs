@@ -10,7 +10,7 @@ namespace MenaberManagement.Admin.Services
    public interface IRoleApiClient
     {
         Task<PagedResult<RoleVM>> GetFamilyPaging(GetRolePagingRequest request);
-
+        Task<List<RoleVM>> GetAll();
         Task<bool> Create(RoleCreateRequest request);
 
         Task<bool> Update(int id, RoleEditRequest request);

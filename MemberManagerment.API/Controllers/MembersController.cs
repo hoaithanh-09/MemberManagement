@@ -30,11 +30,13 @@ namespace MemberManagement.API.Controllers
             var member = await _memberSV.GetAllPaging(request);
             return Ok(member);
         }
+        
+
         [HttpPost("Create-Member")]
         public async Task<ActionResult> Create([FromForm] MemberCreatRequest request)
         {
             var member = await _memberSV.Create(request);
-            return Ok(member);
+            return Ok(member.ResultObj);
         }
         [HttpGet("{id}")]
         public async Task<ActionResult> getID([FromRoute] int id)
@@ -77,6 +79,13 @@ namespace MemberManagement.API.Controllers
         {
             var member = await _memberSV.AddRole(memberId, request);
             return Ok(member);
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<ActionResult> Delete(int id)
+        {
+            var group = await _memberSV.Delete(id);
+            return Ok(group);
         }
     }
 }

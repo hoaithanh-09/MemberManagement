@@ -11,6 +11,7 @@ namespace MemberManagement.Services.Addresses
 {
      public interface IAddressSV
     {
+        Task<List<AddressVM>> GetAll();
         Task<int> Create(AddressCreatRequest request);
         Task<int> Delete(int id);
         Task<AddressVM> GetById(int id);

@@ -5,9 +5,9 @@ using System.Collections.Generic;
 
 namespace MemberManagement.Data.Entities
 {
-    public partial class Roless
+    public partial class Roles
     {
-        public Roless()
+        public Roles()
         {
             RoleMembers = new HashSet<RoleMember>();
         }

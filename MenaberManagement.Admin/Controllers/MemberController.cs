@@ -1,6 +1,9 @@
-﻿using MemberManagement.ViewModels.MemberViewModels;
+﻿using MemberManagement.ViewModels.Common;
+using MemberManagement.ViewModels.FamilyViewModels;
+using MemberManagement.ViewModels.MemberViewModels;
 using MenaberManagement.Admin.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
@@ -11,13 +14,27 @@ namespace MenaberManagement.Admin.Controllers
 {
     public class MemberController : BaseController
     {
+        private readonly IGroupApiClient _iGroupApiClient;
         private readonly IMemberApiClient _iMemberApiClient;
         private readonly IConfiguration _configuration;
-
-        public MemberController(IMemberApiClient iMemberApiClient, IConfiguration configuration)
+        private readonly IFamilyApiClient _familyApiClient;
+        private readonly IAddressApiClient _iAddressApiClient;
+        private readonly IRoleApiClient _iRoleApiClient;
+        public MemberController(
+            IMemberApiClient iMemberApiClient,
+            IConfiguration configuration,
+            IFamilyApiClient familyApiClient,
+            IGroupApiClient iGroupApiClient,
+            IAddressApiClient iAddressApiClient,
+            IRoleApiClient iRoleApiClient
+            )
         {
             _iMemberApiClient = iMemberApiClient;
             _configuration = configuration;
+            _familyApiClient = familyApiClient;
+            _iGroupApiClient = iGroupApiClient;
+            _iAddressApiClient = iAddressApiClient;
+            _iRoleApiClient = iRoleApiClient;
         }
         public async Task< IActionResult> Index(string keyword , int pageIndex =1 , int pageSize = 10  )
         {
@@ -41,9 +58,25 @@ namespace MenaberManagement.Admin.Controllers
             return View(data);
             
         }
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
-            return View();
+
+            var familtObj = await _familyApiClient.GetAll();
+            //ViewBag.HousldRepre = new SelectList(familtObj, "Id", "Id");
+
+            var GoupObj = await _iGroupApiClient.GetAll();
+            //ViewBag.Group = new SelectList(GoupObj, "Id", "Id");
+
+            var addObj = await _iAddressApiClient.GetAll();
+
+            var roles = await _iRoleApiClient.GetAll();
+            var memberCreatRequest = new MemberCreatRequest();
+            
+            memberCreatRequest.familyVMs = familtObj;
+            memberCreatRequest.groupVMs = GoupObj;
+            memberCreatRequest.Address = addObj;
+            memberCreatRequest.Roles = roles;
+            return View(memberCreatRequest);
         }
 
         [HttpPost]
@@ -52,8 +85,14 @@ namespace MenaberManagement.Admin.Controllers
         {
             if (!ModelState.IsValid)
                 return View();
+            //var familtObj = await _familyApiClient.GetAll();
+            //ViewBag.HousldRepre = new SelectList(familtObj, "Id", "HousldRepre");
+
+            //var GoupObj = await _iGroupApiClient.GetAll();
+            //ViewBag.Group = new SelectList(GoupObj, "Id", "Name");
 
             var result = await _iMemberApiClient.Create(request);
+            
             if (!result.IsSuccessed)
             {
                 ModelState.AddModelError("", result.Message);
@@ -61,14 +100,24 @@ namespace MenaberManagement.Admin.Controllers
             }
             if (result.IsSuccessed)
             {
-                TempData["result"] = "Tạo mới thành công";
+                TempData["result"] = result.ResultObj;
                 return RedirectToAction("Index", "Member");
             }
             return View(request);
         }
+        public async Task<IActionResult> Details(int id)
+        {
+            var result = await _iMemberApiClient.GetById(id);
+            return View(result);
+        }
+        public async void SetViewBag(int? seletedId = null)
+        {
+            var roleObj = await _familyApiClient.GetAll();
 
+            ViewBag.HousldRepre = new SelectList(roleObj, "Id", "HousldRepre", seletedId);
+        }
 
-        public async Task< IActionResult> Edit(int id)
+        public async Task<IActionResult> Edit(int id)
         {
             var member = await _iMemberApiClient.GetById(id);
             var request = new MemberEditRequest()
@@ -82,13 +131,8 @@ namespace MenaberManagement.Admin.Controllers
             };
             return View(request);
         }
-        public async Task<IActionResult> Details(int id)
-        {
-            var result = await _iMemberApiClient.GetById(id);
-            return View(result);
-        }
 
-        [HttpPut]
+        [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit (int id , MemberEditRequest request)
         {
@@ -115,7 +159,8 @@ namespace MenaberManagement.Admin.Controllers
             };
             return View(request);
         }
-        [HttpDelete]
+
+        [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(int id, MemberDeleteRequest request)
         {
@@ -132,5 +177,7 @@ namespace MenaberManagement.Admin.Controllers
             ModelState.AddModelError("", "Cập nhật thất bại");
             return View(request);
         }
+
+       
     }
 }

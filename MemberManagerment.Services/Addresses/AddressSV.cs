@@ -46,6 +46,22 @@ namespace MemberManagement.Services.Addresses
             return  _context.SaveChanges();
         }
 
+        public async Task<List<AddressVM>> GetAll()
+        {
+            var query = await _context.Addresses
+                .Select(x => new AddressVM()
+                {
+                    Id = x.Id,
+                    Nationality = x.Nationality,
+                    Province = x.Province,
+                    Ward = x.Ward,
+                    District = x.District,
+                    Notes = x.Notes,
+                    StayingAddress = x.StayingAddress,
+                }).ToListAsync();
+            return query;
+        }
+
         public async Task<AddressVM> GetById(int id)
         {
          

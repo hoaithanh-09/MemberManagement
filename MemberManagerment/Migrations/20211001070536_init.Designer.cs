@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MemberManagement.Data.Migrations
 {
     [DbContext(typeof(MemberManagementContext))]
-    [Migration("20210919085845_init")]
+    [Migration("20211001070536_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -218,46 +218,21 @@ namespace MemberManagement.Data.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Email")
+                    b.Property<string>("Description")
+                        .IsUnicode(true)
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(450)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(450)");
-
-                    b.Property<string>("FullName")
-                        .IsRequired()
-                        .HasMaxLength(450)
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("Nickname")
-                        .HasMaxLength(254)
-                        .HasColumnType("nvarchar(254)");
-
-                    b.Property<string>("Notes")
-                        .HasMaxLength(450)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(450)")
-                        .HasColumnName("notes");
-
-                    b.Property<string>("PersonalTtles")
-                        .HasMaxLength(450)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(450)");
-
-                    b.Property<string>("PhoneNumber")
-                        .HasMaxLength(15)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(15)");
-
-                    b.Property<string>("UserName")
                         .HasMaxLength(100)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(100)");
+                        .IsUnicode(true)
+                        .HasColumnType("nvarchar(100)");
 
-                    b.Property<string>("Word")
+                    b.Property<string>("Note")
                         .HasMaxLength(450)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(450)");
+                        .IsUnicode(true)
+                        .HasColumnType("nvarchar(450)")
+                        .HasColumnName("notes");
 
                     b.HasKey("Id");
 
@@ -377,8 +352,19 @@ namespace MemberManagement.Data.Migrations
                     b.Property<DateTime>("Birth")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasMaxLength(450)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(450)");
+
                     b.Property<int>("FamilyId")
                         .HasColumnType("int");
+
+                    b.Property<string>("FullName")
+                        .IsRequired()
+                        .HasMaxLength(450)
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Gender")
                         .IsRequired()
@@ -407,9 +393,35 @@ namespace MemberManagement.Data.Migrations
                         .HasMaxLength(450)
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<string>("Nickname")
+                        .HasMaxLength(254)
+                        .HasColumnType("nvarchar(254)");
+
                     b.Property<string>("Notes")
-                        .HasColumnType("nvarchar(max)")
+                        .HasMaxLength(450)
+                        .IsUnicode(true)
+                        .HasColumnType("nvarchar(450)")
                         .HasColumnName("notes");
+
+                    b.Property<string>("PersonalTtles")
+                        .HasMaxLength(450)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(450)");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasMaxLength(15)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(15)");
+
+                    b.Property<string>("UserName")
+                        .HasMaxLength(100)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(100)");
+
+                    b.Property<string>("Word")
+                        .HasMaxLength(450)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(450)");
 
                     b.HasKey("Id");
 
@@ -502,7 +514,7 @@ namespace MemberManagement.Data.Migrations
                     b.ToTable("Role_Member");
                 });
 
-            modelBuilder.Entity("MemberManagement.Data.Entities.Roless", b =>
+            modelBuilder.Entity("MemberManagement.Data.Entities.Roles", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -516,15 +528,15 @@ namespace MemberManagement.Data.Migrations
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(100)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(100)");
+                        .IsUnicode(true)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("Note")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Roless");
+                    b.ToTable("Roles");
                 });
 
             modelBuilder.Entity("MemberManagement.Data.Entities.Skill", b =>
@@ -748,7 +760,7 @@ namespace MemberManagement.Data.Migrations
                         .HasConstraintName("FK__Role_Memb__Membe__5812160E")
                         .IsRequired();
 
-                    b.HasOne("MemberManagement.Data.Entities.Roless", "Role")
+                    b.HasOne("MemberManagement.Data.Entities.Roles", "Role")
                         .WithMany("RoleMembers")
                         .HasForeignKey("RoleId")
                         .HasConstraintName("FK__Role_Memb__RoleI__59063A47")
@@ -848,7 +860,7 @@ namespace MemberManagement.Data.Migrations
                     b.Navigation("RoleMembers");
                 });
 
-            modelBuilder.Entity("MemberManagement.Data.Entities.Roless", b =>
+            modelBuilder.Entity("MemberManagement.Data.Entities.Roles", b =>
                 {
                     b.Navigation("RoleMembers");
                 });

@@ -11,6 +11,6 @@ namespace MemberManagement.Data.Entities
         public int RoleId { get; set; }
 
         public virtual Member Member { get; set; }
-        public virtual Roless Role { get; set; }
+        public virtual Roles Role { get; set; }
     }
 }

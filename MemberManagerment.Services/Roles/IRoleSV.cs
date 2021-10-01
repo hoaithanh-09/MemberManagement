@@ -14,7 +14,7 @@ namespace MemberManagement.Services.Roles
         Task<int> Create(RoleCreateRequest request);
         Task<int> Delete(int id);
         Task<RoleVM> GetById(int id);
-        Task<Data.Entities.Roless> Update(int id, RoleEditRequest request);
+        Task<Data.Entities.Roles> Update(int id, RoleEditRequest request);
         Task<PagedResult<RoleVM>> GetPagedResult(GetRolePagingRequest request);
     }
 }

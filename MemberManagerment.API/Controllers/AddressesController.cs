@@ -18,7 +18,12 @@ namespace MemberManagement.API.Controllers
         {
             _address = address;
         }
-      
+        [HttpGet("GetAll")]
+        public async Task<IActionResult> GetAll()
+        {
+            var group = await _address.GetAll();
+            return Ok(group);
+        }
 
         [HttpGet("paging")]
         public async Task<IActionResult> GetPaing([FromQuery] GetAddressPagingRequest request)

@@ -29,6 +29,24 @@ namespace MenaberManagement.Admin.Services
             _configuration = configuration;
             _httpClientFactory = httpClientFactory;
         }
+
+        public async Task<List<AddressVM>> GetAll()
+        {
+
+
+            var client = _httpClientFactory.CreateClient();
+            var sessions = _httpContextAccessor.HttpContext.Session.GetString("JWT");
+
+            client.BaseAddress = new Uri(_configuration["BaseAddress"]);
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", sessions);
+            var response = await client.GetAsync($"/api/Addresses/GetAll");
+            var body = await response.Content.ReadAsStringAsync();
+            var families = JsonConvert.DeserializeObject<List<AddressVM>>(body);
+            return families;
+
+
+        }
+
         public async Task<bool> Create(AddressCreatRequest request)
         {
             var sessions = _httpContextAccessor

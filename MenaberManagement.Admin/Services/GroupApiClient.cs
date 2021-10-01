@@ -51,9 +51,9 @@ namespace MenaberManagement.Admin.Services
             return await Delete($"api/Groups/" + id);
         }
 
-        public async Task<PagedResult<GroupVM>> GetAll(GetGroupPagingRequest request)
+        public async Task<List<GroupVM>> GetAll()
         {
-            var data = await GetAsync<PagedResult<GroupVM>>(
+            var data = await GetAsync<List<GroupVM>>(
               $"/api/Groups/GetAll");
             return data;
         }

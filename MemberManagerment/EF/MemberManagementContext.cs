@@ -27,7 +27,7 @@ namespace MemberManagerment.Data.EF
         public virtual DbSet<Group> Groups { get; set; }
         public virtual DbSet<Image> Images { get; set; }
         public virtual DbSet<Member> Members { get; set; }
-        public virtual DbSet<Roless> Roless { get; set; }
+        public virtual DbSet<Roles> Roless { get; set; }
         public virtual DbSet<RoleMember> RoleMembers { get; set; }
         public virtual DbSet<Post> Postes { get; set; }
 
@@ -128,37 +128,17 @@ namespace MemberManagerment.Data.EF
             {
                 entity.ToTable("Contact");
 
-                entity.Property(e => e.Email)
-                    .IsRequired()
-                    .HasMaxLength(450)
-                    .IsUnicode(false);
+                entity.Property(e => e.Name)
+                   .IsRequired()
+                   .HasMaxLength(100)
+                   .IsUnicode(true);
 
-                entity.Property(e => e.FullName)
-                    .IsRequired()
-                    .HasMaxLength(450);
+                entity.Property(e => e.Description).IsUnicode(true);
 
-                entity.Property(e => e.Nickname).HasMaxLength(254);
-
-                entity.Property(e => e.Notes)
-                    .HasMaxLength(450)
-                    .IsUnicode(false)
-                    .HasColumnName("notes");
-
-                entity.Property(e => e.PersonalTtles)
-                    .HasMaxLength(450)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.PhoneNumber)
-                    .HasMaxLength(15)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.UserName)
-                    .HasMaxLength(100)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.Word)
-                    .HasMaxLength(450)
-                    .IsUnicode(false);
+                entity.Property(e => e.Note)
+                   .HasMaxLength(450)
+                   .IsUnicode(true)
+                   .HasColumnName("notes");
             });
 
             modelBuilder.Entity<ContactMember>(entity =>
@@ -239,7 +219,38 @@ namespace MemberManagerment.Data.EF
                     .IsRequired()
                     .HasMaxLength(450);
 
-                entity.Property(e => e.Notes).HasColumnName("notes");
+                entity.Property(e => e.Email)
+                   .IsRequired()
+                   .HasMaxLength(450)
+                   .IsUnicode(false);
+
+                entity.Property(e => e.FullName)
+                    .IsRequired()
+                    .HasMaxLength(450);
+
+                entity.Property(e => e.Nickname).HasMaxLength(254);
+
+                entity.Property(e => e.Notes)
+                    .HasMaxLength(450)
+                    .IsUnicode(true)
+                    .HasColumnName("notes");
+
+                entity.Property(e => e.PersonalTtles)
+                    .HasMaxLength(450)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.PhoneNumber)
+                    .HasMaxLength(15)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.UserName)
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Word)
+                    .HasMaxLength(450)
+                    .IsUnicode(false);
+
 
                 entity.HasOne(d => d.Family)
                     .WithMany(p => p.Members)
@@ -290,16 +301,15 @@ namespace MemberManagerment.Data.EF
                     .HasForeignKey(d => d.AuthorId);
             });
 
-            modelBuilder.Entity<Roless>(entity =>
+            modelBuilder.Entity<Roles>(entity =>
             {
-                entity.ToTable("Roless");
+                entity.ToTable("Roles");
 
                 entity.Property(e => e.Name)
                     .IsRequired()
                     .HasMaxLength(100)
                     .IsUnicode(true);
 
-                entity.Property(e => e.Description).IsUnicode(true);
                 entity.Property(e => e.Description).IsUnicode(true);
 
             });

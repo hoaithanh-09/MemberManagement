@@ -9,7 +9,7 @@ namespace MenaberManagement.Admin.Services
 {
    public interface IGroupApiClient
     {
-        Task<PagedResult<GroupVM>> GetAll(GetGroupPagingRequest request);
+        Task<List<GroupVM>> GetAll( );
         Task<PagedResult<GroupVM>> GetFamilyPaging(GetGroupPagingRequest request);
 
         Task<bool> Create(GroupCreateRequest request);

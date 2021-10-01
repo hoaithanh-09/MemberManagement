@@ -52,11 +52,21 @@ namespace MenaberManagement.Admin.Services
             return await Delete($"api/Families/" + id);
         }
 
-        public async Task<PagedResult<FamilyVM>> GetAll(GetFamilyPagingRequest request)
+        public async Task<List<FamilyVM>> GetAll()
         {
-            var data = await GetAsync<PagedResult<FamilyVM>>(
-             $"/api/Families/GetAll");
-            return data;
+
+
+            var client = _httpClientFactory.CreateClient();
+            var sessions = _httpContextAccessor.HttpContext.Session.GetString("JWT");
+
+            client.BaseAddress = new Uri(_configuration["BaseAddress"]);
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", sessions);
+            var response = await client.GetAsync($"/api/Families/GetAll");
+            var body = await response.Content.ReadAsStringAsync();
+            var families = JsonConvert.DeserializeObject<List<FamilyVM>>(body);
+            return families;
+
+          
         }
 
         public async Task<FamilyVM> GetById(int id)

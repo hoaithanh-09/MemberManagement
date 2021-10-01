@@ -51,6 +51,13 @@ namespace MenaberManagement.Admin.Services
             return await Delete($"api/Roles/" + id);
         }
 
+        public async Task<List<RoleVM>> GetAll()
+        {
+            var data = await GetAsync<List<RoleVM>>(
+             $"/api/Roles/GetAll");
+            return data;
+        }
+
         public async Task<RoleVM> GetById(int id)
         {
             var data = await GetAsync<RoleVM>(

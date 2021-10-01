@@ -68,7 +68,7 @@ namespace MenaberManagement.Admin.Services
 
         public async Task<bool> Delete(int id)
         {
-            return await Delete($"api/Families/" + id);
+            return await Delete($"api/Members/" + id);
         }
 
         public async Task<MemberVM> GetById(int id)
