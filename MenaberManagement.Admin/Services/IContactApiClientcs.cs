@@ -16,5 +16,7 @@ namespace MenaberManagement.Admin.Services
         Task<bool> Update(int id, ContactEditRequest request);
         Task<ContactVM> GetById(int id);
         Task<bool> Delete(int id);
+
+        Task<List<ContactVM>> GetAll();
     }
 }

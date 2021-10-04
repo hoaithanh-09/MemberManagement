@@ -24,8 +24,7 @@ namespace MemberManagement.Services.Posts
             var post = new Post()
             {
                 AuthorId = request.UserId,
-                Longitude = request.Longitude,
-                Latitude = request.Latitude,
+                Titel = request.Titel,
                 CreatedDate = request.CreatedDate,
                 ModifiedDate = request.ModifiedDate,
                 Text = request.Text,
@@ -47,8 +46,7 @@ namespace MemberManagement.Services.Posts
             var post = await query.Select(x => new PostVM()
             {
                 UserId = x.AuthorId,
-                Longitude = x.Longitude,
-                Latitude = x.Latitude,
+                Titel = x.Titel,
                 CreatedDate = x.CreatedDate,
                 ModifiedDate = x.ModifiedDate,
                 Text = x.Text,

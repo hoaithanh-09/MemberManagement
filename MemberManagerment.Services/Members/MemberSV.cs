@@ -123,7 +123,7 @@ namespace MemberManagement.Services.Members
                 FamilyId = request.FamilyId,
                 GroupId = request.GroupId,
                 Birth = request.Birth,
-                ImageId = "Sdasdas",
+                Email = request.Email,
             };
 
             if (request.IdAddress != 0)

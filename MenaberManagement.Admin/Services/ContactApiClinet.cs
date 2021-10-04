@@ -29,6 +29,23 @@ namespace MenaberManagement.Admin.Services
             _configuration = configuration;
             _httpClientFactory = httpClientFactory;
         }
+
+        public async Task<List<ContactVM>> GetAll()
+        {
+
+
+            var client = _httpClientFactory.CreateClient();
+            var sessions = _httpContextAccessor.HttpContext.Session.GetString("JWT");
+
+            client.BaseAddress = new Uri(_configuration["BaseAddress"]);
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", sessions);
+            var response = await client.GetAsync($"/api/Contacts/GetAll");
+            var body = await response.Content.ReadAsStringAsync();
+            var families = JsonConvert.DeserializeObject<List<ContactVM>>(body);
+            return families;
+
+
+        }
         public async Task<bool> Create(ContactCreateRequest request)
         {
             var sessions = _httpContextAccessor
@@ -42,7 +59,7 @@ namespace MenaberManagement.Admin.Services
 
             var json = JsonConvert.SerializeObject(request);
             var httpContent = new StringContent(json, Encoding.UTF8, "application/json");
-            var response = await client.PostAsync($"/api/Contacts/Creat", httpContent);
+            var response = await client.PostAsync($"/api/Contacts/Create", httpContent);
             return response.IsSuccessStatusCode;
         }
 

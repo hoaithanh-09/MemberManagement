@@ -12,5 +12,6 @@ namespace MemberManagement.ViewModels.PostViewModels
         public DateTime CreatedDate { get; set; }
         public DateTime ModifiedDate { get; set; }
         public string Text { get; set; }
+        public string Titel { get; set; }
     }
 }

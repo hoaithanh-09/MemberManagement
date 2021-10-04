@@ -1,4 +1,5 @@
 ﻿using MemberManagement.ViewModels.AddressViewModels;
+using MemberManagement.ViewModels.ContactViewModels;
 using MemberManagement.ViewModels.GroupViewModels;
 using MemberManagement.ViewModels.RoleViewModels;
 using MemberManagerment.ViewModels.FamilyViewModels;
@@ -46,5 +47,7 @@ namespace MemberManagement.ViewModels.MemberViewModels
 
         public List<AddressVM> Address { get; set; }
         public List<RoleVM> Roles { get; set; }
+
+        public List<ContactVM> Contacts { get; set; }
     }
 }

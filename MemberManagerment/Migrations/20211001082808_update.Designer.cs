@@ -4,14 +4,16 @@ using MemberManagerment.Data.EF;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace MemberManagement.Data.Migrations
 {
     [DbContext(typeof(MemberManagementContext))]
-    partial class MemberManagementContextModelSnapshot : ModelSnapshot
+    [Migration("20211001082808_update")]
+    partial class update
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -359,6 +361,11 @@ namespace MemberManagement.Data.Migrations
                     b.Property<int>("FamilyId")
                         .HasColumnType("int");
 
+                    b.Property<string>("FullName")
+                        .IsRequired()
+                        .HasMaxLength(450)
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<string>("Gender")
                         .IsRequired()
                         .HasMaxLength(10)
@@ -372,6 +379,11 @@ namespace MemberManagement.Data.Migrations
                         .IsUnicode(false)
                         .HasColumnType("varchar(50)")
                         .HasColumnName("IDCard");
+
+                    b.Property<string>("ImageId")
+                        .IsRequired()
+                        .HasMaxLength(450)
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime>("JoinDate")
                         .HasColumnType("datetime2");
@@ -400,6 +412,11 @@ namespace MemberManagement.Data.Migrations
                         .HasMaxLength(15)
                         .IsUnicode(false)
                         .HasColumnType("varchar(15)");
+
+                    b.Property<string>("UserName")
+                        .HasMaxLength(100)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(100)");
 
                     b.Property<string>("Word")
                         .HasMaxLength(450)

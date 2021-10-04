@@ -20,13 +20,15 @@ namespace MenaberManagement.Admin.Controllers
         private readonly IFamilyApiClient _familyApiClient;
         private readonly IAddressApiClient _iAddressApiClient;
         private readonly IRoleApiClient _iRoleApiClient;
+        private readonly IContactApiClientcs _iContactApiClient;
         public MemberController(
             IMemberApiClient iMemberApiClient,
             IConfiguration configuration,
             IFamilyApiClient familyApiClient,
             IGroupApiClient iGroupApiClient,
             IAddressApiClient iAddressApiClient,
-            IRoleApiClient iRoleApiClient
+            IRoleApiClient iRoleApiClient,
+            IContactApiClientcs iContactApiClient
             )
         {
             _iMemberApiClient = iMemberApiClient;
@@ -35,6 +37,7 @@ namespace MenaberManagement.Admin.Controllers
             _iGroupApiClient = iGroupApiClient;
             _iAddressApiClient = iAddressApiClient;
             _iRoleApiClient = iRoleApiClient;
+            _iContactApiClient = iContactApiClient;
         }
         public async Task< IActionResult> Index(string keyword , int pageIndex =1 , int pageSize = 10  )
         {
@@ -65,17 +68,19 @@ namespace MenaberManagement.Admin.Controllers
             //ViewBag.HousldRepre = new SelectList(familtObj, "Id", "Id");
 
             var GoupObj = await _iGroupApiClient.GetAll();
-            //ViewBag.Group = new SelectList(GoupObj, "Id", "Id");
 
             var addObj = await _iAddressApiClient.GetAll();
 
             var roles = await _iRoleApiClient.GetAll();
+            var contact = await _iContactApiClient.GetAll();
             var memberCreatRequest = new MemberCreatRequest();
-            
+            ViewBag.address = new SelectList(addObj, "Id", "Province");
+
             memberCreatRequest.familyVMs = familtObj;
             memberCreatRequest.groupVMs = GoupObj;
             memberCreatRequest.Address = addObj;
             memberCreatRequest.Roles = roles;
+            memberCreatRequest.Contacts = contact;
             return View(memberCreatRequest);
         }
 
@@ -85,11 +90,22 @@ namespace MenaberManagement.Admin.Controllers
         {
             if (!ModelState.IsValid)
                 return View();
-            //var familtObj = await _familyApiClient.GetAll();
-            //ViewBag.HousldRepre = new SelectList(familtObj, "Id", "HousldRepre");
+            var familtObj = await _familyApiClient.GetAll();
+            //ViewBag.HousldRepre = new SelectList(familtObj, "Id", "Id");
 
-            //var GoupObj = await _iGroupApiClient.GetAll();
-            //ViewBag.Group = new SelectList(GoupObj, "Id", "Name");
+            var GoupObj = await _iGroupApiClient.GetAll();
+            //ViewBag.Group = new SelectList(GoupObj, "Id", "Id");
+
+            var addObj = await _iAddressApiClient.GetAll();
+
+            var roles = await _iRoleApiClient.GetAll();
+            var contact = await _iContactApiClient.GetAll();
+
+            request.familyVMs = familtObj;
+            request.groupVMs = GoupObj;
+            request.Address = addObj;
+            request.Roles = roles;
+            request.Contacts = contact;
 
             var result = await _iMemberApiClient.Create(request);
             

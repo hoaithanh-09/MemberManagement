@@ -47,8 +47,10 @@ namespace MenaberManagement.Admin.Services
             requestContent.Add(new StringContent(request.FamilyId.ToString()), "FamilyId");
             requestContent.Add(new StringContent(request.JoinDate.ToString()), "JoinDate");
             requestContent.Add(new StringContent(request.Birth.ToString()), "JoinDate");
+
             requestContent.Add(new StringContent(string.IsNullOrEmpty(request.Name) ? "" : request.Name.ToString()), "name");
             requestContent.Add(new StringContent(string.IsNullOrEmpty(request.Idcard) ? "" : request.Idcard.ToString()), "Idcard");
+            requestContent.Add(new StringContent(string.IsNullOrEmpty(request.Email) ? "" : request.Idcard.ToString()), "Email");
 
             requestContent.Add(new StringContent(string.IsNullOrEmpty(request.Notes) ? "" : request.Notes.ToString()), "Notes");
             requestContent.Add(new StringContent(string.IsNullOrEmpty(request.Gender) ? "" : request.Gender.ToString()), "Gender");

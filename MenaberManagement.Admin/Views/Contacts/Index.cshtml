@@ -1,10 +1,16 @@
 ﻿@using MemberManagement.ViewModels.Common
-@model PagedResult<MemberManagement.ViewModels.MemberViewModels.MemberVM>
+@model PagedResult<MemberManagement.ViewModels.ContactViewModels.ContactVM>
 
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
+
+
+
+
+
 
 
 <div class="container-fluid px-4">
@@ -18,7 +24,7 @@
         <div class="card-header">
             <div class="row">
                 <div class="col-md-5 col-xs-12">
-                    <a class="btn btn-success" asp-action="Create" asp-controller="Member">Tạo mới</a>
+                    <a class="btn btn-success" asp-action="Create" asp-controller="Contacts">Tạo mới</a>
                 </div>
                 <div class="col-md-7 col-xs-12">
                     <form asp-action="Index" method="get">
@@ -28,7 +34,7 @@
                             </div>
                             <div class="col-md-3">
                                 <button type="submit" class="btn btn-primary">Tìm</button>
-                                <button type="button" onclick="window.location.href='/Member/Index'" class="btn btn-dark">Reset</button>
+                                <button type="button" onclick="window.location.href='/Address/Index'" class="btn btn-dark">Reset</button>
                             </div>
                         </div>
                     </form>
@@ -49,19 +55,10 @@
                 <thead>
                     <tr>
                         <th>
-                            Tên hội viên
+                            Tên ban liên lạc
                         </th>
                         <th>
-                            Ngày sinh
-                        </th>
-                        <th>
-                            Giới tính
-                        </th>
-                        <th>
-                            Ngày tham gia
-                        </th>
-                        <th>
-                            Chứng minh thư
+                            Miêu tả
                         </th>
                         <th>
                             Ghi chú
@@ -77,20 +74,12 @@
                                 @Html.DisplayFor(modelItem => item.Name)
                             </td>
                             <td>
-                                @Html.DisplayFor(modelItem => item.Birth)
+                                @Html.DisplayFor(modelItem => item.Description)
                             </td>
                             <td>
-                                @Html.DisplayFor(modelItem => item.Gender)
+                                @Html.DisplayFor(modelItem => item.Note)
                             </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.JoinDate)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Idcard)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Notes)
-                            </td>
+
                             <td>
                                 @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
                                 @Html.ActionLink("Details", "Details", new { id = item.Id }) |
@@ -105,6 +94,3 @@
         </div>
     </div>
 </div>
-
-
-

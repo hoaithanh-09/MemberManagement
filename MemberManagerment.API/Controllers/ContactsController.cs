@@ -3,8 +3,6 @@ using MemberManagement.ViewModels.ContactViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace MemberManagement.API.Controllers
@@ -29,7 +27,7 @@ namespace MemberManagement.API.Controllers
         public async Task<ActionResult> Create([FromBody] ContactCreateRequest request)
         {
             var contact = await _contactSV.Create(request);
-            return Ok();
+            return Ok(contact);
         }
         [HttpDelete("{id}")]
         public async Task<ActionResult> Delete(int id)
@@ -62,7 +60,7 @@ namespace MemberManagement.API.Controllers
         public async Task<IActionResult> GetPaing([FromQuery] GetContactPagingRequest request)
         {
             var family = await _contactSV.GetPagedResult(request);
-            return Ok(family.Items);
+            return Ok(family);
         }
 
     }

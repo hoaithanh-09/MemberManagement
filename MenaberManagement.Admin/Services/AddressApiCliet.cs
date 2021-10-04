@@ -46,7 +46,6 @@ namespace MenaberManagement.Admin.Services
 
 
         }
-
         public async Task<bool> Create(AddressCreatRequest request)
         {
             var sessions = _httpContextAccessor

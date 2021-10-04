@@ -16,7 +16,6 @@
             <div class="form-group">
                 <label class="control-label"> Gia đình</label>
                 @Html.DropDownListFor(model => model.FamilyId, new SelectList(Model.familyVMs, "Id", "HousldRepre"), new { @class = "form-control" })
-
             </div>
             <div class="form-group">
                 <label class="control-label"> Chi hội</label>
@@ -26,6 +25,11 @@
                 <label asp-for="Name" class="control-label"></label>
                 <input asp-for="Name" class="form-control" />
                 <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Email" class="control-label"></label>
+                <input asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Birth" class="control-label"></label>
@@ -55,15 +59,19 @@
             <div class="form-group">
                 <label class="control-label"> Địa chỉ</label>
                 @Html.DropDownListFor(model => model.IdAddress, new SelectList(Model.Address, "Id", "Nationality"), new { @class = "form-control" })
+                @Html.DropDownList("Province", ViewBag.address as SelectList, new { @class = "form-control" })
+                @Html.DropDownListFor(model => model.IdAddress, new SelectList(Model.Address, "Id", "District"), new { @class = "form-control" })
+                @Html.DropDownListFor(model => model.IdAddress, new SelectList(Model.Address, "Id", "Ward"), new { @class = "form-control" })
             </div>
             <div class="form-group">
                 <label class="control-label"> Vai trò</label>
                 @Html.DropDownListFor(model => model.RoleId, new SelectList(Model.Roles, "Id", "Name"), new { @class = "form-control" })
             </div>
             <div class="form-group">
-                <label asp-for="ContactId" class="control-label"></label>
-                <input asp-for="ContactId" class="form-control" />
-                <span asp-validation-for="ContactId" class="text-danger"></span>
+                <div class="form-group">
+                    <label class="control-label"> Ban liên lạc</label>
+                    @Html.DropDownListFor(model => model.ContactId, new SelectList(Model.Contacts, "Id", "Name"), new { @class = "form-control" })
+                </div>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />

@@ -31,7 +31,11 @@ namespace MemberManagerment.Data.EF
         public virtual DbSet<RoleMember> RoleMembers { get; set; }
         public virtual DbSet<Post> Postes { get; set; }
 
+        public virtual DbSet<Province> Provinces { get; set; }
 
+        public virtual DbSet<District> Districts { get; set; }
+
+        public virtual DbSet<Ward> Wards { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.HasAnnotation("Relational:Collation", "Latin1_General_CI_AS");
@@ -141,6 +145,50 @@ namespace MemberManagerment.Data.EF
                    .HasColumnName("notes");
             });
 
+            modelBuilder.Entity<Province>(entity =>
+            {
+                entity.ToTable("Province");
+
+                entity.Property(e => e.Name)
+                   .IsRequired()
+                   .HasMaxLength(100)
+                   .IsUnicode(true);
+            });
+
+            modelBuilder.Entity<District>(entity =>
+            {
+                entity.ToTable("District");
+
+                entity.Property(e => e.Name)
+                   .IsRequired()
+                   .HasMaxLength(100)
+                   .IsUnicode(true);
+
+                entity.HasOne(d => d.Province)
+                   .WithMany(p => p.Districts)
+                   .HasForeignKey(d => d.ProvinceId)
+                   .OnDelete(DeleteBehavior.ClientSetNull)
+                   .HasConstraintName("FK__District__ProvinceId__5535A963");
+            });
+
+
+            modelBuilder.Entity<Ward>(entity =>
+            {
+                entity.ToTable("Ward");
+
+                entity.Property(e => e.Name)
+                   .IsRequired()
+                   .HasMaxLength(100)
+                   .IsUnicode(true);
+
+                entity.HasOne(d => d.Districts)
+                   .WithMany(p => p.Wards)
+                   .HasForeignKey(d => d.DistrictId)
+                   .OnDelete(DeleteBehavior.ClientSetNull)
+                   .HasConstraintName("FK__Ward__DistrictId__5535A963");
+            });
+
+
             modelBuilder.Entity<ContactMember>(entity =>
             {
                 entity.HasKey(e => new { e.MemberId, e.ContactId })
@@ -211,10 +259,6 @@ namespace MemberManagerment.Data.EF
                     .IsUnicode(false)
                     .HasColumnName("IDCard");
 
-                entity.Property(e => e.ImageId)
-                    .IsRequired()
-                    .HasMaxLength(450);
-
                 entity.Property(e => e.Name)
                     .IsRequired()
                     .HasMaxLength(450);
@@ -224,9 +268,7 @@ namespace MemberManagerment.Data.EF
                    .HasMaxLength(450)
                    .IsUnicode(false);
 
-                entity.Property(e => e.FullName)
-                    .IsRequired()
-                    .HasMaxLength(450);
+ 
 
                 entity.Property(e => e.Nickname).HasMaxLength(254);
 
@@ -243,9 +285,7 @@ namespace MemberManagerment.Data.EF
                     .HasMaxLength(15)
                     .IsUnicode(false);
 
-                entity.Property(e => e.UserName)
-                    .HasMaxLength(100)
-                    .IsUnicode(false);
+       
 
                 entity.Property(e => e.Word)
                     .HasMaxLength(450)
@@ -332,6 +372,26 @@ namespace MemberManagerment.Data.EF
                     .HasForeignKey(d => d.RoleId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK__Role_Memb__RoleI__59063A47");
+            });
+
+            modelBuilder.Entity<PostImage>(entity =>
+            {
+                entity.HasKey(e => new { e.PostId, e.ImageId })
+                    .HasName("PK__Post_Image__B45FE7F9811444D9");
+
+                entity.ToTable("Post_Image");
+
+                entity.HasOne(d => d.Post)
+                    .WithMany(p => p.PostImages)
+                    .HasForeignKey(d => d.PostId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK__Role_Post__Image__5812160E");
+
+                entity.HasOne(d => d.Image)
+                    .WithMany(p => p.PostImages)
+                    .HasForeignKey(d => d.ImageId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK__Role_Image__PostI__59063A47");
             });
 
             modelBuilder.Entity<Skill>(entity =>
