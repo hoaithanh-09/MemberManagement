@@ -36,12 +36,31 @@ namespace MemberManagerment.API
         {
             Configuration = configuration;
         }
-
+        readonly string allowSpecificOrigins = "_allowSpecificOrigins";
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors(options =>
+
+            {
+
+                options.AddPolicy(allowSpecificOrigins,
+
+                builder =>
+
+                {
+
+                    builder.WithOrigins("https://localhost:5001")
+
+                            .AllowAnyHeader()
+
+                            .AllowAnyMethod();
+
+                });
+
+            });
             services.AddControllers()
         .AddNewtonsoftJson(options =>
         options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
@@ -132,6 +151,7 @@ namespace MemberManagerment.API
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.UseCors(allowSpecificOrigins);
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -153,6 +173,8 @@ namespace MemberManagerment.API
             {
                 endpoints.MapControllers();
             });
+
+            
         }
     }
 }

@@ -16,5 +16,10 @@ namespace MenaberManagement.Admin.Services
         Task<bool> Update(int id, AddressEditRequest request);
         Task<AddressVM> GetById(int id);
         Task<bool> Delete(int id);
+
+        Task<List<ProvinceVM>> GetProvince();
+        Task<List<DistrictVM>> GetDistrict(int id);
+
+        Task<List<WardVM>> GetWard(int id);
     }
 }

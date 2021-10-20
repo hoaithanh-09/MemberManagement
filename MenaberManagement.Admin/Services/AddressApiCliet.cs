@@ -33,7 +33,6 @@ namespace MenaberManagement.Admin.Services
         public async Task<List<AddressVM>> GetAll()
         {
 
-
             var client = _httpClientFactory.CreateClient();
             var sessions = _httpContextAccessor.HttpContext.Session.GetString("JWT");
 
@@ -101,6 +100,43 @@ namespace MenaberManagement.Admin.Services
                 return true;
 
             return false;
+        }
+
+        public async Task<List<ProvinceVM>> GetProvince()
+        {
+            var client = _httpClientFactory.CreateClient();
+            var sessions = _httpContextAccessor.HttpContext.Session.GetString("JWT");
+
+            client.BaseAddress = new Uri(_configuration["BaseAddress"]);
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", sessions);
+            var response = await client.GetAsync($"/api/Addresses/ProvinceDetails");
+            var body = await response.Content.ReadAsStringAsync();
+            var families = JsonConvert.DeserializeObject<List<ProvinceVM>>(body);
+            return families;
+        }
+        public async Task<List<DistrictVM>> GetDistrict(int id)
+        {
+            var client = _httpClientFactory.CreateClient();
+            var sessions = _httpContextAccessor.HttpContext.Session.GetString("JWT");
+
+            client.BaseAddress = new Uri(_configuration["BaseAddress"]);
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", sessions);
+            var response = await client.GetAsync($"api/Addresses/DistrictDetails?id={id}");
+            var body = await response.Content.ReadAsStringAsync();
+            var families = JsonConvert.DeserializeObject<List<DistrictVM>>(body);
+            return families;
+        }
+        public async Task<List<WardVM>> GetWard(int id)
+        {
+            var client = _httpClientFactory.CreateClient();
+            var sessions = _httpContextAccessor.HttpContext.Session.GetString("JWT");
+
+            client.BaseAddress = new Uri(_configuration["BaseAddress"]);
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", sessions);
+            var response = await client.GetAsync($"/api/Addresses/WardDetails/{id}");
+            var body = await response.Content.ReadAsStringAsync();
+            var families = JsonConvert.DeserializeObject<List<WardVM>>(body);
+            return families;
         }
     }
 }

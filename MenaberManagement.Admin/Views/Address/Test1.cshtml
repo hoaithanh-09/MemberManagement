@@ -1,0 +1,51 @@
+﻿@model MenaberManagement.Admin.Models.CascadingModel
+
+@{
+    Layout = null;
+}
+
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+
+<h2>Cascading Dropdownlist</h2>
+<table>
+    <tr>
+        <td>
+            <label>State</label>
+        </td>
+        <td>
+            @Html.DropDownListFor(x => x.Provinces, Model.Provinces, "--Select--", new { @id = "ddlProvince" });
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <label>District</label>
+        </td>
+        <td id="District">
+            @Html.DropDownListFor(x => x.Districts, new List<SelectListItem>(), "--Select--", new { @id = "ddlDistrict" });
+        </td>
+    </tr>
+</table>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#ddlProvince').change(function () {
+            $.ajax({
+                type: "post",
+                url: "/Address/GetDistrict",
+                data: { idProvince: $('#ddlProvince').val() },
+                datatype: "json",
+                traditional: true,
+                success: function (data) {
+                    var district = "<select id='ddlDistrict'>";
+                    district = district + '<option value="">--Select--</option>';
+                    for (var i = 0; i < data.length; i++) {
+                        district = district + '<option value=' + data[i].id + '>' + data[i].name + '</option>';
+                    }
+                    district = district + '</select>';
+                    $('#District').html(district);
+                }
+            });
+        });
+    });
+</script>

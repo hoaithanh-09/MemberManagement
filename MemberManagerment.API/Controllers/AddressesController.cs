@@ -1,4 +1,5 @@
-﻿using MemberManagement.Services.Addresses;
+﻿using MemberManagement.Data.Entities;
+using MemberManagement.Services.Addresses;
 using MemberManagement.ViewModels.AddressViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -65,6 +66,33 @@ namespace MemberManagement.API.Controllers
             {
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
+        }
+
+        [HttpGet]
+        [Route("ProvinceDetails")]
+        public async Task< List<ProvinceVM>> ProvinceDetails()
+        {
+            List<ProvinceVM> countryDetail = new List<ProvinceVM>();
+                countryDetail = await _address.LoadProvince();
+            return countryDetail;
+        }
+
+        [HttpGet]
+        [Route("DistrictDetails")]
+        public async Task<List<DistrictVM>> DistrictDetails(int id)
+        {
+            List<DistrictVM> countryDetail = new List<DistrictVM>();
+            countryDetail = await _address.LoadDistrict(id);
+            return countryDetail;
+        }
+
+        [HttpGet]
+        [Route("WardDetails")]
+        public async Task<List<WardVM>> WardDetails(int id)
+        {
+            List<WardVM> countryDetail = new List<WardVM>();
+            countryDetail = await _address.LoadWard(id);
+            return countryDetail;
         }
 
     }

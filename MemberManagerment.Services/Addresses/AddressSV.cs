@@ -114,6 +114,52 @@ namespace MemberManagement.Services.Addresses
             return pagedResult;
         }
 
+        public async Task<List<DistrictVM>> LoadDistrict(int id)
+        {
+            var query = from f in _context.Districts
+                        where f.ProvinceId == id
+                        select f;
+            var provinces = await query.Select(x => new DistrictVM()
+            {
+                Id = x.Id,
+                Name = x.Name,
+                Wards = x.Wards,
+            }).ToListAsync();
+
+
+            return provinces;
+        }
+     
+        public async Task<List<ProvinceVM>> LoadProvince()
+        {
+          
+            var query = from f in _context.Provinces select f;
+            var provinces = await query.Select(x => new ProvinceVM()
+            {
+                Id = x.Id,
+                Name = x.Name,
+                Districts = x.Districts,
+            }).ToListAsync();
+            
+
+            return provinces;
+        }
+
+        public async Task<List<WardVM>> LoadWard(int id)
+        {
+            var query = from f in _context.Wards
+                        where f.DistrictId == id
+                        select f;
+            var provinces = await query.Select(x => new WardVM()
+            {
+                Id = x.Id,
+                Name = x.Name,
+                
+            }).ToListAsync();
+
+            return provinces;
+        }
+
         public async Task<Address> Update(int id, AddressEditRequest request)
         {
             var address = await _context.Addresses.FindAsync(id);

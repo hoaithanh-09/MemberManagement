@@ -1,0 +1,59 @@
+﻿@{
+Layout = null;
+ }
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script>
+    $(document).ready(function () {
+        var ddlCountry = $('#ddlCountry');
+        ddlCountry.append($("<option></option>").val('').html('Please Select Country'));
+        $.ajax({
+            url: 'https://localhost:5001/api/Addresses/ProvinceDetails',
+            type: 'GET',
+            dataType: 'json',
+            success: function (d) {
+                $.each(d, function (i, province) {
+                    ddlCountry.append($("<option></option>").val(province.id).html(province.name));
+                });
+            },
+            error: function () {
+                alert('Error!');
+            }
+        });
+    });
+</script>
+
+<h1>Cascading Dropdown List of Country, State and City</h1>
+<hr />
+<br />
+<div class="row">
+    <div class="col-lg-3"></div>
+    <div class="col-lg-6">
+
+        <div class="form-group">
+            <label class="col-md-4 control-label">Country Name</label>
+            <div class="col-md-6">
+                <select class="form-control" id="ddlCountry"></select><br />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-4 control-label">State Name</label>
+            <div class="col-md-6">
+                <select class="form-control" id="ddlState"></select>
+                <br />
+
+            </div>
+        </div>
+        <br />
+        <div class="form-group">
+            <label class="col-md-4 control-label">City Name</label>
+            <div class="col-md-6">
+                <select class="form-control" id="ddlCity"></select>
+
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-3"></div>
+</div>
+
+

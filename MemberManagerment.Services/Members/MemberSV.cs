@@ -110,7 +110,7 @@ namespace MemberManagement.Services.Members
             {
                 return new ApiErrorResult<string>("Chi hội không tồn lại");
             }
-
+          
             member = new Member()
             {
                 Name = request.Name,
@@ -124,6 +124,11 @@ namespace MemberManagement.Services.Members
                 GroupId = request.GroupId,
                 Birth = request.Birth,
                 Email = request.Email,
+                Word = request.Word,
+                PersonalTtles = request.PersonalTtles,
+                PhoneNumber = request.PhoneNumber,
+                Nickname = request.Nickname,
+                
             };
 
             if (request.IdAddress != 0)
@@ -284,6 +289,11 @@ namespace MemberManagement.Services.Members
                 Gender = member.Gender,
                 JoinDate = member.JoinDate,
                 Idcard = member.Idcard,
+                Email = member.Email,
+                Nickname = member.Nickname,
+                PersonalTtles = member.PersonalTtles,
+                Word = member.Word,
+                PhoneNumber = member.PhoneNumber,
                 Notes = member.Notes,
                 AddressMembers = addressMember,
                 ContactMembers = contractMember,
@@ -299,12 +309,20 @@ namespace MemberManagement.Services.Members
             {
                 throw new MemberManagementException("Không tìm thấy địa chỉ");
             }
+          
+
             member.Name = request.Name;
-            member.Birth = request.Birth;
             member.Gender = request.Gender;
-            member.JoinDate = request.JoinDate;
             member.Idcard = request.Idcard;
+            member.JoinDate = request.JoinDate;
             member.Notes = request.Notes;
+            member.Birth = request.Birth;
+            member.Email = request.Email;
+            member.Word = request.Word;
+            member.PersonalTtles = request.PersonalTtles;
+            member.PhoneNumber = request.PhoneNumber;
+            member.Nickname = request.Nickname;
+
             try
             {
                 await _context.SaveChangesAsync();

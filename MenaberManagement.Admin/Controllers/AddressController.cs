@@ -1,11 +1,12 @@
 ﻿using MemberManagement.ViewModels.AddressViewModels;
+using MenaberManagement.Admin.Models;
 using MenaberManagement.Admin.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace MenaberManagement.Admin.Controllers
@@ -39,6 +40,12 @@ namespace MenaberManagement.Admin.Controllers
             }
             return View(data);
         }
+        public async Task<IActionResult> test()
+        {
+            var data = await _iAddressApiClient.GetProvince();
+            return View(data);
+        }
+
 
         // GET: FamiliesController/Details/5
         public async Task<IActionResult> Details(int id)
@@ -50,6 +57,7 @@ namespace MenaberManagement.Admin.Controllers
         // GET: FamiliesController/Create
         public ActionResult Create()
         {
+            ViewBag.Province = new SelectList("Id","Name");
             return View();
         }
 
@@ -60,7 +68,7 @@ namespace MenaberManagement.Admin.Controllers
         {
             if (!ModelState.IsValid)
                 return View();
-
+            
             var result = await _iAddressApiClient.Create(request);
             if (!result)
             {
@@ -149,5 +157,68 @@ namespace MenaberManagement.Admin.Controllers
             ModelState.AddModelError("", "Xóa thất bại");
             return View();
         }
+        public async Task<ActionResult> Test1()
+        {
+            List<SelectListItem> provinceeNames = new List<SelectListItem>();
+            CascadingModel model = new CascadingModel();
+            var listProvince = await _iAddressApiClient.GetProvince();
+            //foreach (var country in listProvince)
+            //{
+            //    model.Provinces.Add(new SelectListItem { Text = country.Name, Value = country.Id.ToString() });
+            //}
+            listProvince.ForEach(x =>
+            {
+                provinceeNames.Add(new SelectListItem { Text = x.Name, Value = x.Id.ToString() });
+            });
+            model.Provinces = provinceeNames;
+            return View(model);
+        }
+        [HttpPost]
+        public async Task<ActionResult> GetDistrict(string idProvince)
+        {
+            int statId;
+            List<SelectListItem> districtNames = new List<SelectListItem>();
+            if (!string.IsNullOrEmpty(idProvince))
+            {
+                statId = Convert.ToInt32(idProvince);
+                List<DistrictVM> districts =await _iAddressApiClient.GetDistrict(statId);
+                districts.ForEach(x =>
+                {
+                    districtNames.Add(new SelectListItem { Text = x.Name, Value = x.Id.ToString() });
+                });
+            }
+            return Json(districtNames);
+        }
+
+    
+
+        //[HttpPost]
+        //public async Task<ActionResult> Test1(int? ProvinceId, int? DistrictId, int? WardId)
+        //{
+        //    CascadingModel model = new CascadingModel();
+        //    var listProvince = await _iAddressApiClient.GetProvince();
+        //    foreach (var country in listProvince)
+        //    {
+        //        model.Provinces.Add(new SelectListItem { Text = country.Name, Value = country.Id.ToString() });
+        //    }
+        //    if (ProvinceId.HasValue)
+        //    {
+        //        var district = await _iAddressApiClient.GetDistrict(ProvinceId.Value);
+        //        foreach (var state in district)
+        //        {
+        //            model.Districts.Add(new SelectListItem { Text = state.Name, Value = state.Id.ToString() });
+        //        }
+        //    }
+        //    if (DistrictId.HasValue)
+        //    {
+        //        var wards = await _iAddressApiClient.GetWard(DistrictId.Value);
+        //        foreach (var ward in wards)
+        //        {
+        //            model.Wards.Add(new SelectListItem { Text = ward.Name, Value = ward.Id.ToString() });
+        //        }
+        //    }
+
+        //    return View(model);
+        //}
     }
 }

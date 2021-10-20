@@ -1,6 +1,7 @@
 ﻿using MemberManagement.ViewModels.Common;
 using MemberManagement.ViewModels.FamilyViewModels;
 using MemberManagement.ViewModels.MemberViewModels;
+using MenaberManagement.Admin.Models;
 using MenaberManagement.Admin.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -66,7 +67,7 @@ namespace MenaberManagement.Admin.Controllers
 
             var familtObj = await _familyApiClient.GetAll();
             //ViewBag.HousldRepre = new SelectList(familtObj, "Id", "Id");
-
+            CascadingModel model = new CascadingModel();
             var GoupObj = await _iGroupApiClient.GetAll();
 
             var addObj = await _iAddressApiClient.GetAll();

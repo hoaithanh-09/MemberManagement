@@ -37,7 +37,6 @@ namespace MemberManagement.ViewModels.MemberViewModels
         public string Email { get; set; }
         public string PhoneNumber { get; set; }
         public string Word { get; set; }
-        public string UserName { get; set; }
 
         [NotMapped]
         public List<FamilyVM> familyVMs { get; set; }

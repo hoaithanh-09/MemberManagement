@@ -17,5 +17,10 @@ namespace MemberManagement.Services.Addresses
         Task<AddressVM> GetById(int id);
         Task<PagedResult<AddressVM>> GetPagedResult(GetAddressPagingRequest request);
         Task<Address> Update(int id, AddressEditRequest request);
+        Task<List<ProvinceVM>> LoadProvince();
+
+        Task<List<DistrictVM>> LoadDistrict(int id);
+
+        Task<List<WardVM>> LoadWard(int id);
     }
 }

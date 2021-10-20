@@ -2,6 +2,7 @@ using MemberManagement.ViewModels.UserViewModels;
 using MenaberManagement.Admin.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -27,20 +28,25 @@ namespace MenaberManagement.Admin
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors(options => options.AddPolicy("AllowAll", p => p.AllowAnyOrigin()
+                                                                   .AllowAnyMethod()
+                                                                    .AllowAnyHeader()));
+
+
             services.AddHttpClient();
-            
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+               .AddCookie(options =>
+               {
+                   options.LoginPath = "/Login/Index/";
+                   options.AccessDeniedPath = "/Login/Forbidden/";
+               });
             services.AddRazorPages()
                 .AddRazorRuntimeCompilation();
             services.AddControllersWithViews();
             services.AddSession(op => {
                 op.IdleTimeout = TimeSpan.FromMinutes(30);
             });
-            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-                .AddCookie(options =>
-                {
-                    options.LoginPath = "/Login/Index/";
-                    options.AccessDeniedPath = "/Login/Forbidden/";
-                });
+           
             services.AddTransient<IHttpContextAccessor, HttpContextAccessor>();
 
             services.AddTransient<IUserApiClient, UserApiClient>();
@@ -57,6 +63,8 @@ namespace MenaberManagement.Admin
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.UseCors("AllowAll");
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -81,6 +89,8 @@ namespace MenaberManagement.Admin
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
             });
+
+            
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using MemberManagement.ViewModels.Common;
+﻿using MemberManagement.ViewModels.AddressViewModels;
+using MemberManagement.ViewModels.Common;
 using MemberManagement.ViewModels.ContactViewModels;
 using System;
 using System.Collections.Generic;
@@ -18,5 +19,7 @@ namespace MenaberManagement.Admin.Services
         Task<bool> Delete(int id);
 
         Task<List<ContactVM>> GetAll();
+
+       
     }
 }
