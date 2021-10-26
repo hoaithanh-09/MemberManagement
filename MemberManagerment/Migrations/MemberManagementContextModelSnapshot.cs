@@ -209,6 +209,20 @@ namespace MemberManagement.Data.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
+            modelBuilder.Entity("MemberManagement.Data.Entities.Author", b =>
+                {
+                    b.Property<int>("Id")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Author");
+                });
+
             modelBuilder.Entity("MemberManagement.Data.Entities.Contact", b =>
                 {
                     b.Property<int>("Id")
@@ -344,9 +358,7 @@ namespace MemberManagement.Data.Migrations
             modelBuilder.Entity("MemberManagement.Data.Entities.Image", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
 
                     b.Property<DateTime?>("DateCreated")
                         .HasColumnType("datetime2");
@@ -356,11 +368,28 @@ namespace MemberManagement.Data.Migrations
 
                     b.Property<string>("ImagePath")
                         .HasMaxLength(2000)
-                        .HasColumnType("nvarchar(2000)");
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(2000)");
 
                     b.HasKey("Id");
 
                     b.ToTable("Image");
+                });
+
+            modelBuilder.Entity("MemberManagement.Data.Entities.ImageInPost", b =>
+                {
+                    b.Property<int>("ImageId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("PostId")
+                        .HasColumnType("int");
+
+                    b.HasKey("ImageId", "PostId")
+                        .HasName("PK__ImageInP__EFB7D10D89F1BD63");
+
+                    b.HasIndex("PostId");
+
+                    b.ToTable("ImageInPost");
                 });
 
             modelBuilder.Entity("MemberManagement.Data.Entities.Member", b =>
@@ -475,46 +504,51 @@ namespace MemberManagement.Data.Migrations
             modelBuilder.Entity("MemberManagement.Data.Entities.Post", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("AuthorId")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2");
+                    b.Property<int?>("AppUserId")
+                        .HasColumnType("int");
 
-                    b.Property<DateTime>("ModifiedDate")
-                        .HasColumnType("datetime2");
+                    b.Property<int?>("AuthorId")
+                        .HasColumnType("int");
 
-                    b.Property<string>("Text")
+                    b.Property<string>("Content")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Titel")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<DateTime?>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("ModifiedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(450)
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("AppUserId");
 
                     b.HasIndex(new[] { "AuthorId" }, "IX_Post_AuthorId");
 
                     b.ToTable("Post");
                 });
 
-            modelBuilder.Entity("MemberManagement.Data.Entities.PostImage", b =>
+            modelBuilder.Entity("MemberManagement.Data.Entities.PostInTopic", b =>
                 {
+                    b.Property<int>("TopicId")
+                        .HasColumnType("int");
+
                     b.Property<int>("PostId")
                         .HasColumnType("int");
 
-                    b.Property<int>("ImageId")
-                        .HasColumnType("int");
+                    b.HasKey("TopicId", "PostId")
+                        .HasName("PK__PostInTo__988F295C94CE6EA5");
 
-                    b.HasKey("PostId", "ImageId")
-                        .HasName("PK__Post_Image__B45FE7F9811444D9");
+                    b.HasIndex("PostId");
 
-                    b.HasIndex("ImageId");
-
-                    b.ToTable("Post_Image");
+                    b.ToTable("PostInTopic");
                 });
 
             modelBuilder.Entity("MemberManagement.Data.Entities.Province", b =>
@@ -599,6 +633,27 @@ namespace MemberManagement.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Skill");
+                });
+
+            modelBuilder.Entity("MemberManagement.Data.Entities.Topic", b =>
+                {
+                    b.Property<int>("Id")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(450)
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Topic");
                 });
 
             modelBuilder.Entity("MemberManagement.Data.Entities.Ward", b =>
@@ -774,6 +829,25 @@ namespace MemberManagement.Data.Migrations
                     b.Navigation("Province");
                 });
 
+            modelBuilder.Entity("MemberManagement.Data.Entities.ImageInPost", b =>
+                {
+                    b.HasOne("MemberManagement.Data.Entities.Image", "Image")
+                        .WithMany("ImageInPosts")
+                        .HasForeignKey("ImageId")
+                        .HasConstraintName("FK__ImageInPo__Image__5FB337D6")
+                        .IsRequired();
+
+                    b.HasOne("MemberManagement.Data.Entities.Post", "Post")
+                        .WithMany("ImageInPosts")
+                        .HasForeignKey("PostId")
+                        .HasConstraintName("FK__ImageInPo__PostI__60A75C0F")
+                        .IsRequired();
+
+                    b.Navigation("Image");
+
+                    b.Navigation("Post");
+                });
+
             modelBuilder.Entity("MemberManagement.Data.Entities.Member", b =>
                 {
                     b.HasOne("MemberManagement.Data.Entities.Family", "Family")
@@ -814,32 +888,35 @@ namespace MemberManagement.Data.Migrations
 
             modelBuilder.Entity("MemberManagement.Data.Entities.Post", b =>
                 {
-                    b.HasOne("MemberManagement.Data.Entities.AppUser", "Author")
+                    b.HasOne("MemberManagement.Data.Entities.AppUser", null)
+                        .WithMany("Posts")
+                        .HasForeignKey("AppUserId");
+
+                    b.HasOne("MemberManagement.Data.Entities.Author", "Author")
                         .WithMany("Posts")
                         .HasForeignKey("AuthorId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasConstraintName("FK__Post__AuthorId__5CD6CB2B");
 
                     b.Navigation("Author");
                 });
 
-            modelBuilder.Entity("MemberManagement.Data.Entities.PostImage", b =>
+            modelBuilder.Entity("MemberManagement.Data.Entities.PostInTopic", b =>
                 {
-                    b.HasOne("MemberManagement.Data.Entities.Image", "Image")
-                        .WithMany("PostImages")
-                        .HasForeignKey("ImageId")
-                        .HasConstraintName("FK__Role_Image__PostI__59063A47")
-                        .IsRequired();
-
                     b.HasOne("MemberManagement.Data.Entities.Post", "Post")
-                        .WithMany("PostImages")
+                        .WithMany("PostInTopics")
                         .HasForeignKey("PostId")
-                        .HasConstraintName("FK__Role_Post__Image__5812160E")
+                        .HasConstraintName("FK__PostInTop__PostI__6477ECF3")
                         .IsRequired();
 
-                    b.Navigation("Image");
+                    b.HasOne("MemberManagement.Data.Entities.Topic", "Topic")
+                        .WithMany("PostInTopics")
+                        .HasForeignKey("TopicId")
+                        .HasConstraintName("FK__PostInTop__Topic__6383C8BA")
+                        .IsRequired();
 
                     b.Navigation("Post");
+
+                    b.Navigation("Topic");
                 });
 
             modelBuilder.Entity("MemberManagement.Data.Entities.RoleMember", b =>
@@ -935,6 +1012,11 @@ namespace MemberManagement.Data.Migrations
                     b.Navigation("Posts");
                 });
 
+            modelBuilder.Entity("MemberManagement.Data.Entities.Author", b =>
+                {
+                    b.Navigation("Posts");
+                });
+
             modelBuilder.Entity("MemberManagement.Data.Entities.Contact", b =>
                 {
                     b.Navigation("ContactMembers");
@@ -957,7 +1039,7 @@ namespace MemberManagement.Data.Migrations
 
             modelBuilder.Entity("MemberManagement.Data.Entities.Image", b =>
                 {
-                    b.Navigation("PostImages");
+                    b.Navigation("ImageInPosts");
                 });
 
             modelBuilder.Entity("MemberManagement.Data.Entities.Member", b =>
@@ -973,7 +1055,9 @@ namespace MemberManagement.Data.Migrations
 
             modelBuilder.Entity("MemberManagement.Data.Entities.Post", b =>
                 {
-                    b.Navigation("PostImages");
+                    b.Navigation("ImageInPosts");
+
+                    b.Navigation("PostInTopics");
                 });
 
             modelBuilder.Entity("MemberManagement.Data.Entities.Province", b =>
@@ -984,6 +1068,11 @@ namespace MemberManagement.Data.Migrations
             modelBuilder.Entity("MemberManagement.Data.Entities.Roles", b =>
                 {
                     b.Navigation("RoleMembers");
+                });
+
+            modelBuilder.Entity("MemberManagement.Data.Entities.Topic", b =>
+                {
+                    b.Navigation("PostInTopics");
                 });
 #pragma warning restore 612, 618
         }

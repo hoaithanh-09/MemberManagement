@@ -5,23 +5,18 @@ using System.Collections.Generic;
 
 namespace MemberManagement.Data.Entities
 {
-    public partial class Post
+    public partial class Topic
     {
-        public Post()
+        public Topic()
         {
-            ImageInPosts = new HashSet<ImageInPost>();
             PostInTopics = new HashSet<PostInTopic>();
         }
 
         public int Id { get; set; }
         public string Title { get; set; }
         public DateTime? CreatedDate { get; set; }
-        public DateTime? ModifiedDate { get; set; }
-        public int? AuthorId { get; set; }
-        public string Content { get; set; }
+        public string Description { get; set; }
 
-        public virtual Author Author { get; set; }
-        public virtual ICollection<ImageInPost> ImageInPosts { get; set; }
         public virtual ICollection<PostInTopic> PostInTopics { get; set; }
     }
 }

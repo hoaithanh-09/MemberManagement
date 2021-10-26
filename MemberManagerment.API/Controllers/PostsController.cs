@@ -6,12 +6,12 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newspaper.ViewModels.PostViewModels;
 
-namespace Newspaper.API.Controllers
+namespace MemberManagement.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
 
-    public class PostsController : ControllerBase
+    public class PostsController: ControllerBase
     {
         private readonly IPostSV _postSV;
         //dd
@@ -66,13 +66,13 @@ namespace Newspaper.API.Controllers
         }
         //add ImageInPost
         [HttpPost("Add ImageInPost")]
-        public async Task<ActionResult> AddImage([FromRoute] int id, [FromBody] ImageInPostCreateRequest request)
+        public async Task<ActionResult> AddImage([FromRoute] int id,[FromBody] ImageInPostCreateRequest request)
         {
-            var post = await _postSV.AddImage(id, request);
+            var post = await _postSV.AddImage(id,request);
             return Ok(post);
         }
 
     }
-
+    
 }
 

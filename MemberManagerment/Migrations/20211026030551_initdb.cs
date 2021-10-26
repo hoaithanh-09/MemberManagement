@@ -3,10 +3,14 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace MemberManagement.Data.Migrations
 {
-    public partial class init : Migration
+    public partial class initdb : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            //migrationBuilder.DropTable(
+            //    name: "Address_Member");
+            //migrationBuilder.DropTable(
+            //    name: "Address");
             migrationBuilder.CreateTable(
                 name: "Address",
                 columns: table => new
@@ -73,6 +77,18 @@ namespace MemberManagement.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Author",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Author", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Contact",
                 columns: table => new
                 {
@@ -125,9 +141,8 @@ namespace MemberManagement.Data.Migrations
                 name: "Image",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    ImagePath = table.Column<string>(type: "nvarchar(2000)", maxLength: 2000, nullable: true),
+                    Id = table.Column<int>(type: "int", nullable: false),
+                    ImagePath = table.Column<string>(type: "varchar(2000)", unicode: false, maxLength: 2000, nullable: true),
                     DateCreated = table.Column<DateTime>(type: "datetime2", nullable: true),
                     FileSize = table.Column<long>(type: "bigint", nullable: true)
                 },
@@ -148,6 +163,19 @@ namespace MemberManagement.Data.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_NotificationType", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Province",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Province", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -179,6 +207,20 @@ namespace MemberManagement.Data.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Skill", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Topic",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false),
+                    Title = table.Column<string>(type: "nvarchar(450)", maxLength: 450, nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Topic", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -291,24 +333,29 @@ namespace MemberManagement.Data.Migrations
                 name: "Post",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    AuthorId = table.Column<int>(type: "int", nullable: false),
-                    Longitude = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Latitude = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Text = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Id = table.Column<int>(type: "int", nullable: false),
+                    Title = table.Column<string>(type: "nvarchar(450)", maxLength: 450, nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    ModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    AuthorId = table.Column<int>(type: "int", nullable: true),
+                    Content = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    AppUserId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Post", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Post_AspNetUsers_AuthorId",
+                        name: "FK__Post__AuthorId__5CD6CB2B",
                         column: x => x.AuthorId,
+                        principalTable: "Author",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Post_AspNetUsers_AppUserId",
+                        column: x => x.AppUserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -323,16 +370,13 @@ namespace MemberManagement.Data.Migrations
                     Birth = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Gender = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false),
                     JoinDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ImageId = table.Column<string>(type: "nvarchar(450)", maxLength: 450, nullable: false),
                     IDCard = table.Column<string>(type: "varchar(50)", unicode: false, maxLength: 50, nullable: true),
                     notes = table.Column<string>(type: "nvarchar(450)", maxLength: 450, nullable: true),
-                    FullName = table.Column<string>(type: "nvarchar(450)", maxLength: 450, nullable: false),
                     Nickname = table.Column<string>(type: "nvarchar(254)", maxLength: 254, nullable: true),
                     PersonalTtles = table.Column<string>(type: "varchar(450)", unicode: false, maxLength: 450, nullable: true),
                     Email = table.Column<string>(type: "varchar(450)", unicode: false, maxLength: 450, nullable: false),
                     PhoneNumber = table.Column<string>(type: "varchar(15)", unicode: false, maxLength: 15, nullable: true),
-                    Word = table.Column<string>(type: "varchar(450)", unicode: false, maxLength: 450, nullable: true),
-                    UserName = table.Column<string>(type: "varchar(100)", unicode: false, maxLength: 100, nullable: true)
+                    Word = table.Column<string>(type: "varchar(450)", unicode: false, maxLength: 450, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -347,6 +391,74 @@ namespace MemberManagement.Data.Migrations
                         name: "FK__Member__GroupId__5629CD9C",
                         column: x => x.GroupId,
                         principalTable: "Groups",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "District",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    ProvinceId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_District", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK__District__ProvinceId__5535A963",
+                        column: x => x.ProvinceId,
+                        principalTable: "Province",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ImageInPost",
+                columns: table => new
+                {
+                    ImageId = table.Column<int>(type: "int", nullable: false),
+                    PostId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK__ImageInP__EFB7D10D89F1BD63", x => new { x.ImageId, x.PostId });
+                    table.ForeignKey(
+                        name: "FK__ImageInPo__Image__5FB337D6",
+                        column: x => x.ImageId,
+                        principalTable: "Image",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK__ImageInPo__PostI__60A75C0F",
+                        column: x => x.PostId,
+                        principalTable: "Post",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "PostInTopic",
+                columns: table => new
+                {
+                    TopicId = table.Column<int>(type: "int", nullable: false),
+                    PostId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK__PostInTo__988F295C94CE6EA5", x => new { x.TopicId, x.PostId });
+                    table.ForeignKey(
+                        name: "FK__PostInTop__PostI__6477ECF3",
+                        column: x => x.PostId,
+                        principalTable: "Post",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK__PostInTop__Topic__6383C8BA",
+                        column: x => x.TopicId,
+                        principalTable: "Topic",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -447,6 +559,26 @@ namespace MemberManagement.Data.Migrations
                         onDelete: ReferentialAction.Restrict);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Ward",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    DistrictId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Ward", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK__Ward__DistrictId__5535A963",
+                        column: x => x.DistrictId,
+                        principalTable: "District",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_Address_Member_AddressId",
                 table: "Address_Member",
@@ -497,6 +629,16 @@ namespace MemberManagement.Data.Migrations
                 column: "ContactId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_District_ProvinceId",
+                table: "District",
+                column: "ProvinceId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ImageInPost_PostId",
+                table: "ImageInPost",
+                column: "PostId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Member_FamilyId",
                 table: "Member",
                 column: "FamilyId");
@@ -512,14 +654,29 @@ namespace MemberManagement.Data.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Post_AppUserId",
+                table: "Post",
+                column: "AppUserId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Post_AuthorId",
                 table: "Post",
                 column: "AuthorId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_PostInTopic_PostId",
+                table: "PostInTopic",
+                column: "PostId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Role_Member_RoleId",
                 table: "Role_Member",
                 column: "RoleId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Ward_DistrictId",
+                table: "Ward",
+                column: "DistrictId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -546,7 +703,7 @@ namespace MemberManagement.Data.Migrations
                 name: "Contact_Member");
 
             migrationBuilder.DropTable(
-                name: "Image");
+                name: "ImageInPost");
 
             migrationBuilder.DropTable(
                 name: "MemberUSer");
@@ -555,13 +712,16 @@ namespace MemberManagement.Data.Migrations
                 name: "NotificationType");
 
             migrationBuilder.DropTable(
-                name: "Post");
+                name: "PostInTopic");
 
             migrationBuilder.DropTable(
                 name: "Role_Member");
 
             migrationBuilder.DropTable(
                 name: "Skill");
+
+            migrationBuilder.DropTable(
+                name: "Ward");
 
             migrationBuilder.DropTable(
                 name: "Address");
@@ -573,7 +733,13 @@ namespace MemberManagement.Data.Migrations
                 name: "Contact");
 
             migrationBuilder.DropTable(
-                name: "AspNetUsers");
+                name: "Image");
+
+            migrationBuilder.DropTable(
+                name: "Post");
+
+            migrationBuilder.DropTable(
+                name: "Topic");
 
             migrationBuilder.DropTable(
                 name: "Member");
@@ -582,10 +748,22 @@ namespace MemberManagement.Data.Migrations
                 name: "Roles");
 
             migrationBuilder.DropTable(
+                name: "District");
+
+            migrationBuilder.DropTable(
+                name: "Author");
+
+            migrationBuilder.DropTable(
+                name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
                 name: "Family");
 
             migrationBuilder.DropTable(
                 name: "Groups");
+
+            migrationBuilder.DropTable(
+                name: "Province");
         }
     }
 }

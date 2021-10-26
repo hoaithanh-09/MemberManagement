@@ -25,15 +25,22 @@ namespace MemberManagerment.Data.EF
         public virtual DbSet<ContactMember> ContactMembers { get; set; }
         public virtual DbSet<Family> Families { get; set; }
         public virtual DbSet<Group> Groups { get; set; }
-        public virtual DbSet<Image> Images { get; set; }
         public virtual DbSet<Member> Members { get; set; }
         public virtual DbSet<Roles> Roless { get; set; }
         public virtual DbSet<RoleMember> RoleMembers { get; set; }
         public virtual DbSet<Post> Postes { get; set; }
+       
 
         public virtual DbSet<Province> Provinces { get; set; }
 
         public virtual DbSet<District> Districts { get; set; }
+
+        public virtual DbSet<Author> Authors { get; set; }
+        public virtual DbSet<Image> Images { get; set; }
+        public virtual DbSet<ImageInPost> ImageInPosts { get; set; }
+        public virtual DbSet<Post> Posts { get; set; }
+        public virtual DbSet<PostInTopic> PostInTopics { get; set; }
+        public virtual DbSet<Topic> Topics { get; set; }
 
         public virtual DbSet<Ward> Wards { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -374,24 +381,91 @@ namespace MemberManagerment.Data.EF
                     .HasConstraintName("FK__Role_Memb__RoleI__59063A47");
             });
 
-            modelBuilder.Entity<PostImage>(entity =>
+            modelBuilder.Entity<Author>(entity =>
             {
-                entity.HasKey(e => new { e.PostId, e.ImageId })
-                    .HasName("PK__Post_Image__B45FE7F9811444D9");
+                entity.ToTable("Author");
 
-                entity.ToTable("Post_Image");
+                entity.Property(e => e.Id).ValueGeneratedNever();
 
-                entity.HasOne(d => d.Post)
-                    .WithMany(p => p.PostImages)
-                    .HasForeignKey(d => d.PostId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Role_Post__Image__5812160E");
+                entity.Property(e => e.Name).HasMaxLength(150);
+            });
+
+            modelBuilder.Entity<Image>(entity =>
+            {
+                entity.ToTable("Image");
+
+                entity.Property(e => e.Id).ValueGeneratedNever();
+
+                entity.Property(e => e.ImagePath)
+                    .HasMaxLength(2000)
+                    .IsUnicode(false);
+            });
+
+            modelBuilder.Entity<ImageInPost>(entity =>
+            {
+                entity.HasKey(e => new { e.ImageId, e.PostId })
+                    .HasName("PK__ImageInP__EFB7D10D89F1BD63");
+
+                entity.ToTable("ImageInPost");
 
                 entity.HasOne(d => d.Image)
-                    .WithMany(p => p.PostImages)
+                    .WithMany(p => p.ImageInPosts)
                     .HasForeignKey(d => d.ImageId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Role_Image__PostI__59063A47");
+                    .HasConstraintName("FK__ImageInPo__Image__5FB337D6");
+
+                entity.HasOne(d => d.Post)
+                    .WithMany(p => p.ImageInPosts)
+                    .HasForeignKey(d => d.PostId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK__ImageInPo__PostI__60A75C0F");
+            });
+
+            modelBuilder.Entity<Post>(entity =>
+            {
+                entity.ToTable("Post");
+
+                entity.Property(e => e.Id).ValueGeneratedNever();
+
+                entity.Property(e => e.Title)
+                    .IsRequired()
+                    .HasMaxLength(450);
+
+                entity.HasOne(d => d.Author)
+                    .WithMany(p => p.Posts)
+                    .HasForeignKey(d => d.AuthorId)
+                    .HasConstraintName("FK__Post__AuthorId__5CD6CB2B");
+            });
+
+            modelBuilder.Entity<PostInTopic>(entity =>
+            {
+                entity.HasKey(e => new { e.TopicId, e.PostId })
+                    .HasName("PK__PostInTo__988F295C94CE6EA5");
+
+                entity.ToTable("PostInTopic");
+
+                entity.HasOne(d => d.Post)
+                    .WithMany(p => p.PostInTopics)
+                    .HasForeignKey(d => d.PostId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK__PostInTop__PostI__6477ECF3");
+
+                entity.HasOne(d => d.Topic)
+                    .WithMany(p => p.PostInTopics)
+                    .HasForeignKey(d => d.TopicId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK__PostInTop__Topic__6383C8BA");
+            });
+
+            modelBuilder.Entity<Topic>(entity =>
+            {
+                entity.ToTable("Topic");
+
+                entity.Property(e => e.Id).ValueGeneratedNever();
+
+                entity.Property(e => e.Title)
+                    .IsRequired()
+                    .HasMaxLength(450);
             });
 
             modelBuilder.Entity<Skill>(entity =>
@@ -403,6 +477,7 @@ namespace MemberManagerment.Data.EF
             base.OnModelCreating(modelBuilder);
 
         }
+
 
     }
 }

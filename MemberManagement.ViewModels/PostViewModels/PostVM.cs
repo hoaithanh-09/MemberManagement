@@ -1,15 +1,25 @@
-﻿using System;
+﻿
+using MemberManagement.ViewModels.AuthorViewModels;
+using MemberManagement.ViewModels.ImageInPostViewModels;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
-namespace MemberManagement.ViewModels.PostViewModels
+namespace Newspaper.ViewModels.PostViewModels
 {
-   public class PostVM
+    public class PostVM
     {
-        public int UserId { get; set; }
-        public string Titel { get; set; }
-        public DateTime CreatedDate { get; set; }
-        public DateTime ModifiedDate { get; set; }
-        public string Text { get; set; }
+        public int Id { get; set; }
+        public string Title { get; set; }
+        public DateTime? CreatedDate { get; set; }
+        public DateTime? ModifiedDate { get; set; }
+        public int? AuthorId { get; set; }
+        public string Content { get; set; }
+
+        public ImageInPostVM ImageInPosts { get; set; }
+        public AuthorVM AuthorVMs { get; set; }
+
     }
 }
