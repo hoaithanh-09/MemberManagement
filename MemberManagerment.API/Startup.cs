@@ -1,14 +1,18 @@
 using MemberManagement.Data.Entities;
 using MemberManagement.Services.Addresses;
+using MemberManagement.Services.Authors;
 using MemberManagement.Services.Contacts;
 using MemberManagement.Services.Families;
 using MemberManagement.Services.Groups;
+using MemberManagement.Services.Images;
 using MemberManagement.Services.Members;
 using MemberManagement.Services.Posts;
 using MemberManagement.Services.Roles;
 using MemberManagement.Services.RolesApp;
+using MemberManagement.Services.Topics;
 using MemberManagement.Services.User;
 using MemberManagerment.Data.EF;
+using MenaberManagement.Admin.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -93,6 +97,9 @@ namespace MemberManagerment.API
             services.AddTransient<UserManager<AppUser>, UserManager<AppUser>>();
             services.AddTransient<SignInManager<AppUser>, SignInManager<AppUser>>();
             services.AddTransient<RoleManager<AppRole>, RoleManager<AppRole>>();
+            services.AddTransient<IAuthorSV, AuthorSV>();
+            services.AddTransient<IImageSV, ImageSV>();
+            services.AddTransient<ITopicSV, TopicSV>();
             services.AddAuthentication(op =>
             {
                 op.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;

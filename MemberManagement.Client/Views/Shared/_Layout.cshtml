@@ -17,16 +17,16 @@
         <ul id="nav">
             <li><a asp-area="" asp-controller="Home" asp-action="Index">Trang chủ</a></li>
             <li><a asp-area="" asp-controller="Home" asp-action="List_Intro">Giới thiệu</a></li>
-            <li><a asp-area="" asp-controller="Home" asp-action="List_Activities">Hoạt động</a></li>
+            <li><a asp-area="" asp-controller="post" asp-action="details">Hoạt động</a></li>
             <li>
                 <a href="">
                     Tin tức - Sự kiện
                     <i class="nav-arrow-down ti-angle-down"></i>
                 </a>
                 <ul class="subnav">
-                    <li><a asp-area="" asp-controller="Home" asp-action="Index">Tin nổi bật</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="Index">Hợp tác đầu tư</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="Index">Kinh tế</a></li>
+                    <li><a asp-area="" asp-controller="" asp-action="">Tin nổi bật</a></li>
+                    <li><a asp-area="" asp-controller="Home" asp-action="introduction">Hợp tác đầu tư</a></li>
+                    <li><a asp-area="" asp-controller="Home" asp-action="regulatioj">Kinh tế</a></li>
                     <li><a asp-area="" asp-controller="Home" asp-action="Index">Nhân đạo-Xã hội</a></li>
                 </ul>
             </li>
@@ -189,6 +189,9 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
-    @await RenderSectionAsync("Scripts", required: false)
+    @if (IsSectionDefined("scripts"))
+    {
+        RenderSection("scripts");
+    }
 </body>
 </html>

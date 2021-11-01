@@ -8,9 +8,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace MenaberManagement.Admin.Controllers
+namespace MenaberManagement.Client.Controllers
 {
-    public class ImageController:BaseController
+    public class ImageController:Controller
     {
         private readonly IImageApi _iImageApi;
         private readonly IConfiguration _configuration;

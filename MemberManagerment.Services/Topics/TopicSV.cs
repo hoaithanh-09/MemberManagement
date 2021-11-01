@@ -3,6 +3,7 @@ using ManaberManagement.Utilities;
 using MemberManagement.Data.Entities;
 using MemberManagement.ViewModels.Common;
 using MemberManagement.ViewModels.PostInTopicViewModels;
+using MemberManagement.ViewModels.PostViewModels;
 using MemberManagement.ViewModels.TopicViewModels;
 using MemberManagerment.Data.EF;
 using Microsoft.EntityFrameworkCore;

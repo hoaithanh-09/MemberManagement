@@ -11,6 +11,7 @@ using MemberManagement.ViewModels.ImageInPostViewModels;
 using MemberManagement.ViewModels.Common;
 using MemberManagement.Data.Entities;
 using MemberManagement.ViewModels.ImageViewModels;
+using MemberManagement.ViewModels.PostViewModels;
 
 namespace MemberManagement.Services.Posts
 {

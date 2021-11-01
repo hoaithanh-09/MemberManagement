@@ -1,4 +1,5 @@
-﻿using MenaberManagement.Admin.Services;
+﻿using MemberManagement.ViewModels.PostViewModels;
+using MenaberManagement.Admin.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Configuration;

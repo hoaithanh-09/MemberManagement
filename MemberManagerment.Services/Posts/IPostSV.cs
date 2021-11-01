@@ -3,6 +3,7 @@ using MemberManagement.Data.Entities;
 using MemberManagement.ViewModels.AuthorViewModels;
 using MemberManagement.ViewModels.Common;
 using MemberManagement.ViewModels.ImageInPostViewModels;
+using MemberManagement.ViewModels.PostViewModels;
 using Newspaper.ViewModels.PostViewModels;
 using System;
 using System.Collections.Generic;

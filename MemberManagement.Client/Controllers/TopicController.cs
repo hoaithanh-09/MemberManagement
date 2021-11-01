@@ -8,9 +8,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace MenaberManagement.Admin.Controllers
+namespace MenaberManagement.Client.Controllers
 {
-    public class TopicController:BaseController
+    public class TopicController:Controller
     {
         private readonly ITopicApi _iTopicApi;
         private readonly IConfiguration _configuration;

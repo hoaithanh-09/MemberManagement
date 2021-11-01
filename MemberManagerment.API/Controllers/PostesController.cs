@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using MemberManagement.Services.Posts;
 using MemberManagement.ViewModels.ImageInPostViewModels;
+using MemberManagement.ViewModels.PostViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newspaper.ViewModels.PostViewModels;
@@ -11,11 +12,11 @@ namespace Newspaper.API.Controllers
     [Route("api/[controller]")]
     [ApiController]
 
-    public class PostsController : ControllerBase
+    public class PostesController : ControllerBase
     {
         private readonly IPostSV _postSV;
         //dd
-        public PostsController(IPostSV postSV)
+        public PostesController(IPostSV postSV)
         {
             _postSV = postSV;
         }

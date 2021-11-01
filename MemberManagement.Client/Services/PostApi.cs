@@ -1,5 +1,6 @@
 ﻿using ManaberManagement.Utilities;
 using MemberManagement.ViewModels.Common;
+using MemberManagement.ViewModels.PostViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Newspaper.ViewModels.PostViewModels;
@@ -30,23 +31,17 @@ namespace MenaberManagement.Client.Services
             _httpClientFactory = httpClientFactory;
         }
 
-        public async Task<List<PostVM>> GetAll()
+        public async Task<PagedResult<PostVM>> GetPostPaging(GetPostPagingRequest request)
         {
-            var client = _httpClientFactory.CreateClient();
-            var sessions = _httpContextAccessor.HttpContext.Session.GetString("JWT");
-
-            client.BaseAddress = new Uri(_configuration["BaseAddress"]);
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", sessions);
-            var response = await client.GetAsync($"/api/Posts/GetALlPost");
-            var body = await response.Content.ReadAsStringAsync();
-            var post = JsonConvert.DeserializeObject<List<PostVM>>(body);
-            return post;
+            var data = await GetAsync<PagedResult<PostVM>>(
+             $"/api/Posts/pagingPost?pageIndex=" +
+               $"{request.PageIndex}&pageSize={request.PageSize}&keyword={request.Keyword}");
+            return data;
         }
-
         public async  Task<PostVM> GetById(int id)
         {
             var data = await GetAsync<PostVM>(
-             $"/api/Posts/GetByIdPost/{id}");
+             $"api/Posts/GetByIdPost/{id}");
 
             return data;
         }       

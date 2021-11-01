@@ -1,5 +1,7 @@
+using MenaberManagement.Client.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -23,7 +25,24 @@ namespace MemberManagement.Client
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+
+            services.AddCors(options => options.AddPolicy("AllowAll", p => p.AllowAnyOrigin()
+                                                                 .AllowAnyMethod()
+                                                                  .AllowAnyHeader()));
+
+            services.AddHttpClient();
             services.AddControllersWithViews();
+            services.AddTransient<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddTransient<IAuthorApi, AuthorApi>();
+            services.AddTransient<IImageApi, ImageApi>();
+            services.AddTransient<IPostApi, PostApi>();
+            services.AddTransient<ITopicApi, TopicApi>();
+            IMvcBuilder builder = services.AddRazorPages();
+
+            services.AddControllersWithViews();
+            services.AddSession(op => {
+                op.IdleTimeout = TimeSpan.FromMinutes(30);
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -41,17 +60,26 @@ namespace MemberManagement.Client
             }
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-
             app.UseRouting();
-
+            app.UseSession();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
+                  name: "Product Detail Vn",
+                  pattern: "post/{id}", new
+                  {
+                      controller = "Post",
+                      action = "Details"
+                  });
+
+                endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
+                
             });
+            
         }
     }
 }

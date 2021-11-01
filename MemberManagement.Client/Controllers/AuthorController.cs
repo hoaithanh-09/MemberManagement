@@ -9,9 +9,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace MenaberManagement.Admin.Controllers
+namespace MenaberManagement.Client.Controllers
 {
-    public class AuthorController : BaseController
+    public class AuthorController :Controller
     {
         private readonly IAuthorApi _authorApi;
         private readonly IConfiguration _configuration;

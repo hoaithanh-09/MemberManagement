@@ -1,9 +1,11 @@
 ﻿using MemberManagement.Client.Models;
+using MenaberManagement.Client.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -12,10 +14,12 @@ namespace MemberManagement.Client.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly IPostApi _iPostApi;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, IPostApi iPostApi)
         {
             _logger = logger;
+            _iPostApi = iPostApi;
         }
 
         public IActionResult Index()
@@ -31,10 +35,6 @@ namespace MemberManagement.Client.Controllers
         {
             return View();
         }
-        public IActionResult List_Activities()
-        {
-            return View();
-        }
         public IActionResult Introduction()
         {
             return View();
@@ -43,7 +43,17 @@ namespace MemberManagement.Client.Controllers
         {
             return View();
         }
-      
+
+        /*public async Task<IActionResult> List_Activities()
+        {
+            var culture = CultureInfo.CurrentCulture.Name;
+            var viewModel = new HomeViewModel
+            {
+                Slides = await _slideApiClient.GetAll(),
+                FeaturedProducts = await _productApiClient.GetFeaturedProducts(culture, SystemConstants.ProductSettings.NumberOfFeaturedProducts),
+                LatestProducts = await _productApiClient.GetLatestProducts(culture, SystemConstants.ProductSettings.NumberOfLatestProducts),
+            };
+        }*/
 
 
 

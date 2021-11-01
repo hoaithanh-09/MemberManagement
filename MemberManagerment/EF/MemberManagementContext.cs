@@ -43,6 +43,10 @@ namespace MemberManagerment.Data.EF
         public virtual DbSet<Topic> Topics { get; set; }
 
         public virtual DbSet<Ward> Wards { get; set; }
+        public virtual DbSet<Activity> Activities { get; set; }
+        public virtual DbSet<ActivityMember> ActivityMembers { get; set; }
+        public virtual DbSet<Fund> Funds { get; set; }
+        public virtual DbSet<FundMember> FundMembers { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.HasAnnotation("Relational:Collation", "Latin1_General_CI_AS");
@@ -473,6 +477,71 @@ namespace MemberManagerment.Data.EF
                 entity.ToTable("Skill");
 
                 entity.Property(e => e.Name).HasMaxLength(50);
+            });
+
+            modelBuilder.Entity<Activity>(entity =>
+            {
+                entity.ToTable("Activity");
+
+                entity.Property(e => e.Id).ValueGeneratedNever();
+
+                entity.Property(e => e.Name)
+                    .IsRequired()
+                    .HasMaxLength(50);
+            });
+
+            modelBuilder.Entity<ActivityMember>(entity =>
+            {
+                entity.HasKey(e => new { e.MemberId, e.ActivityId })
+                    .HasName("PK__Activity__08AF016198F2F7A1");
+
+                entity.ToTable("ActivityMember");
+
+                entity.HasOne(d => d.Activity)
+                    .WithMany(p => p.ActivityMembers)
+                    .HasForeignKey(d => d.ActivityId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK__ActivityM__Activ__3B75D760");
+
+                entity.HasOne(d => d.Member)
+                    .WithMany(p => p.ActivityMembers)
+                    .HasForeignKey(d => d.MemberId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK__ActivityM__Membe__3A81B327");
+            });
+
+            modelBuilder.Entity<Fund>(entity =>
+            {
+                entity.ToTable("Fund");
+
+                entity.Property(e => e.Id).ValueGeneratedNever();
+
+                entity.Property(e => e.Name).HasMaxLength(50);
+            });
+
+            modelBuilder.Entity<FundMember>(entity =>
+            {
+                entity.HasKey(e => new { e.MemberId, e.FundId })
+                    .HasName("PK__FundMemb__B4C094DDE6A8989C");
+
+                entity.ToTable("FundMember");
+
+                entity.Property(e => e.Action)
+                    .HasMaxLength(10)
+                    .IsUnicode(false)
+                    .IsFixedLength(true);
+
+                entity.HasOne(d => d.Fund)
+                    .WithMany(p => p.FundMembers)
+                    .HasForeignKey(d => d.FundId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK__FundMembe__FundI__412EB0B6");
+
+                entity.HasOne(d => d.Member)
+                    .WithMany(p => p.FundMembers)
+                    .HasForeignKey(d => d.MemberId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK__FundMembe__Membe__403A8C7D");
             });
             base.OnModelCreating(modelBuilder);
 
