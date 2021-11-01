@@ -59,7 +59,7 @@ namespace MemberManagement.Services.Members
                 throw new MemberManagementException("Thông tin không hợp lệ");
             }
 
-            var contracMember = new ContactMember()
+            var contracMember = new ContactMembers()
             {
                 MemberId = request.MemberId,
                 ContactId = contact.Id,
@@ -110,27 +110,62 @@ namespace MemberManagement.Services.Members
             {
                 return new ApiErrorResult<string>("Chi hội không tồn lại");
             }
-          
-            member = new Member()
+            if (request.FamilyId == null || request.FamilyId == 0)
             {
-                Name = request.Name,
-                Gender = request.Gender,
-                Idcard = request.Idcard,
-                JoinDate = request.JoinDate,
-                Notes = request.Notes,
-                Family = family,
-                Group = group,
-                FamilyId = request.FamilyId,
-                GroupId = request.GroupId,
-                Birth = request.Birth,
-                Email = request.Email,
-                Word = request.Word,
-                PersonalTtles = request.PersonalTtles,
-                PhoneNumber = request.PhoneNumber,
-                Nickname = request.Nickname,
-                
-            };
+                var familyAdd = new Family()
+                {
+                    HousldRepre = request.Name,
+                    MumberMembers = 1,
+                    Number = 1,
+                    PhoneNumber = request.PhoneNumber,
+                    YearBirth = request.Birth,
+                };
+                _context.Add(familyAdd);
+                _context.SaveChanges();
+              
+                member = new Member()
+                {
+                    Name = request.Name,
+                    Gender = request.Gender,
+                    Idcard = request.Idcard,
+                    JoinDate = request.JoinDate,
+                    Notes = request.Notes,
+                    Family = family,
+                    Group = group,
+                    FamilyId = familyAdd.Id,
+                    GroupId = request.GroupId,
+                    Birth = request.Birth,
+                    Email = request.Email,
+                    Word = request.Word,
+                    PersonalTtles = request.PersonalTtles,
+                    PhoneNumber = request.PhoneNumber,
+                    Nickname = request.Nickname,
 
+                };
+            }
+            else
+            {
+                member = new Member()
+                {
+                    Name = request.Name,
+                    Gender = request.Gender,
+                    Idcard = request.Idcard,
+                    JoinDate = request.JoinDate,
+                    Notes = request.Notes,
+                    Family = family,
+                    Group = group,
+                    FamilyId = request.FamilyId,
+                    GroupId = request.GroupId,
+                    Birth = request.Birth,
+                    Email = request.Email,
+                    Word = request.Word,
+                    PersonalTtles = request.PersonalTtles,
+                    PhoneNumber = request.PhoneNumber,
+                    Nickname = request.Nickname,
+
+                };
+            }
+            
             if (request.IdAddress != 0)
             {
                 member.AddressMembers = new List<AddressMember>()
@@ -154,8 +189,8 @@ namespace MemberManagement.Services.Members
             }
             if (request.ContactId != 0)
             {
-                member.ContactMembers = new List<ContactMember>()
-                { new ContactMember()
+                member.ContactMembers = new List<ContactMembers>()
+                { new ContactMembers()
                     {
                         ContactId = request.ContactId,
                         MemberId = member.Id,

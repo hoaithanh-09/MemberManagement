@@ -10,7 +10,7 @@ namespace MemberManagement.Data.Entities
         public Member()
         {
             AddressMembers = new HashSet<AddressMember>();
-            ContactMembers = new HashSet<ContactMember>();
+            ContactMembers = new HashSet<ContactMembers>();
             MemberUsers = new HashSet<MemberUser>();
             RoleMembers = new HashSet<RoleMember>();
             ActivityMembers = new HashSet<ActivityMember>();
@@ -36,7 +36,7 @@ namespace MemberManagement.Data.Entities
         public virtual Family Family { get; set; }
         public virtual Group Group { get; set; }
         public virtual ICollection<AddressMember> AddressMembers { get; set; }
-        public virtual ICollection<ContactMember> ContactMembers { get; set; }
+        public virtual ICollection<ContactMembers> ContactMembers { get; set; }
         public virtual ICollection<MemberUser> MemberUsers { get; set; }
         public virtual ICollection<RoleMember> RoleMembers { get; set; }
         public virtual ICollection<ActivityMember> ActivityMembers { get; set; }

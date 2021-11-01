@@ -12,7 +12,6 @@ namespace MemberManagement.API.Controllers
     public class ContactsController : ControllerBase
     {
         private readonly IContactSV _contactSV;
-        //dd
         public ContactsController(IContactSV contactSV)
         {
             _contactSV = contactSV;
@@ -62,6 +61,11 @@ namespace MemberManagement.API.Controllers
             var family = await _contactSV.GetPagedResult(request);
             return Ok(family);
         }
-
+        [HttpGet("ListMember")]
+        public async Task<IActionResult> ListMember([FromQuery] GetContactPagingRequest request)
+        {
+            var family = await _contactSV.ListMember(request);
+            return Ok(family);
+        }
     }
 }

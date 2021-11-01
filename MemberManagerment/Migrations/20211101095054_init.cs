@@ -3,14 +3,26 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace MemberManagement.Data.Migrations
 {
-    public partial class initdb : Migration
+    public partial class init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            //migrationBuilder.DropTable(
-            //    name: "Address_Member");
-            //migrationBuilder.DropTable(
-            //    name: "Address");
+            migrationBuilder.CreateTable(
+                name: "Activity",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    Content = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Cost = table.Column<double>(type: "float", nullable: true),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Activity", x => x.Id);
+                });
+
             migrationBuilder.CreateTable(
                 name: "Address",
                 columns: table => new
@@ -119,6 +131,21 @@ namespace MemberManagement.Data.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Family", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Fund",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    TotalFund = table.Column<double>(type: "float", nullable: true),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Fund", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -464,6 +491,30 @@ namespace MemberManagement.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "ActivityMember",
+                columns: table => new
+                {
+                    MemberId = table.Column<int>(type: "int", nullable: false),
+                    ActivityId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK__Activity__08AF016198F2F7A1", x => new { x.MemberId, x.ActivityId });
+                    table.ForeignKey(
+                        name: "FK__ActivityM__Activ__3B75D760",
+                        column: x => x.ActivityId,
+                        principalTable: "Member",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK__ActivityM__Membe__3A81B327",
+                        column: x => x.MemberId,
+                        principalTable: "Activity",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Address_Member",
                 columns: table => new
                 {
@@ -491,12 +542,15 @@ namespace MemberManagement.Data.Migrations
                 name: "Contact_Member",
                 columns: table => new
                 {
+                    ID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    RoleId = table.Column<int>(type: "int", nullable: false),
                     MemberId = table.Column<int>(type: "int", nullable: false),
                     ContactId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK__Contact___A93629411CEAAEA7", x => new { x.MemberId, x.ContactId });
+                    table.PrimaryKey("PK_Contact_Member", x => x.ID);
                     table.ForeignKey(
                         name: "FK__Contact_M__Conta__534D60F1",
                         column: x => x.ContactId,
@@ -506,6 +560,45 @@ namespace MemberManagement.Data.Migrations
                     table.ForeignKey(
                         name: "FK__Contact_M__Membe__5441852A",
                         column: x => x.MemberId,
+                        principalTable: "Member",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK__Contact_R__asdasd__534D60F1",
+                        column: x => x.ContactId,
+                        principalTable: "Roles",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "FundMember",
+                columns: table => new
+                {
+                    MemberId = table.Column<int>(type: "int", nullable: false),
+                    FundId = table.Column<int>(type: "int", nullable: false),
+                    Action = table.Column<string>(type: "char(10)", unicode: false, fixedLength: true, maxLength: 10, nullable: true),
+                    Total = table.Column<double>(type: "float", nullable: true),
+                    MemberId1 = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK__FundMemb__B4C094DDE6A8989C", x => new { x.MemberId, x.FundId });
+                    table.ForeignKey(
+                        name: "FK__FundMembe__FundI__412EB0B6",
+                        column: x => x.FundId,
+                        principalTable: "Fund",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK__FundMembe__Membe__403A8C7D",
+                        column: x => x.MemberId,
+                        principalTable: "Activity",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_FundMember_Member_MemberId1",
+                        column: x => x.MemberId1,
                         principalTable: "Member",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -580,6 +673,11 @@ namespace MemberManagement.Data.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_ActivityMember_ActivityId",
+                table: "ActivityMember",
+                column: "ActivityId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Address_Member_AddressId",
                 table: "Address_Member",
                 column: "AddressId");
@@ -629,9 +727,24 @@ namespace MemberManagement.Data.Migrations
                 column: "ContactId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Contact_Member_MemberId",
+                table: "Contact_Member",
+                column: "MemberId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_District_ProvinceId",
                 table: "District",
                 column: "ProvinceId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_FundMember_FundId",
+                table: "FundMember",
+                column: "FundId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_FundMember_MemberId1",
+                table: "FundMember",
+                column: "MemberId1");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ImageInPost_PostId",
@@ -682,6 +795,9 @@ namespace MemberManagement.Data.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "ActivityMember");
+
+            migrationBuilder.DropTable(
                 name: "Address_Member");
 
             migrationBuilder.DropTable(
@@ -701,6 +817,9 @@ namespace MemberManagement.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "Contact_Member");
+
+            migrationBuilder.DropTable(
+                name: "FundMember");
 
             migrationBuilder.DropTable(
                 name: "ImageInPost");
@@ -731,6 +850,12 @@ namespace MemberManagement.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "Contact");
+
+            migrationBuilder.DropTable(
+                name: "Fund");
+
+            migrationBuilder.DropTable(
+                name: "Activity");
 
             migrationBuilder.DropTable(
                 name: "Image");

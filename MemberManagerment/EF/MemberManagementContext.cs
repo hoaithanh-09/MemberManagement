@@ -22,7 +22,7 @@ namespace MemberManagerment.Data.EF
         public virtual DbSet<Address> Addresses { get; set; }
         public virtual DbSet<AddressMember> AddressMembers { get; set; }
         public virtual DbSet<Contact> Contacts { get; set; }
-        public virtual DbSet<ContactMember> ContactMembers { get; set; }
+        public virtual DbSet<ContactMembers> ContactMembers { get; set; }
         public virtual DbSet<Family> Families { get; set; }
         public virtual DbSet<Group> Groups { get; set; }
         public virtual DbSet<Member> Members { get; set; }
@@ -200,12 +200,17 @@ namespace MemberManagerment.Data.EF
             });
 
 
-            modelBuilder.Entity<ContactMember>(entity =>
+            modelBuilder.Entity<ContactMembers>(entity =>
             {
-                entity.HasKey(e => new { e.MemberId, e.ContactId })
-                    .HasName("PK__Contact___A93629411CEAAEA7");
 
                 entity.ToTable("Contact_Member");
+
+                entity.HasOne(d => d.Roles)
+                    .WithMany(p => p.ContactMembers)
+                    .HasForeignKey(d => d.ContactId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK__Contact_R__asdasd__534D60F1");
+
 
                 entity.HasOne(d => d.Contact)
                     .WithMany(p => p.ContactMembers)

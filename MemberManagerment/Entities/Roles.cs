@@ -10,6 +10,7 @@ namespace MemberManagement.Data.Entities
         public Roles()
         {
             RoleMembers = new HashSet<RoleMember>();
+            ContactMembers = new HashSet<ContactMembers>();
         }
 
         public int Id { get; set; }
@@ -18,5 +19,6 @@ namespace MemberManagement.Data.Entities
         public string Description { get; set; }
 
         public virtual ICollection<RoleMember> RoleMembers { get; set; }
+        public virtual ICollection<ContactMembers> ContactMembers { get; set; }
     }
 }

@@ -9,7 +9,7 @@ namespace MemberManagement.Data.Entities
     {
         public Contact()
         {
-            ContactMembers = new HashSet<ContactMember>();
+            ContactMembers = new HashSet<ContactMembers>();
         }
 
         public int Id { get; set; }
@@ -17,6 +17,6 @@ namespace MemberManagement.Data.Entities
 
         public string Description { get; set; }
         public string Note { get; set; }
-        public virtual ICollection<ContactMember> ContactMembers { get; set; }
+        public virtual ICollection<ContactMembers> ContactMembers { get; set; }
     }
 }

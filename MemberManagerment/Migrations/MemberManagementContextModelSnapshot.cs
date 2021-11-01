@@ -294,18 +294,27 @@ namespace MemberManagement.Data.Migrations
                     b.ToTable("Contact");
                 });
 
-            modelBuilder.Entity("MemberManagement.Data.Entities.ContactMember", b =>
+            modelBuilder.Entity("MemberManagement.Data.Entities.ContactMembers", b =>
                 {
-                    b.Property<int>("MemberId")
-                        .HasColumnType("int");
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int>("ContactId")
                         .HasColumnType("int");
 
-                    b.HasKey("MemberId", "ContactId")
-                        .HasName("PK__Contact___A93629411CEAAEA7");
+                    b.Property<int>("MemberId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("RoleId")
+                        .HasColumnType("int");
+
+                    b.HasKey("ID");
 
                     b.HasIndex("ContactId");
+
+                    b.HasIndex("MemberId");
 
                     b.ToTable("Contact_Member");
                 });
@@ -914,12 +923,18 @@ namespace MemberManagement.Data.Migrations
                     b.Navigation("Member");
                 });
 
-            modelBuilder.Entity("MemberManagement.Data.Entities.ContactMember", b =>
+            modelBuilder.Entity("MemberManagement.Data.Entities.ContactMembers", b =>
                 {
                     b.HasOne("MemberManagement.Data.Entities.Contact", "Contact")
                         .WithMany("ContactMembers")
                         .HasForeignKey("ContactId")
                         .HasConstraintName("FK__Contact_M__Conta__534D60F1")
+                        .IsRequired();
+
+                    b.HasOne("MemberManagement.Data.Entities.Roles", "Roles")
+                        .WithMany("ContactMembers")
+                        .HasForeignKey("ContactId")
+                        .HasConstraintName("FK__Contact_R__asdasd__534D60F1")
                         .IsRequired();
 
                     b.HasOne("MemberManagement.Data.Entities.Member", "Member")
@@ -931,6 +946,8 @@ namespace MemberManagement.Data.Migrations
                     b.Navigation("Contact");
 
                     b.Navigation("Member");
+
+                    b.Navigation("Roles");
                 });
 
             modelBuilder.Entity("MemberManagement.Data.Entities.District", b =>
@@ -1221,6 +1238,8 @@ namespace MemberManagement.Data.Migrations
 
             modelBuilder.Entity("MemberManagement.Data.Entities.Roles", b =>
                 {
+                    b.Navigation("ContactMembers");
+
                     b.Navigation("RoleMembers");
                 });
 

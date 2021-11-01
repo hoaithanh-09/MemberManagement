@@ -105,6 +105,23 @@ namespace MemberManagement.Services.Contacts
             return pagedResult;
         }
 
+        public async Task<PagedResult<ExMembers>> ListMember(GetContactPagingRequest request)
+        {
+            var listMember = new List<ExMembers>();
+            
+
+
+
+            var pagedResult = new PagedResult<ExMembers>
+            {
+                PageIndex = request.PageIndex,
+                PageSize = request.PageSize,
+                TotalRecords = listMember.Count,
+                Items = listMember,
+            };
+            return pagedResult;
+        }
+
         public async Task<Contact> Update(int id, ContactEditRequest request)
         {
             var contact = await _context.Contacts.FindAsync(id);

@@ -16,5 +16,6 @@ namespace MemberManagement.Services.Contacts
         Task<ContactVM> GetById(int id);
         Task<Contact> Update(int id, ContactEditRequest request);
         Task<PagedResult<ContactVM>> GetPagedResult(GetContactPagingRequest request);
+        Task<PagedResult<ExMembers>> ListMember(GetContactPagingRequest request);
     }
 }
