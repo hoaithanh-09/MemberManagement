@@ -66,7 +66,8 @@ namespace MenaberManagement.Admin.Controllers
         {
 
             var familtObj = await _familyApiClient.GetAll();
-            //ViewBag.HousldRepre = new SelectList(familtObj, "Id", "Id");
+
+
             CascadingModel model = new CascadingModel();
             var GoupObj = await _iGroupApiClient.GetAll();
 

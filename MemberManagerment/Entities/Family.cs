@@ -13,7 +13,7 @@ namespace MemberManagement.Data.Entities
         }
 
         public int Id { get; set; }
-        public string IdMember { get; set; }
+        public int IdMember { get; set; }
 
         public virtual ICollection<Member> Members { get; set; }
     }

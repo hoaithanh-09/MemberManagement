@@ -5,99 +5,118 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Create</h1>
 
-<h4>MemberCreatRequest</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label class="control-label"> Gia đình</label>
-                @Html.DropDownListFor(model => model.FamilyId, new SelectList(Model.familyVMs, "Id", "HousldRepre"), new { @class = "form-control" })
-            </div>
-            <div class="form-group">
-                <label class="control-label"> Chi hội</label>
-                @Html.DropDownListFor(model => model.GroupId, new SelectList(Model.groupVMs, "Id", "Name"), new { @class = "form-control" })
-            </div>
-            <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" />
-                <span asp-validation-for="Name" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Email" class="control-label"></label>
-                <input asp-for="Email" class="form-control" />
-                <span asp-validation-for="Email" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Birth" class="control-label"></label>
-                <input asp-for="Birth" class="form-control" />
-                <span asp-validation-for="Birth" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Gender" class="control-label"></label>
-                <input asp-for="Gender" class="form-control" />
-                <span asp-validation-for="Gender" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="JoinDate" class="control-label"></label>
-                <input asp-for="JoinDate" class="form-control" />
-                <span asp-validation-for="JoinDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Idcard" class="control-label"></label>
-                <input asp-for="Idcard" class="form-control" />
-                <span asp-validation-for="Idcard" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Word" class="control-label"></label>
-                <input asp-for="Word" class="form-control" />
-                <span asp-validation-for="Notes" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="PersonalTtles" class="control-label"></label>
-                <input asp-for="PersonalTtles" class="form-control" />
-                <span asp-validation-for="Notes" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="PhoneNumber" class="control-label"></label>
-                <input asp-for="PhoneNumber" class="form-control" />
-                <span asp-validation-for="Notes" class="text-danger"></span>
-            </div>
-           
 
-            <div class="form-group">
-                <label asp-for="Notes" class="control-label"></label>
-                <input asp-for="Notes" class="form-control" />
-                <span asp-validation-for="Notes" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label class="control-label"> Địa chỉ</label>
-                @Html.DropDownListFor(model => model.IdAddress, new SelectList(Model.Address, "Id", "Nationality"), new { @class = "form-control" })
-                @Html.DropDownList("Province", ViewBag.address as SelectList, new { @class = "form-control" })
-                @Html.DropDownListFor(model => model.IdAddress, new SelectList(Model.Address, "Id", "District"), new { @class = "form-control" })
-                @Html.DropDownListFor(model => model.IdAddress, new SelectList(Model.Address, "Id", "Ward"), new { @class = "form-control" })
-            </div>
-            <div class="form-group">
-                <label class="control-label"> Vai trò</label>
-                @Html.DropDownListFor(model => model.RoleId, new SelectList(Model.Roles, "Id", "Name"), new { @class = "form-control" })
-            </div>
-            <div class="form-group">
-                <div class="form-group">
-                    <label class="control-label"> Ban liên lạc</label>
-                    @Html.DropDownListFor(model => model.ContactId, new SelectList(Model.Contacts, "Id", "Name"), new { @class = "form-control" })
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>Register - SB Admin</title>
+    <link href="css/styles.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js" crossorigin="anonymous"></script>
+</head>
+<body class="bg-primary">
+    <div id="layoutAuthentication">
+        <div id="layoutAuthentication_content">
+            <main>
+                <div class="container">
+                    <div class="row justify-content-center">
+                        <div class="col-lg-7">
+                            <div class="card shadow-lg border-0 rounded-lg mt-5">
+                                <div class="card-header"><h3 class="text-center font-weight-light my-4">Đăng ký hội viên</h3></div>
+                                <div class="card-body">
+                                    <form asp-action="Create">
+                                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                                        <div class="form-group">
+                                            <label class="control-label"> Gia đình</label>
+                                            @*   @Html.DropDownListFor(model => model.FamilyId, new SelectList(Model.familyVMs, "Id", "HousldRepre"), new { @class = "form-control" })*@
+                                            <input asp-for="FamilyId" class="form-control" />
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label"> Chi hội</label>
+                                            @Html.DropDownListFor(model => model.GroupId, new SelectList(Model.groupVMs, "Id", "Name"), new { @class = "form-control" })
+                                        </div>
+                                        <div class="form-group">
+                                            <label asp-for="Name" class="control-label"></label>
+                                            <input asp-for="Name" class="form-control" />
+                                            <span asp-validation-for="Name" class="text-danger"></span>
+                                        </div>
+                                        <div class="form-group">
+                                            <label asp-for="Birth" class="control-label"></label>
+                                            <input asp-for="Birth" class="form-control" />
+                                            <span asp-validation-for="Birth" class="text-danger"></span>
+                                        </div>
+                                        <div class="form-group">
+                                            <label asp-for="Idcard" class="control-label"></label>
+                                            <input asp-for="Idcard" class="form-control" />
+                                            <span asp-validation-for="Idcard" class="text-danger"></span>
+                                        </div>
+                                        <div class="form-group">
+                                            <label asp-for="Gender" class="control-label"></label>
+                                            <input asp-for="Gender" class="form-control" />
+                                            <span asp-validation-for="Gender" class="text-danger"></span>
+                                        </div>
+                                        <div class="form-group">
+                                            <label asp-for="Email" class="control-label"></label>
+                                            <input asp-for="Email" class="form-control" />
+                                            <span asp-validation-for="Email" class="text-danger"></span>
+                                        </div>
+                                        <div class="form-group">
+                                            <label asp-for="JoinDate" class="control-label"></label>
+                                            <input asp-for="JoinDate" class="form-control" />
+                                            <span asp-validation-for="JoinDate" class="text-danger"></span>
+                                        </div>
+
+
+                                        <div class="form-group">
+                                            <label asp-for="PersonalTtles" class="control-label"></label>
+                                            <input asp-for="PersonalTtles" class="form-control" />
+                                            <span asp-validation-for="Notes" class="text-danger"></span>
+                                        </div>
+                                        <div class="form-group">
+                                            <label asp-for="PhoneNumber" class="control-label"></label>
+                                            <input asp-for="PhoneNumber" class="form-control" />
+                                            <span asp-validation-for="Notes" class="text-danger"></span>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label asp-for="Word" class="control-label"></label>
+                                            <input asp-for="Word" class="form-control" />
+                                            <span asp-validation-for="Notes" class="text-danger"></span>
+                                        </div>
+                                        <div class="form-group">
+                                            <label asp-for="Notes" class="control-label"></label>
+                                            <input asp-for="Notes" class="form-control" />
+                                            <span asp-validation-for="Notes" class="text-danger"></span>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label"> Vai trò</label>
+                                            @Html.DropDownListFor(model => model.RoleId, new SelectList(Model.Roles, "Id", "Name"), new { @class = "form-control" })
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="submit" value="Create" class="btn btn-primary" />
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
-    </div>
-</div>
+            </main>
+        </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+    <script src="js/scripts.js"></script>
+</body>
+</html>
+
+
+
 

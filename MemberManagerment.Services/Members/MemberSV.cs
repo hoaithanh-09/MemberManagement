@@ -99,25 +99,22 @@ namespace MemberManagement.Services.Members
             {
                 return new ApiErrorResult<string>("Hội viên đã tồn tại");
             }
-
             var family = await _context.Families.FirstOrDefaultAsync(x => x.Id == request.FamilyId);
-            if (family == null)
-            {
-                return new ApiErrorResult<string>("Gia đình không tồn lại");
-            }
             var group = await _context.Groups.FirstOrDefaultAsync(x => x.Id == request.GroupId);
             if (group == null)
             {
                 return new ApiErrorResult<string>("Chi hội không tồn lại");
             }
-            if (request.FamilyId == null || request.FamilyId == 0)
+            if ( request.FamilyId == 0)
             {
                 var familyAdd = new Family()
-                {
+                { 
                 };
+
                 _context.Add(familyAdd);
                 _context.SaveChanges();
-              
+                var  f =  _context.Families.Find(familyAdd.Id);
+
                 member = new Member()
                 {
                     Name = request.Name,
@@ -127,15 +124,17 @@ namespace MemberManagement.Services.Members
                     Notes = request.Notes,
                     Family = family,
                     Group = group,
-                    FamilyId = familyAdd.Id,
+                    FamilyId = f.Id,
                     GroupId = request.GroupId,
                     Birth = request.Birth,
                     Email = request.Email,
                     Word = request.Word,
                     PersonalTtles = request.PersonalTtles,
                     PhoneNumber = request.PhoneNumber,
-
                 };
+                _context.Members.Add(member);
+                _context.SaveChanges();
+                f.IdMember = member.Id;
             }
             else
             {
@@ -155,8 +154,8 @@ namespace MemberManagement.Services.Members
                     Word = request.Word,
                     PersonalTtles = request.PersonalTtles,
                     PhoneNumber = request.PhoneNumber,
-
                 };
+                _context.Members.Add(member);
             }
             
             if (request.IdAddress != 0)
@@ -190,8 +189,8 @@ namespace MemberManagement.Services.Members
                     }
                 };
             }
-            _context.Members.Add(member);
-           var a = await _context.SaveChangesAsync();
+           
+            var a = await _context.SaveChangesAsync();
             if (a>0)
             {
                 return new ApiSuccessResult<string>("Tạo thành công");
@@ -207,6 +206,28 @@ namespace MemberManagement.Services.Members
             {
                 return "Không tìm thấy hội viên";
             }
+            var memberRole = await _context.RoleMembers.AsQueryable().Where(x => x.MemberId == member.Id).ToListAsync();
+            foreach (var memberr in memberRole)
+            {
+                _context.RoleMembers.Remove(memberr);
+                await _context.SaveChangesAsync();
+            }
+
+            var AddreeMember = await _context.AddressMembers.AsQueryable().Where(x => x.MemberId == member.Id).ToListAsync();
+            foreach (var address in AddreeMember)
+            {
+                _context.AddressMembers.Remove(address);
+                await _context.SaveChangesAsync();
+            }
+
+
+            var contacts = await _context.ContactMembers.AsQueryable().Where(x => x.MemberId == member.Id).ToListAsync();
+            foreach (var contact in contacts)
+            {
+                _context.ContactMembers.Remove(contact);
+                await _context.SaveChangesAsync();
+            }
+
             _context.Members.Remove(member);
             await _context.SaveChangesAsync();
             return "Xóa thành công";

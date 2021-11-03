@@ -232,7 +232,7 @@ namespace MemberManagerment.Data.EF
               
                 entity.Property(e => e.IdMember)
                     .HasMaxLength(450)
-                    .IsUnicode(false).IsRequired(false);
+                    .IsUnicode(false);
 
             });
 

@@ -14,7 +14,6 @@ namespace MemberManagement.API.Controllers
     public class RolesController : ControllerBase
     {
         private readonly IRoleSV _roleSV;
-        //dd
         public RolesController(IRoleSV roleSV)
         {
             _roleSV = roleSV;

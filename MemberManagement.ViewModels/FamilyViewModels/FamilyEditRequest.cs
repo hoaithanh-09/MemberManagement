@@ -10,7 +10,7 @@ namespace MemberManagement.ViewModels.FamilyViewModels
         public string HousldRepre { get; set; }
         public DateTime YearBirth { get; set; }
         public int MumberMembers { get; set; }
-        public string IdMember { get; set; }
+        public int IdMember { get; set; }
         public string PhoneNumber { get; set; }
     }
 }

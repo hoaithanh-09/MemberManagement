@@ -27,6 +27,7 @@ namespace MemberManagement.Services.Roles
                 Name= request.Name,
                 Description= request.Description,
                 Note= request.Note,
+                TypeRole = request.TypeRole,
             };
             _context.Roless.Add(roleAdd);
             await _context.SaveChangesAsync();

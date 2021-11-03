@@ -30,7 +30,6 @@ namespace MemberManagement.Data.Entities
         public string Email { get; set; }
         public string PhoneNumber { get; set; }
         public string Word { get; set; }
-
         public virtual Family Family { get; set; }
         public virtual Group Group { get; set; }
         public virtual ICollection<AddressMember> AddressMembers { get; set; }

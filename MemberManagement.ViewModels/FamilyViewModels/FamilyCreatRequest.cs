@@ -6,8 +6,7 @@ namespace MemberManagerment.ViewModels.FamilyViewModels
 {
    public class FamilyCreatRequest
     {
-       
-        public string IdMember { get; set; }
+        public int IdMember { get; set; }
     }
 }
 

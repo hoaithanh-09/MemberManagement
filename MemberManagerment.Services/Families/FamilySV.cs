@@ -55,13 +55,34 @@ namespace MemberManagement.Services.Families
         public async Task<List<FamilyVM>> getAll()
         {
             var query = from f in _context.Families select f;
-            var family = await query.Select(x => new FamilyVM()
+            var family = query.ToList();
+            var listFamilyVM = new List<FamilyVM>();
+            foreach (var f in family)
             {
-                Id = x.Id,
-               
-            }).ToListAsync();
+                var chuho = await _context.Members.FirstOrDefaultAsync(x=>x.Id == f.IdMember);
+                var fm = new FamilyVM();
+                if (chuho != null)
+                {
+                     fm = new FamilyVM()
+                    {
+                        Id = f.Id,
+                        HousldRepre = chuho.Name,
+                    };
+                }
+                else
+                {
+                    fm = new FamilyVM()
+                    {
+                        Id = f.Id,
+                    };
 
-            return family;
+                }
+               
+                listFamilyVM.Add(fm);
+            }
+          
+
+            return listFamilyVM;
         }
 
         public async Task<FamilyVM> GetById(int id)
@@ -81,24 +102,44 @@ namespace MemberManagement.Services.Families
         {
             var query = from f in _context.Families select f;
 
-            
-
             int totalRow = await query.CountAsync();
 
             var data = await query.Skip((request.PageIndex - 1) * request.PageSize)
-                .Take(request.PageSize)
-                .Select(x => new FamilyVM()
+                .Take(request.PageSize).ToListAsync();
+            var familyVMs= new List<FamilyVM>();
+
+            foreach (var f in data)
+            {
+                var member = await _context.Members.FirstOrDefaultAsync(x=>x.Id == f.IdMember);
+                if(member == null)
                 {
-                    Id = x.Id,
-                    IdMember = x.IdMember,
-                }).ToListAsync();
+                    var family1 = new FamilyVM()
+                    {
+                        Id = f.Id,
+                    };
+                    familyVMs.Add(family1);
+                }
+                else
+                {
+                    var membes = await _context.Members.Where(x => x.FamilyId == f.Id).ToListAsync(); ;
+                    var family2 = new FamilyVM()
+                    {
+                        Id = f.Id,
+                        HousldRepre = member.Name,
+                        MumberMembers = membes.Count,
+                        PhoneNumber = member.PhoneNumber,
+                        YearBirth = member.Birth,
+                    };
+                    familyVMs.Add(family2);
+                }
+            }
 
             var pagedResult = new PagedResult<FamilyVM>()
             {
                 PageIndex = request.PageIndex,
                 PageSize = request.PageSize,
                 TotalRecords = totalRow,
-                Items = data
+                Items = familyVMs
             };
             return pagedResult;
         }
