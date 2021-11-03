@@ -23,7 +23,9 @@ namespace MemberManagement.Data.Migrations
             modelBuilder.Entity("MemberManagement.Data.Entities.Activity", b =>
                 {
                     b.Property<int>("Id")
-                        .HasColumnType("int");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Content")
                         .HasColumnType("nvarchar(max)");
@@ -252,20 +254,6 @@ namespace MemberManagement.Data.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
-            modelBuilder.Entity("MemberManagement.Data.Entities.Author", b =>
-                {
-                    b.Property<int>("Id")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Name")
-                        .HasMaxLength(150)
-                        .HasColumnType("nvarchar(150)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Author");
-                });
-
             modelBuilder.Entity("MemberManagement.Data.Entities.Contact", b =>
                 {
                     b.Property<int>("Id")
@@ -364,7 +352,9 @@ namespace MemberManagement.Data.Migrations
             modelBuilder.Entity("MemberManagement.Data.Entities.Fund", b =>
                 {
                     b.Property<int>("Id")
-                        .HasColumnType("int");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<DateTime?>("CreatedDate")
                         .HasColumnType("datetime2");
@@ -446,7 +436,9 @@ namespace MemberManagement.Data.Migrations
             modelBuilder.Entity("MemberManagement.Data.Entities.Image", b =>
                 {
                     b.Property<int>("Id")
-                        .HasColumnType("int");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<DateTime?>("DateCreated")
                         .HasColumnType("datetime2");
@@ -588,7 +580,9 @@ namespace MemberManagement.Data.Migrations
             modelBuilder.Entity("MemberManagement.Data.Entities.Post", b =>
                 {
                     b.Property<int>("Id")
-                        .HasColumnType("int");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int?>("AppUserId")
                         .HasColumnType("int");
@@ -728,7 +722,9 @@ namespace MemberManagement.Data.Migrations
             modelBuilder.Entity("MemberManagement.Data.Entities.Topic", b =>
                 {
                     b.Property<int>("Id")
-                        .HasColumnType("int");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<DateTime?>("CreatedDate")
                         .HasColumnType("datetime2");
@@ -1031,13 +1027,6 @@ namespace MemberManagement.Data.Migrations
                     b.HasOne("MemberManagement.Data.Entities.AppUser", null)
                         .WithMany("Posts")
                         .HasForeignKey("AppUserId");
-
-                    b.HasOne("MemberManagement.Data.Entities.Author", "Author")
-                        .WithMany("Posts")
-                        .HasForeignKey("AuthorId")
-                        .HasConstraintName("FK__Post__AuthorId__5CD6CB2B");
-
-                    b.Navigation("Author");
                 });
 
             modelBuilder.Entity("MemberManagement.Data.Entities.PostInTopic", b =>
@@ -1156,11 +1145,6 @@ namespace MemberManagement.Data.Migrations
                 {
                     b.Navigation("MemberUsers");
 
-                    b.Navigation("Posts");
-                });
-
-            modelBuilder.Entity("MemberManagement.Data.Entities.Author", b =>
-                {
                     b.Navigation("Posts");
                 });
 

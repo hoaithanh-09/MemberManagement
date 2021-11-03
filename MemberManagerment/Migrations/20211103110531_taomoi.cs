@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace MemberManagement.Data.Migrations
 {
-    public partial class init : Migration
+    public partial class taomoi : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -11,7 +11,8 @@ namespace MemberManagement.Data.Migrations
                 name: "Activity",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     Content = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -89,18 +90,6 @@ namespace MemberManagement.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Author",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Author", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Contact",
                 columns: table => new
                 {
@@ -121,12 +110,7 @@ namespace MemberManagement.Data.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Number = table.Column<int>(type: "int", nullable: false),
-                    HousldRepre = table.Column<string>(type: "nvarchar(254)", maxLength: 254, nullable: false),
-                    YearBirth = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    MumberMembers = table.Column<int>(type: "int", nullable: false),
-                    IdMember = table.Column<string>(type: "varchar(450)", unicode: false, maxLength: 450, nullable: true),
-                    PhoneNumber = table.Column<string>(type: "varchar(15)", unicode: false, maxLength: 15, nullable: true)
+                    IdMember = table.Column<int>(type: "int", unicode: false, maxLength: 450, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -137,7 +121,8 @@ namespace MemberManagement.Data.Migrations
                 name: "Fund",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
                     TotalFund = table.Column<double>(type: "float", nullable: true),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
@@ -168,7 +153,8 @@ namespace MemberManagement.Data.Migrations
                 name: "Image",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     ImagePath = table.Column<string>(type: "varchar(2000)", unicode: false, maxLength: 2000, nullable: true),
                     DateCreated = table.Column<DateTime>(type: "datetime2", nullable: true),
                     FileSize = table.Column<long>(type: "bigint", nullable: true)
@@ -213,7 +199,8 @@ namespace MemberManagement.Data.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     Note = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    TypeRole = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -240,7 +227,8 @@ namespace MemberManagement.Data.Migrations
                 name: "Topic",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     Title = table.Column<string>(type: "nvarchar(450)", maxLength: 450, nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true)
@@ -360,7 +348,8 @@ namespace MemberManagement.Data.Migrations
                 name: "Post",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     Title = table.Column<string>(type: "nvarchar(450)", maxLength: 450, nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     ModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
@@ -371,12 +360,6 @@ namespace MemberManagement.Data.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Post", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK__Post__AuthorId__5CD6CB2B",
-                        column: x => x.AuthorId,
-                        principalTable: "Author",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Post_AspNetUsers_AppUserId",
                         column: x => x.AppUserId,
@@ -399,7 +382,6 @@ namespace MemberManagement.Data.Migrations
                     JoinDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     IDCard = table.Column<string>(type: "varchar(50)", unicode: false, maxLength: 50, nullable: true),
                     notes = table.Column<string>(type: "nvarchar(450)", maxLength: 450, nullable: true),
-                    Nickname = table.Column<string>(type: "nvarchar(254)", maxLength: 254, nullable: true),
                     PersonalTtles = table.Column<string>(type: "varchar(450)", unicode: false, maxLength: 450, nullable: true),
                     Email = table.Column<string>(type: "varchar(450)", unicode: false, maxLength: 450, nullable: false),
                     PhoneNumber = table.Column<string>(type: "varchar(15)", unicode: false, maxLength: 15, nullable: true),
@@ -564,8 +546,8 @@ namespace MemberManagement.Data.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK__Contact_R__asdasd__534D60F1",
-                        column: x => x.ContactId,
+                        name: "FK__Contact_R1__asdasd__534D60F1",
+                        column: x => x.RoleId,
                         principalTable: "Roles",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -732,6 +714,11 @@ namespace MemberManagement.Data.Migrations
                 column: "MemberId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Contact_Member_RoleId",
+                table: "Contact_Member",
+                column: "RoleId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_District_ProvinceId",
                 table: "District",
                 column: "ProvinceId");
@@ -874,9 +861,6 @@ namespace MemberManagement.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "District");
-
-            migrationBuilder.DropTable(
-                name: "Author");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");

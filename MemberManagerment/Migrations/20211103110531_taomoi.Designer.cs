@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MemberManagement.Data.Migrations
 {
     [DbContext(typeof(MemberManagementContext))]
-    [Migration("20211101095054_init")]
-    partial class init
+    [Migration("20211103110531_taomoi")]
+    partial class taomoi
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -25,7 +25,9 @@ namespace MemberManagement.Data.Migrations
             modelBuilder.Entity("MemberManagement.Data.Entities.Activity", b =>
                 {
                     b.Property<int>("Id")
-                        .HasColumnType("int");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Content")
                         .HasColumnType("nvarchar(max)");
@@ -254,20 +256,6 @@ namespace MemberManagement.Data.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
-            modelBuilder.Entity("MemberManagement.Data.Entities.Author", b =>
-                {
-                    b.Property<int>("Id")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Name")
-                        .HasMaxLength(150)
-                        .HasColumnType("nvarchar(150)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Author");
-                });
-
             modelBuilder.Entity("MemberManagement.Data.Entities.Contact", b =>
                 {
                     b.Property<int>("Id")
@@ -318,6 +306,8 @@ namespace MemberManagement.Data.Migrations
 
                     b.HasIndex("MemberId");
 
+                    b.HasIndex("RoleId");
+
                     b.ToTable("Contact_Member");
                 });
 
@@ -351,29 +341,10 @@ namespace MemberManagement.Data.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("HousldRepre")
-                        .IsRequired()
-                        .HasMaxLength(254)
-                        .HasColumnType("nvarchar(254)");
-
-                    b.Property<string>("IdMember")
+                    b.Property<int>("IdMember")
                         .HasMaxLength(450)
                         .IsUnicode(false)
-                        .HasColumnType("varchar(450)");
-
-                    b.Property<int>("MumberMembers")
                         .HasColumnType("int");
-
-                    b.Property<int>("Number")
-                        .HasColumnType("int");
-
-                    b.Property<string>("PhoneNumber")
-                        .HasMaxLength(15)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(15)");
-
-                    b.Property<DateTime>("YearBirth")
-                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
@@ -383,7 +354,9 @@ namespace MemberManagement.Data.Migrations
             modelBuilder.Entity("MemberManagement.Data.Entities.Fund", b =>
                 {
                     b.Property<int>("Id")
-                        .HasColumnType("int");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<DateTime?>("CreatedDate")
                         .HasColumnType("datetime2");
@@ -465,7 +438,9 @@ namespace MemberManagement.Data.Migrations
             modelBuilder.Entity("MemberManagement.Data.Entities.Image", b =>
                 {
                     b.Property<int>("Id")
-                        .HasColumnType("int");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<DateTime?>("DateCreated")
                         .HasColumnType("datetime2");
@@ -540,10 +515,6 @@ namespace MemberManagement.Data.Migrations
                         .HasMaxLength(450)
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("Nickname")
-                        .HasMaxLength(254)
-                        .HasColumnType("nvarchar(254)");
-
                     b.Property<string>("Notes")
                         .HasMaxLength(450)
                         .IsUnicode(true)
@@ -611,7 +582,9 @@ namespace MemberManagement.Data.Migrations
             modelBuilder.Entity("MemberManagement.Data.Entities.Post", b =>
                 {
                     b.Property<int>("Id")
-                        .HasColumnType("int");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int?>("AppUserId")
                         .HasColumnType("int");
@@ -712,6 +685,12 @@ namespace MemberManagement.Data.Migrations
                     b.Property<string>("Note")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("TypeRole")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .IsUnicode(true)
+                        .HasColumnType("nvarchar(100)");
+
                     b.HasKey("Id");
 
                     b.ToTable("Roles");
@@ -745,7 +724,9 @@ namespace MemberManagement.Data.Migrations
             modelBuilder.Entity("MemberManagement.Data.Entities.Topic", b =>
                 {
                     b.Property<int>("Id")
-                        .HasColumnType("int");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<DateTime?>("CreatedDate")
                         .HasColumnType("datetime2");
@@ -933,16 +914,16 @@ namespace MemberManagement.Data.Migrations
                         .HasConstraintName("FK__Contact_M__Conta__534D60F1")
                         .IsRequired();
 
-                    b.HasOne("MemberManagement.Data.Entities.Roles", "Roles")
-                        .WithMany("ContactMembers")
-                        .HasForeignKey("ContactId")
-                        .HasConstraintName("FK__Contact_R__asdasd__534D60F1")
-                        .IsRequired();
-
                     b.HasOne("MemberManagement.Data.Entities.Member", "Member")
                         .WithMany("ContactMembers")
                         .HasForeignKey("MemberId")
                         .HasConstraintName("FK__Contact_M__Membe__5441852A")
+                        .IsRequired();
+
+                    b.HasOne("MemberManagement.Data.Entities.Roles", "Roles")
+                        .WithMany("ContactMembers")
+                        .HasForeignKey("RoleId")
+                        .HasConstraintName("FK__Contact_R1__asdasd__534D60F1")
                         .IsRequired();
 
                     b.Navigation("Contact");
@@ -1048,13 +1029,6 @@ namespace MemberManagement.Data.Migrations
                     b.HasOne("MemberManagement.Data.Entities.AppUser", null)
                         .WithMany("Posts")
                         .HasForeignKey("AppUserId");
-
-                    b.HasOne("MemberManagement.Data.Entities.Author", "Author")
-                        .WithMany("Posts")
-                        .HasForeignKey("AuthorId")
-                        .HasConstraintName("FK__Post__AuthorId__5CD6CB2B");
-
-                    b.Navigation("Author");
                 });
 
             modelBuilder.Entity("MemberManagement.Data.Entities.PostInTopic", b =>
@@ -1173,11 +1147,6 @@ namespace MemberManagement.Data.Migrations
                 {
                     b.Navigation("MemberUsers");
 
-                    b.Navigation("Posts");
-                });
-
-            modelBuilder.Entity("MemberManagement.Data.Entities.Author", b =>
-                {
                     b.Navigation("Posts");
                 });
 

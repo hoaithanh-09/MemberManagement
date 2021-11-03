@@ -20,6 +20,7 @@ namespace MemberManagement.Data.Entities
         public double? Cost { get; set; }
         public string Description { get; set; }
 
+
         public virtual ICollection<ActivityMember> ActivityMembers { get; set; }
         public virtual ICollection<FundMember> FundMembers { get; set; }
     }

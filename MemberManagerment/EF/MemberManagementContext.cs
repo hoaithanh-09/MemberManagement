@@ -344,7 +344,6 @@ namespace MemberManagerment.Data.EF
 
                 entity.HasIndex(e => e.AuthorId, "IX_Post_AuthorId");
 
-               
             });
 
             modelBuilder.Entity<Roles>(entity =>
@@ -391,8 +390,6 @@ namespace MemberManagerment.Data.EF
             {
                 entity.ToTable("Image");
 
-                entity.Property(e => e.Id).ValueGeneratedNever();
-
                 entity.Property(e => e.ImagePath)
                     .HasMaxLength(2000)
                     .IsUnicode(false);
@@ -422,7 +419,6 @@ namespace MemberManagerment.Data.EF
             {
                 entity.ToTable("Post");
 
-                entity.Property(e => e.Id).ValueGeneratedNever();
 
                 entity.Property(e => e.Title)
                     .IsRequired()
@@ -454,9 +450,6 @@ namespace MemberManagerment.Data.EF
             modelBuilder.Entity<Topic>(entity =>
             {
                 entity.ToTable("Topic");
-
-                entity.Property(e => e.Id).ValueGeneratedNever();
-
                 entity.Property(e => e.Title)
                     .IsRequired()
                     .HasMaxLength(450);
@@ -473,7 +466,6 @@ namespace MemberManagerment.Data.EF
             {
                 entity.ToTable("Activity");
 
-                entity.Property(e => e.Id).ValueGeneratedNever();
 
                 entity.Property(e => e.Name)
                     .IsRequired()
@@ -504,7 +496,7 @@ namespace MemberManagerment.Data.EF
             {
                 entity.ToTable("Fund");
 
-                entity.Property(e => e.Id).ValueGeneratedNever();
+              
 
                 entity.Property(e => e.Name).HasMaxLength(50);
             });
