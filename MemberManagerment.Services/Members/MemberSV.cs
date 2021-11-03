@@ -114,11 +114,6 @@ namespace MemberManagement.Services.Members
             {
                 var familyAdd = new Family()
                 {
-                    HousldRepre = request.Name,
-                    MumberMembers = 1,
-                    Number = 1,
-                    PhoneNumber = request.PhoneNumber,
-                    YearBirth = request.Birth,
                 };
                 _context.Add(familyAdd);
                 _context.SaveChanges();
@@ -139,7 +134,6 @@ namespace MemberManagement.Services.Members
                     Word = request.Word,
                     PersonalTtles = request.PersonalTtles,
                     PhoneNumber = request.PhoneNumber,
-                    Nickname = request.Nickname,
 
                 };
             }
@@ -161,7 +155,6 @@ namespace MemberManagement.Services.Members
                     Word = request.Word,
                     PersonalTtles = request.PersonalTtles,
                     PhoneNumber = request.PhoneNumber,
-                    Nickname = request.Nickname,
 
                 };
             }
@@ -325,7 +318,6 @@ namespace MemberManagement.Services.Members
                 JoinDate = member.JoinDate,
                 Idcard = member.Idcard,
                 Email = member.Email,
-                Nickname = member.Nickname,
                 PersonalTtles = member.PersonalTtles,
                 Word = member.Word,
                 PhoneNumber = member.PhoneNumber,
@@ -356,7 +348,6 @@ namespace MemberManagement.Services.Members
             member.Word = request.Word;
             member.PersonalTtles = request.PersonalTtles;
             member.PhoneNumber = request.PhoneNumber;
-            member.Nickname = request.Nickname;
 
             try
             {

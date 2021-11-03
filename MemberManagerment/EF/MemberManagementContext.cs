@@ -207,9 +207,9 @@ namespace MemberManagerment.Data.EF
 
                 entity.HasOne(d => d.Roles)
                     .WithMany(p => p.ContactMembers)
-                    .HasForeignKey(d => d.ContactId)
+                    .HasForeignKey(d => d.RoleId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Contact_R__asdasd__534D60F1");
+                    .HasConstraintName("FK__Contact_R1__asdasd__534D60F1");
 
 
                 entity.HasOne(d => d.Contact)
@@ -229,17 +229,11 @@ namespace MemberManagerment.Data.EF
             {
                 entity.ToTable("Family");
 
-                entity.Property(e => e.HousldRepre)
-                    .IsRequired()
-                    .HasMaxLength(254);
-
+              
                 entity.Property(e => e.IdMember)
                     .HasMaxLength(450)
-                    .IsUnicode(false);
+                    .IsUnicode(false).IsRequired(false);
 
-                entity.Property(e => e.PhoneNumber)
-                    .HasMaxLength(15)
-                    .IsUnicode(false);
             });
 
             modelBuilder.Entity<Group>(entity =>
@@ -286,7 +280,6 @@ namespace MemberManagerment.Data.EF
 
  
 
-                entity.Property(e => e.Nickname).HasMaxLength(254);
 
                 entity.Property(e => e.Notes)
                     .HasMaxLength(450)
@@ -362,6 +355,11 @@ namespace MemberManagerment.Data.EF
                 entity.ToTable("Roles");
 
                 entity.Property(e => e.Name)
+                    .IsRequired()
+                    .HasMaxLength(100)
+                    .IsUnicode(true);
+
+                entity.Property(e => e.TypeRole)
                     .IsRequired()
                     .HasMaxLength(100)
                     .IsUnicode(true);

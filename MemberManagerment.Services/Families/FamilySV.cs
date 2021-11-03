@@ -33,11 +33,6 @@ namespace MemberManagement.Services.Families
             var familyAdd = new Family()
             {
                 IdMember = request.IdMember,
-                HousldRepre = request.HousldRepre,
-                MumberMembers = request.MumberMembers,
-                Number = request.Number,
-                PhoneNumber = request.PhoneNumber,
-                YearBirth = request.YearBirth,
             };
             _context.Add(familyAdd);
             _context.SaveChanges();
@@ -63,12 +58,7 @@ namespace MemberManagement.Services.Families
             var family = await query.Select(x => new FamilyVM()
             {
                 Id = x.Id,
-                HousldRepre = x.HousldRepre,
-                IdMember = x.IdMember,
-                MumberMembers = x.MumberMembers,
-                Number = x.Number,
-                PhoneNumber = x.PhoneNumber,
-                YearBirth = x.YearBirth,
+               
             }).ToListAsync();
 
             return family;
@@ -82,11 +72,7 @@ namespace MemberManagement.Services.Families
                 throw new MemberManagementException("Không tìm thấy gia đình");
             var familyVm = new FamilyVM()
             {
-                HousldRepre = family.HousldRepre,
                 IdMember = family.IdMember,
-                MumberMembers = family.MumberMembers,
-                Number = family.Number,
-                PhoneNumber = family.PhoneNumber,
             };
             return familyVm;
         }
@@ -95,22 +81,16 @@ namespace MemberManagement.Services.Families
         {
             var query = from f in _context.Families select f;
 
-            if (!string.IsNullOrEmpty(request.Keyword))
-                query = query.Where(x => x.HousldRepre.Contains(request.Keyword));
+            
 
             int totalRow = await query.CountAsync();
 
-            var data = await query.OrderBy(x => x.Number).Skip((request.PageIndex - 1) * request.PageSize)
+            var data = await query.Skip((request.PageIndex - 1) * request.PageSize)
                 .Take(request.PageSize)
                 .Select(x => new FamilyVM()
                 {
                     Id = x.Id,
-                    HousldRepre = x.HousldRepre,
                     IdMember = x.IdMember,
-                    MumberMembers = x.MumberMembers,
-                    Number = x.Number,
-                    PhoneNumber = x.PhoneNumber,
-                    YearBirth = x.YearBirth,
                 }).ToListAsync();
 
             var pagedResult = new PagedResult<FamilyVM>()
@@ -132,12 +112,7 @@ namespace MemberManagement.Services.Families
                 throw new MemberManagementException("Không tìm thấy hộ gia đình!");
             }
 
-            family.HousldRepre = request.HousldRepre;
             family.IdMember = request.IdMember;
-            family.MumberMembers = request.MumberMembers;
-            family.Number = request.Number;
-            family.PhoneNumber = request.PhoneNumber;
-            family.YearBirth = request.YearBirth;
 
             try
             {
