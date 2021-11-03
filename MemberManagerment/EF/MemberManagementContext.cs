@@ -35,7 +35,6 @@ namespace MemberManagerment.Data.EF
 
         public virtual DbSet<District> Districts { get; set; }
 
-        public virtual DbSet<Author> Authors { get; set; }
         public virtual DbSet<Image> Images { get; set; }
         public virtual DbSet<ImageInPost> ImageInPosts { get; set; }
         public virtual DbSet<Post> Posts { get; set; }
@@ -345,9 +344,7 @@ namespace MemberManagerment.Data.EF
 
                 entity.HasIndex(e => e.AuthorId, "IX_Post_AuthorId");
 
-                entity.HasOne(d => d.Author)
-                    .WithMany(p => p.Posts)
-                    .HasForeignKey(d => d.AuthorId);
+               
             });
 
             modelBuilder.Entity<Roles>(entity =>
@@ -388,14 +385,7 @@ namespace MemberManagerment.Data.EF
                     .HasConstraintName("FK__Role_Memb__RoleI__59063A47");
             });
 
-            modelBuilder.Entity<Author>(entity =>
-            {
-                entity.ToTable("Author");
-
-                entity.Property(e => e.Id).ValueGeneratedNever();
-
-                entity.Property(e => e.Name).HasMaxLength(150);
-            });
+         
 
             modelBuilder.Entity<Image>(entity =>
             {
@@ -438,10 +428,7 @@ namespace MemberManagerment.Data.EF
                     .IsRequired()
                     .HasMaxLength(450);
 
-                entity.HasOne(d => d.Author)
-                    .WithMany(p => p.Posts)
-                    .HasForeignKey(d => d.AuthorId)
-                    .HasConstraintName("FK__Post__AuthorId__5CD6CB2B");
+              
             });
 
             modelBuilder.Entity<PostInTopic>(entity =>

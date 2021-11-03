@@ -1,9 +1,9 @@
 ﻿using MemberManagement.Client.Models;
+using MemberManagement.ViewModels.PostViewModels;
 using MenaberManagement.Client.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Configuration;
-using Newspaper.ViewModels.PostViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,13 +16,11 @@ namespace MenaberManagement.Client.Controllers
         private readonly IPostApi _iPostApi;
         private readonly IConfiguration _configuration;
         private readonly IImageApi _iImageApi;
-        private readonly IAuthorApi _iAuthorApi;
         private readonly ITopicApi _iTopicApi;
         public PostController(
             IPostApi iPostApi,
             IConfiguration configuration,
             IImageApi iImageApi,
-            IAuthorApi iAuthorApi,
             ITopicApi iTopicApi
             
             )
@@ -30,7 +28,6 @@ namespace MenaberManagement.Client.Controllers
             _iPostApi = iPostApi;
             _configuration = configuration;
             _iImageApi = iImageApi;
-            _iAuthorApi = iAuthorApi;
             _iTopicApi = iTopicApi;
         }
         

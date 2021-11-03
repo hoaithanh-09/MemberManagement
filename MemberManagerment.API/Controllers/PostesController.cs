@@ -5,7 +5,6 @@ using MemberManagement.ViewModels.ImageInPostViewModels;
 using MemberManagement.ViewModels.PostViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Newspaper.ViewModels.PostViewModels;
 
 namespace Newspaper.API.Controllers
 {

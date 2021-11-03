@@ -7,7 +7,6 @@ using MemberManagement.ViewModels.PostViewModels;
 using MemberManagement.ViewModels.TopicViewModels;
 using MemberManagerment.Data.EF;
 using Microsoft.EntityFrameworkCore;
-using Newspaper.ViewModels.PostViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;

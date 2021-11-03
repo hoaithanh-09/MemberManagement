@@ -57,7 +57,6 @@ namespace MenaberManagement.Admin
             services.AddTransient<IGroupApiClient, GroupApiClient>();
             services.AddTransient<IRoleApiClient, RoleApiClientcs>();
             services.AddTransient<IMemberApiClient, MemberApiClient>();
-            services.AddTransient<IAuthorApi, AuthorApi>();
             services.AddTransient<IImageApi, ImageApi>();
             services.AddTransient<IPostApi, PostApi>();
             services.AddTransient<ITopicApi, TopicApi>();

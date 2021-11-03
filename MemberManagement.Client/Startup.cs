@@ -33,7 +33,6 @@ namespace MemberManagement.Client
             services.AddHttpClient();
             services.AddControllersWithViews();
             services.AddTransient<IHttpContextAccessor, HttpContextAccessor>();
-            services.AddTransient<IAuthorApi, AuthorApi>();
             services.AddTransient<IImageApi, ImageApi>();
             services.AddTransient<IPostApi, PostApi>();
             services.AddTransient<ITopicApi, TopicApi>();

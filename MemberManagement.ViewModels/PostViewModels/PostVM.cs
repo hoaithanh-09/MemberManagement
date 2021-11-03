@@ -1,5 +1,4 @@
 ﻿
-using MemberManagement.ViewModels.AuthorViewModels;
 using MemberManagement.ViewModels.ImageInPostViewModels;
 using System;
 using System.Collections.Generic;
@@ -19,7 +18,6 @@ namespace MemberManagement.ViewModels.PostViewModels
         public string Content { get; set; }
 
         public ImageInPostVM ImageInPosts { get; set; }
-        public AuthorVM AuthorVMs { get; set; }
 
     }
 }

@@ -1,12 +1,11 @@
-﻿using MemberManagement.ViewModels.AuthorViewModels;
-using MemberManagement.ViewModels.ImageViewModels;
+﻿using MemberManagement.ViewModels.ImageViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Newspaper.ViewModels.PostViewModels
+namespace MemberManagement.ViewModels.PostViewModels
 {
     public class PostCreateRequest
     {
@@ -17,7 +16,6 @@ namespace Newspaper.ViewModels.PostViewModels
         public int? AuthorId { get; set; }
         public string Content { get; set; }
         public int ImageId { get; set; }
-        public List<AuthorVM> Authors { get; set; }
         public List<ImageVM> Images { get; set; }
 
     }

@@ -20,7 +20,6 @@ namespace MemberManagement.Data.Entities
         public int? AuthorId { get; set; }
         public string Content { get; set; }
 
-        public virtual Author Author { get; set; }
         public virtual ICollection<ImageInPost> ImageInPosts { get; set; }
         public virtual ICollection<PostInTopic> PostInTopics { get; set; }
     }

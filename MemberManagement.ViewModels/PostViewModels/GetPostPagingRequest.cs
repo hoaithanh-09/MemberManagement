@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Newspaper.ViewModels.PostViewModels
+namespace MemberManagement.ViewModels.PostViewModels
 {
     public class GetPostPagingRequest: PagingRequestBase
     {

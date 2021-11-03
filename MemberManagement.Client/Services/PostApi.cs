@@ -3,7 +3,6 @@ using MemberManagement.ViewModels.Common;
 using MemberManagement.ViewModels.PostViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
-using Newspaper.ViewModels.PostViewModels;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;

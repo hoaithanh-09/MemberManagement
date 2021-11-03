@@ -3,7 +3,6 @@ using MenaberManagement.Admin.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Configuration;
-using Newspaper.ViewModels.PostViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,18 +15,16 @@ namespace MenaberManagement.Admin.Controllers
         private readonly IPostApi _iPostApi;
         private readonly IConfiguration _configuration;
         private readonly IImageApi _iImageApi;
-        private readonly IAuthorApi _iAuthorApi;
         public PostController(
             IPostApi iPostApi,
             IConfiguration configuration,
-            IImageApi iImageApi,
-            IAuthorApi iAuthorApi
+            IImageApi iImageApi
+          
             )
         {
             _iPostApi = iPostApi;
             _configuration = configuration;
             _iImageApi = iImageApi;
-            _iAuthorApi = iAuthorApi;
         }
         public async Task<IActionResult> Index(string keyword, int pageIndex = 1, int pageSize = 10)
         {
@@ -54,11 +51,9 @@ namespace MenaberManagement.Admin.Controllers
         public async Task<IActionResult> Create()
         {
             var images = await _iImageApi.GetAll();
-            var authors = await _iAuthorApi.GetAll();
             var postCreateRequest = new PostCreateRequest();
 
             postCreateRequest.Images = images;
-            postCreateRequest.Authors = authors;
             return View(postCreateRequest);
         }
 
@@ -69,10 +64,7 @@ namespace MenaberManagement.Admin.Controllers
             if (!ModelState.IsValid)
                 return View();
             var images = await _iImageApi.GetAll();
-            var authors = await _iAuthorApi.GetAll();
-
             request.Images = images;
-            request.Authors = authors;
             var result = await _iPostApi.Create(request);
 
             if (!result.IsSuccessed)

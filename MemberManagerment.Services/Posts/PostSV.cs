@@ -4,8 +4,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using MemberManagerment.Data.EF;
-using Newspaper.ViewModels.PostViewModels;
-using MemberManagement.ViewModels.AuthorViewModels;
 using ManaberManagement.Utilities;
 using MemberManagement.ViewModels.ImageInPostViewModels;
 using MemberManagement.ViewModels.Common;
@@ -54,7 +52,6 @@ namespace MemberManagement.Services.Posts
         public async Task<PostVM> GetById(int id)
         {
             var imageVM = new ImageVM();
-            var authorVM = new AuthorVM();
             var post = await _context.Posts.Include(x => x.ImageInPosts).
                 Where(x => x.Id == id).FirstOrDefaultAsync();
             if (post == null)
@@ -72,13 +69,7 @@ namespace MemberManagement.Services.Posts
                     ImagePath = image.ImagePath,                   
                 };
             }
-           var author = await _context.Authors.FirstOrDefaultAsync(x => x.Id == post.AuthorId);
-            authorVM = new AuthorVM()
-            {
-                Id = author.Id,
-                Name=author.Name,
-            };
-        
+          
             var imagePost = new ImageInPostVM()
             {
                 Image = imageVM,
@@ -92,7 +83,6 @@ namespace MemberManagement.Services.Posts
                 Content = post.Content,
                 ModifiedDate = post.ModifiedDate,
                 ImageInPosts = imagePost,
-                AuthorVMs= authorVM,
 
 
             };
@@ -181,19 +171,6 @@ namespace MemberManagement.Services.Posts
             return image.Id;
         }
 
-        public async Task<int> AddAuthor(int postId, AuthorCreateRequest request)
-        {
-            var author = await _context.Authors.FindAsync(request.Id);
-
-            if (author == null)
-            {
-                throw new MemberManagementException("Thông tin không hợp lệ");
-            }
-
-            _context.Authors.Add(author);
-            await _context.SaveChangesAsync();
-            return author.Id;
-        }
 
         public async Task<ApiResult<string>>Create(PostCreateRequest request)
         {

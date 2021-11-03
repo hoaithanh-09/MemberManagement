@@ -1,6 +1,5 @@
 ﻿using MemberManagement.ViewModels.Common;
 using MemberManagement.ViewModels.PostViewModels;
-using Newspaper.ViewModels.PostViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;

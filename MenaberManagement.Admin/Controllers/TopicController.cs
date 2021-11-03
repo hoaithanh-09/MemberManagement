@@ -18,8 +18,7 @@ namespace MenaberManagement.Admin.Controllers
         public TopicController(
             ITopicApi iTopicApi,
             IConfiguration configuration,
-            IPostApi iPostApi,
-            IAuthorApi iAuthorApi
+            IPostApi iPostApi
             )
         {
             _iTopicApi = iTopicApi;

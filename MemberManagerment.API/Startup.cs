@@ -1,6 +1,5 @@
 using MemberManagement.Data.Entities;
 using MemberManagement.Services.Addresses;
-using MemberManagement.Services.Authors;
 using MemberManagement.Services.Contacts;
 using MemberManagement.Services.Families;
 using MemberManagement.Services.Groups;
@@ -97,7 +96,6 @@ namespace MemberManagerment.API
             services.AddTransient<UserManager<AppUser>, UserManager<AppUser>>();
             services.AddTransient<SignInManager<AppUser>, SignInManager<AppUser>>();
             services.AddTransient<RoleManager<AppRole>, RoleManager<AppRole>>();
-            services.AddTransient<IAuthorSV, AuthorSV>();
             services.AddTransient<IImageSV, ImageSV>();
             services.AddTransient<ITopicSV, TopicSV>();
             services.AddAuthentication(op =>
