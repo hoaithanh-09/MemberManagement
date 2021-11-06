@@ -19,7 +19,6 @@ namespace MenaberManagement.Admin.Services
         Task<bool> Delete(int id);
 
         Task<List<ContactVM>> GetAll();
-
-       
+        Task<PagedResult<ExMembers>> ListMember(int idContract, GetContactPagingRequest request);
     }
 }

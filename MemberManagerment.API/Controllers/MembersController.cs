@@ -74,12 +74,12 @@ namespace MemberManagement.API.Controllers
             return Ok(member);
         }
 
-        [HttpPost("Creat-Contact")]
-        public async Task<ActionResult> ContactMember([FromRoute] int memberId, [FromForm] ContactMemberCreateRequest request)
-        {
-            var member = await _memberSV.AddContact(memberId, request);
-            return Ok(member);
-        }
+        //[HttpPost("Creat-Contact")]
+        //public async Task<ActionResult> ContactMember([FromRoute] int memberId, [FromForm] ContactMemberCreateRequest request)
+        //{
+        //    var member = await _memberSV.AddContact(memberId, request);
+        //    return Ok(member);
+        //}
 
         [HttpPost("Creat-Role")]
         public async Task<ActionResult> RoleMember([FromRoute] int memberId, [FromForm] RoleMemberCreateRequest request)

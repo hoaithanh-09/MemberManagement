@@ -7,6 +7,6 @@ namespace MemberManagement.ViewModels.ContractMemberViewModels
     public class ContactMemberCreateRequest
     {
         public int MemberId { get; set; }
-        public int ContactId { get; set; }
+        public int RoleId { get; set; }
     }
 }

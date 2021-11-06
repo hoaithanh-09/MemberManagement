@@ -1,5 +1,6 @@
 ﻿using MemberManagement.Services.Contacts;
 using MemberManagement.ViewModels.ContactViewModels;
+using MemberManagement.ViewModels.ContractMemberViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -62,9 +63,27 @@ namespace MemberManagement.API.Controllers
             return Ok(family);
         }
         [HttpGet("ListMember")]
-        public async Task<IActionResult> ListMember([FromQuery] GetContactPagingRequest request)
+        public async Task<IActionResult> ListMember(int idContract,[FromQuery] GetContactPagingRequest request)
         {
-            var family = await _contactSV.ListMember(request);
+            var family = await _contactSV.ListMember(idContract,request);
+            return Ok(family);
+        }
+
+
+        [HttpDelete("RemoveMember")]
+        public async Task<IActionResult> RomoveMember(int idContract,int idMember)
+        {
+            var family = await _contactSV.RomoveMember(idContract, idMember);
+            return Ok(family);
+        }
+
+
+
+
+        [HttpPost("AddMember")]
+        public async Task<IActionResult> AddMember( int idContract,[FromQuery] ContactMemberCreateRequest idMember)
+        {
+            var family = await _contactSV.AddMember(idContract,idMember);
             return Ok(family);
         }
     }

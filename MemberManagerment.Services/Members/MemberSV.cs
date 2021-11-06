@@ -49,26 +49,21 @@ namespace MemberManagement.Services.Members
         }
 
 
-        public async Task<int> AddContact(int memberId, ContactMemberCreateRequest request)
-        {
+        //public async Task<int> AddContact(int memberId, ContactMemberCreateRequest request)
+        //{
 
-            var contact = await _context.Addresses.FindAsync(request.ContactId);
+           
 
-            if (contact == null)
-            {
-                throw new MemberManagementException("Thông tin không hợp lệ");
-            }
+        //    var contracMember = new ContactMembers()
+        //    {
+        //        MemberId = request.MemberId,
+        //        ContactId = contact.Id,
+        //    };
 
-            var contracMember = new ContactMembers()
-            {
-                MemberId = request.MemberId,
-                ContactId = contact.Id,
-            };
-
-            _context.ContactMembers.Add(contracMember);
-            await _context.SaveChangesAsync();
-            return contact.Id;
-        }
+        //    _context.ContactMembers.Add(contracMember);
+        //    await _context.SaveChangesAsync();
+        //    return contact.Id;
+        //}
 
         public async Task<int> AddRole(int memberId, RoleMemberCreateRequest request)
         {

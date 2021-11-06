@@ -102,5 +102,13 @@ namespace MenaberManagement.Admin.Services
 
             return false;
         }
+
+        public async Task<PagedResult<ExMembers>> ListMember(int idContract, GetContactPagingRequest request)
+        {
+            var data = await GetAsync<PagedResult<ExMembers>>(
+             $"/api/Contacts/ListMember?idContract={idContract}&PageIndex=" +
+               $"{request.PageIndex}&PageSize={request.PageSize}&keyword={request.Keyword}");
+            return data;
+        }
     }
 }

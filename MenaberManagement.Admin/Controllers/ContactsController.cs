@@ -1,4 +1,5 @@
-﻿using MemberManagement.ViewModels.ContactViewModels;
+﻿using MemberManagement.ViewModels.Common;
+using MemberManagement.ViewModels.ContactViewModels;
 using MenaberManagement.Admin.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -145,6 +146,51 @@ namespace MenaberManagement.Admin.Controllers
 
             ModelState.AddModelError("", "Xóa thất bại");
             return View();
+        }
+
+        //[HttpGet]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> ListMember(int idContract)
+        //{
+        //    var request = new GetContactPagingRequest()
+        //    {
+        //        Keyword = "",
+        //        PageIndex = 1,
+        //        PageSize = 10,
+        //    };
+        //    var data = await _iContactApiClient.ListMember(idContract, request);
+        //   // ViewBag.Keyword = keyword;
+
+        //    if (TempData["result"] != null)
+        //    {
+        //        ViewBag.SuccessMsg = TempData["result"];
+        //    }
+        //    return View(data);
+        //}
+
+        [HttpGet]
+        public async Task<IActionResult> ListMember(int id)
+        {
+            var roleAssignRequest = await ListMemberContact(id);
+
+            return View(roleAssignRequest.Items);
+        }
+
+        private async Task<PagedResult<ExMembers>> ListMemberContact(int id)
+        {
+            var request = new GetContactPagingRequest()
+            {
+                Keyword = "",
+                PageIndex = 1,
+                PageSize = 10,
+            };
+            var data = await _iContactApiClient.ListMember(id, request);
+
+            if (TempData["result"] != null)
+            {
+                ViewBag.SuccessMsg = TempData["result"];
+            }
+            return data;
         }
     }
 }

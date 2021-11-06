@@ -1,6 +1,7 @@
 ﻿using MemberManagement.Data.Entities;
 using MemberManagement.ViewModels.Common;
 using MemberManagement.ViewModels.ContactViewModels;
+using MemberManagement.ViewModels.ContractMemberViewModels;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -16,6 +17,8 @@ namespace MemberManagement.Services.Contacts
         Task<ContactVM> GetById(int id);
         Task<Contact> Update(int id, ContactEditRequest request);
         Task<PagedResult<ContactVM>> GetPagedResult(GetContactPagingRequest request);
-        Task<PagedResult<ExMembers>> ListMember(GetContactPagingRequest request);
+        Task<PagedResult<ExMembers>> ListMember(int idContract, GetContactPagingRequest request);
+        Task<bool> AddMember(int idMember, ContactMemberCreateRequest idMember1);
+        Task<bool> RomoveMember(int idContract, int idMember);
     }
 }

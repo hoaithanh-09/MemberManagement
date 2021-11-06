@@ -20,7 +20,7 @@ namespace MemberManagement.Services.Members
         Task<int> AddAddress(int member, AddressMemberCreateRequest request);
         Task<MemberVM> GetById(int id);
         Task<Member> Update(int id, MemberEditRequest request);
-        Task<int> AddContact(int memberId, ContactMemberCreateRequest request);
+        //Task<int> AddContact(int memberId, ContactMemberCreateRequest request);
         Task<int> AddRole(int memberId, RoleMemberCreateRequest request);
 
         Task<string> Delete(int id);
