@@ -9,6 +9,7 @@ namespace MenaberManagement.Admin.Services
 {
    public interface IMemberApiClient
     {
+        Task<List<MemberVM>> GetAll();
         Task<PagedResult<MemberVM>> GetFamilyPaging(MemberPaingRequest request);
 
         Task<ApiResult<string>> Create(MemberCreatRequest request);

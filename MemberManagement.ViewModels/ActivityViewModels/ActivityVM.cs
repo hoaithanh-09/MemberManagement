@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MemberManagement.Data.Entities;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -12,5 +13,6 @@ namespace MemberManagement.ViewModels.ActivityViewModels
         public string Content { get; set; }
         public double? Cost { get; set; }
         public string Description { get; set; }
+        public ActivityMember ActivityMembers { get; set; }
     }
 }
