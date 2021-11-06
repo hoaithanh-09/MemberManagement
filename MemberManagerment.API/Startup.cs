@@ -1,7 +1,9 @@
 using MemberManagement.Data.Entities;
+using MemberManagement.Services.Activities;
 using MemberManagement.Services.Addresses;
 using MemberManagement.Services.Contacts;
 using MemberManagement.Services.Families;
+using MemberManagement.Services.Funds;
 using MemberManagement.Services.Groups;
 using MemberManagement.Services.Images;
 using MemberManagement.Services.Members;
@@ -98,6 +100,8 @@ namespace MemberManagerment.API
             services.AddTransient<RoleManager<AppRole>, RoleManager<AppRole>>();
             services.AddTransient<IImageSV, ImageSV>();
             services.AddTransient<ITopicSV, TopicSV>();
+            services.AddTransient<IActivitySV, ActivitySV>();
+            services.AddTransient<IFundSV, FundSV>();
             services.AddAuthentication(op =>
             {
                 op.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
