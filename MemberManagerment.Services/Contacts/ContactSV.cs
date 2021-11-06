@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using ManaberManagement.Utilities;
 using MemberManagement.ViewModels.Common;
 using MemberManagement.Data.Entities;
+using MemberManagement.ViewModels.ContractMemberViewModels;
 
 namespace MemberManagement.Services.Contacts
 {
@@ -20,6 +21,29 @@ namespace MemberManagement.Services.Contacts
         {
             _context = context;
         }
+
+        public async Task<bool> AddMember(int idContrac, ContactMemberCreateRequest request)
+        {
+            var member = _context.Members.Find(request.MemberId);
+            if(member == null)
+            {
+                return false;
+            }
+            var memberContact = new ContactMembers()
+            {
+                MemberId = member.Id,
+                ContactId = idContrac,
+                RoleId = request.RoleId,
+            };
+            _context.ContactMembers.Add(memberContact);
+            int a = await _context.SaveChangesAsync();
+            if (a <= 0)
+            {
+                return false;
+            }
+            return true;
+        }
+
         public async Task<int> Create(ContactCreateRequest request)
         {
            
@@ -105,13 +129,23 @@ namespace MemberManagement.Services.Contacts
             return pagedResult;
         }
 
-        public async Task<PagedResult<ExMembers>> ListMember(GetContactPagingRequest request)
+        public async Task<PagedResult<ExMembers>> ListMember(int idContract,GetContactPagingRequest request)
         {
             var listMember = new List<ExMembers>();
-            
-
-
-
+            var listMemberContact =await _context.ContactMembers.AsQueryable().Where(x=>x.ContactId==idContract).ToListAsync();
+            foreach (var memberContact in listMemberContact)
+            {
+                var member1 = _context.Members.Find(memberContact.MemberId);
+                var member = new ExMembers()
+                {
+                    Name = member1.Name,
+                    PersonalTitles = member1.PersonalTtles,
+                    Address = "",
+                    PhoneNumber = member1.PhoneNumber,
+                    Work = member1.Word,
+                };
+                listMember.Add(member);
+            }
             var pagedResult = new PagedResult<ExMembers>
             {
                 PageIndex = request.PageIndex,
@@ -120,6 +154,23 @@ namespace MemberManagement.Services.Contacts
                 Items = listMember,
             };
             return pagedResult;
+        }
+
+        public async Task<bool> RomoveMember(int idContract, int idMember)
+        {
+            var contact = await _context.ContactMembers.Where(x=>x.ContactId == idContract 
+            && x.MemberId == idMember).FirstOrDefaultAsync();
+            if (contact != null)
+            {
+                _context.Remove(contact);
+
+            }
+            int a = await _context.SaveChangesAsync();
+            if (a <= 0)
+            {
+                return false;
+            }
+            return true;
         }
 
         public async Task<Contact> Update(int id, ContactEditRequest request)

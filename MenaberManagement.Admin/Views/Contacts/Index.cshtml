@@ -6,20 +6,12 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-
-
-
-
-
-
-
 <div class="container-fluid px-4">
     <h1 class="mt-4">Danh sách người dùng</h1>
     <ol class="breadcrumb mb-4">
         <li class="breadcrumb-item"><a href="/">Trang chủ</a></li>
-        <li class="breadcrumb-item active">Danh sách gia đình</li>
+        <li class="breadcrumb-item active">Danh sách ban liên lạc</li>
     </ol>
-
     <div class="card mb-12">
         <div class="card-header">
             <div class="row">
@@ -79,16 +71,17 @@
                             <td>
                                 @Html.DisplayFor(modelItem => item.Note)
                             </td>
-
                             <td>
                                 @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
                                 @Html.ActionLink("Details", "Details", new { id = item.Id }) |
                                 @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                                @Html.ActionLink("ListMember", "ListMember", new { id = item.Id })
                             </td>
                         </tr>
                     }
                 </tbody>
             </table>
+
         </div>
             @await Component.InvokeAsync("Pager", Model)
         </div>
