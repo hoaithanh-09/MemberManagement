@@ -228,6 +228,29 @@ namespace MemberManagement.Services.Members
             return "Xóa thành công";
         }
 
+        public async Task<List<MemberVM>> GetAll()
+        {
+            var query = from f in _context.Members select f;
+            var role = await query.Select(x => new MemberVM()
+            {
+                Name = x.Name,
+                Gender = x.Gender,
+                Idcard = x.Idcard,
+                JoinDate = x.JoinDate,
+                Notes = x.Notes,
+                FamilyId = x.FamilyId,
+                GroupId = x.GroupId,
+                Birth = x.Birth,
+                Email = x.Email,
+                Word = x.Word,
+                PersonalTtles = x.PersonalTtles,
+                PhoneNumber = x.PhoneNumber,
+
+            }).ToListAsync();
+
+            return role;
+        }
+
         public async Task<PagedResult<MemberVM>> GetAllPaging(MemberPaingRequest request)
         {
             var query = from m in _context.Members

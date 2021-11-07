@@ -75,6 +75,22 @@ namespace MenaberManagement.Admin.Services
             return await Delete($"api/Members/" + id);
         }
 
+        public async Task<List<MemberVM>> GetAll()
+        {
+            var client = _httpClientFactory.CreateClient();
+            var sessions = _httpContextAccessor.HttpContext.Session.GetString("JWT");
+            client.BaseAddress = new Uri(_configuration["BaseAddress"]);
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", sessions);
+            var response = await client.GetAsync($"/api/Members/getAll");
+            var body = await response.Content.ReadAsStringAsync();
+            var families = new List<MemberVM>();
+            if (!string.IsNullOrEmpty(body))
+            {
+                families = JsonConvert.DeserializeObject<List<MemberVM>>(body);
+            }
+            return families;
+        }
+
         public async Task<MemberVM> GetById(int id)
         {
             var data = await GetAsync<MemberVM>(

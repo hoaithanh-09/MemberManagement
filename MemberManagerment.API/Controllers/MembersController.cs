@@ -20,6 +20,13 @@ namespace MemberManagement.API.Controllers
     public class MembersController : ControllerBase
     {
         private readonly IMemberSV _memberSV;
+        [HttpGet("getAll")]
+        public async Task<IActionResult> GetAll()
+        {
+            var family = await _memberSV.GetAll();
+            return Ok(family);
+        }
+
         public MembersController(IMemberSV memberSV)
         {
             _memberSV = memberSV;

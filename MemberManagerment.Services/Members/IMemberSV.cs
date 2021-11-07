@@ -14,6 +14,7 @@ namespace MemberManagement.Services.Members
 {
    public interface IMemberSV
     {
+        Task<List<MemberVM>> GetAll();
         Task<PagedResult<MemberVM>> GetAllPaging(MemberPaingRequest request);
         Task<ApiResult<string>> Create(MemberCreatRequest request);
         Task<int> AddAddress(int member, AddressMemberCreateRequest request);

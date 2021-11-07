@@ -60,6 +60,8 @@ namespace MenaberManagement.Admin
             services.AddTransient<IImageApi, ImageApi>();
             services.AddTransient<IPostApi, PostApi>();
             services.AddTransient<ITopicApi, TopicApi>();
+            services.AddTransient<IActivityApi, ActivityApi>();
+            services.AddTransient<IFundApi, FundApi>();
             IMvcBuilder builder = services.AddRazorPages();
         }
 
