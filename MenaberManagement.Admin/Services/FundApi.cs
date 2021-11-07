@@ -78,6 +78,14 @@ namespace MenaberManagement.Admin.Services
             return data;
         }
 
+        public async Task<PagedResult<FundAction>> ListAction(int fundId, GetFundPagingRequest request)
+        {
+            var data = await GetAsync<PagedResult<FundAction>>(
+             $"/api/Funds/ListMember?idContract={fundId}&PageIndex=" +
+               $"{request.PageIndex}&PageSize={request.PageSize}&keyword={request.Keyword}");
+            return data;
+        }
+
         public async Task<bool> Update(int id, FundEditRequest request)
         {
             var client = _httpClientFactory.CreateClient();

@@ -34,7 +34,9 @@ namespace MemberManagement.Services.Funds
             var activityMember = new FundMember()
             {
                 MemberId = member.Id,
-                FundId = request.FundId,
+                FundId = fundId,
+                Action=request.Action,
+                Total=request.Total,
             };
 
             _context.FundMembers.Add(activityMember);
@@ -178,6 +180,47 @@ namespace MemberManagement.Services.Funds
                 Items = data
             };
             return pagedResult;
+        }
+
+        public async Task<PagedResult<FundAction>> ListAction(int fundId, GetFundPagingRequest request)
+        {
+            var listAction = new List<FundAction>();
+            var listFundMember = await _context.FundMembers.AsQueryable().Where(x => x.FundId == fundId).ToListAsync();
+            foreach (var fundMember in listFundMember)
+            {
+                var action1 = _context.FundMembers.Find(fundMember.FundId);
+                var action = new FundAction()
+                {
+                   Action=action1.Action,
+                   Total=action1.Total,
+                };
+                listAction.Add(action);
+            }
+            var pagedResult = new PagedResult<FundAction>
+            {
+                PageIndex = request.PageIndex,
+                PageSize = request.PageSize,
+                TotalRecords = listAction.Count,
+                Items = listAction,
+            };
+            return pagedResult;
+        }
+
+        public async Task<bool> RomoveMember(int fundId, int idMember)
+        {
+            var fund = await _context.FundMembers.Where(x => x.FundId == fundId
+            && x.MemberId == idMember).FirstOrDefaultAsync();
+            if (fund != null)
+            {
+                _context.Remove(fund);
+
+            }
+            int a = await _context.SaveChangesAsync();
+            if (a <= 0)
+            {
+                return false;
+            }
+            return true;
         }
 
         public async Task<Fund> Update(int id, FundEditRequest request)

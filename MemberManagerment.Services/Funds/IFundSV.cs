@@ -18,5 +18,7 @@ namespace MemberManagement.Services.Funds
         Task<Fund> Update(int id, FundEditRequest request);
         Task<PagedResult<FundVM>> GetPagedResult(GetFundPagingRequest request);
         Task<int> AddMember(int fundId, FundMemberCreateRequest request);
+        Task<PagedResult<FundAction>> ListAction(int fundId, GetFundPagingRequest request);
+        Task<bool> RomoveMember(int fundId, int idMember);
     }
 }

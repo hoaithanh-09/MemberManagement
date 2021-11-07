@@ -7,6 +7,8 @@ namespace MemberManagement.Data.Entities
 {
     public partial class FundMember
     {
+        public int Id { get; set; }
+        public DateTime CreateDate { get; set; }
         public string Action { get; set; }
         public double? Total { get; set; }
         public int MemberId { get; set; }
