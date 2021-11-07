@@ -9,6 +9,7 @@ namespace MemberManagement.Data.Entities
     {
         public Fund()
         {
+            FundMembers = new HashSet<FundMember>();
             FundGroups = new HashSet<FundGroup>();
         }
 
@@ -18,6 +19,7 @@ namespace MemberManagement.Data.Entities
         public DateTime? CreatedDate { get; set; }
         public string Description { get; set; }
 
+        public virtual ICollection<FundMember> FundMembers { get; set; }
         public virtual ICollection<FundGroup> FundGroups { get; set; }
     }
 }
