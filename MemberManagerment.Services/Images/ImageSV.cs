@@ -27,6 +27,7 @@ namespace MemberManagement.Services.Images
                 ImagePath = request.ImagePath,
                 DateCreated = request.DateCreated,
                 FileSize = request.FileSize
+                
             };
             _context.Add(image);
             await _context.SaveChangesAsync();

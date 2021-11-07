@@ -78,8 +78,6 @@ namespace MemberManagement.API.Controllers
         }
 
 
-
-
         [HttpPost("AddMember")]
         public async Task<IActionResult> AddMember( int idContract,[FromQuery] ContactMemberCreateRequest idMember)
         {
