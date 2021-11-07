@@ -14,7 +14,6 @@ namespace MemberManagement.Data.Entities
             MemberUsers = new HashSet<MemberUser>();
             RoleMembers = new HashSet<RoleMember>();
             ActivityMembers = new HashSet<ActivityMember>();
-            FundMembers = new HashSet<FundMember>();
         }
 
         public int Id { get; set; }
@@ -37,6 +36,5 @@ namespace MemberManagement.Data.Entities
         public virtual ICollection<MemberUser> MemberUsers { get; set; }
         public virtual ICollection<RoleMember> RoleMembers { get; set; }
         public virtual ICollection<ActivityMember> ActivityMembers { get; set; }
-        public virtual ICollection<FundMember> FundMembers { get; set; }
     }
 }

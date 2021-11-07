@@ -10,7 +10,6 @@ namespace MemberManagement.Data.Entities
         public Activity()
         {
             ActivityMembers = new HashSet<ActivityMember>();
-            FundMembers = new HashSet<FundMember>();
         }
 
         public int Id { get; set; }
@@ -22,6 +21,6 @@ namespace MemberManagement.Data.Entities
 
 
         public virtual ICollection<ActivityMember> ActivityMembers { get; set; }
-        public virtual ICollection<FundMember> FundMembers { get; set; }
+       
     }
 }

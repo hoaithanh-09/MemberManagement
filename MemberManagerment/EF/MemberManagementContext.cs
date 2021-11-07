@@ -29,12 +29,8 @@ namespace MemberManagerment.Data.EF
         public virtual DbSet<Roles> Roless { get; set; }
         public virtual DbSet<RoleMember> RoleMembers { get; set; }
         public virtual DbSet<Post> Postes { get; set; }
-       
-
         public virtual DbSet<Province> Provinces { get; set; }
-
         public virtual DbSet<District> Districts { get; set; }
-
         public virtual DbSet<Image> Images { get; set; }
         public virtual DbSet<ImageInPost> ImageInPosts { get; set; }
         public virtual DbSet<Post> Posts { get; set; }
@@ -46,6 +42,7 @@ namespace MemberManagerment.Data.EF
         public virtual DbSet<ActivityMember> ActivityMembers { get; set; }
         public virtual DbSet<Fund> Funds { get; set; }
         public virtual DbSet<FundMember> FundMembers { get; set; }
+        public virtual DbSet<FundGroup> FundGroups { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.HasAnnotation("Relational:Collation", "Latin1_General_CI_AS");
@@ -277,8 +274,6 @@ namespace MemberManagerment.Data.EF
                    .HasMaxLength(450)
                    .IsUnicode(false);
 
- 
-
 
                 entity.Property(e => e.Notes)
                     .HasMaxLength(450)
@@ -501,30 +496,35 @@ namespace MemberManagerment.Data.EF
                 entity.Property(e => e.Name).HasMaxLength(50);
             });
 
-            modelBuilder.Entity<FundMember>(entity =>
+          
+
+
+            modelBuilder.Entity<FundGroup>(entity =>
             {
-                entity.HasKey(e => new { e.MemberId, e.FundId })
-                    .HasName("PK__FundMemb__B4C094DDE6A8989C");
+                
+                entity.ToTable("FundGroup");
 
-                entity.ToTable("FundMember");
+                entity.Property(e => e.CreateDate).IsRequired(true);
+                entity.Property(e => e.Name).IsRequired(true);
+                entity.Property(e => e.Description).IsRequired(false);
+                entity.Property(e => e.Money).IsRequired(true);
+                entity.Property(e => e.Finish).IsRequired(true);
 
-                entity.Property(e => e.Action)
-                    .HasMaxLength(10)
-                    .IsUnicode(false)
-                    .IsFixedLength(true);
 
                 entity.HasOne(d => d.Fund)
-                    .WithMany(p => p.FundMembers)
+                    .WithMany(p => p.FundGroups)
                     .HasForeignKey(d => d.FundId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__FundMembe__FundI__412EB0B6");
+                    .HasConstraintName("FK__FundGroups1__FundI__412EB0B6");
 
-                entity.HasOne(d => d.Member)
-                    .WithMany(p => p.FundMembers)
-                    .HasForeignKey(d => d.MemberId)
+                entity.HasOne(d => d.Group)
+                    .WithMany(p => p.FundGroups)
+                    .HasForeignKey(d => d.GroupId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__FundMembe__Membe__403A8C7D");
+                    .HasConstraintName("FK__FundGr1__Membe__403A8C7D");
             });
+
+
             base.OnModelCreating(modelBuilder);
 
         }

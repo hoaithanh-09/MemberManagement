@@ -4,14 +4,16 @@ using MemberManagerment.Data.EF;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace MemberManagement.Data.Migrations
 {
     [DbContext(typeof(MemberManagementContext))]
-    partial class MemberManagementContextModelSnapshot : ModelSnapshot
+    [Migration("20211107032106_crate")]
+    partial class crate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -409,7 +411,7 @@ namespace MemberManagement.Data.Migrations
 
                     b.HasIndex("GroupId");
 
-                    b.ToTable("FundGroup");
+                    b.ToTable("FundMember");
                 });
 
             modelBuilder.Entity("MemberManagement.Data.Entities.FundMember", b =>
@@ -986,13 +988,13 @@ namespace MemberManagement.Data.Migrations
                     b.HasOne("MemberManagement.Data.Entities.Fund", "Fund")
                         .WithMany("FundGroups")
                         .HasForeignKey("FundId")
-                        .HasConstraintName("FK__FundGroups1__FundI__412EB0B6")
+                        .HasConstraintName("FK__FundGroups__FundI__412EB0B6")
                         .IsRequired();
 
                     b.HasOne("MemberManagement.Data.Entities.Group", "Group")
                         .WithMany("FundGroups")
                         .HasForeignKey("GroupId")
-                        .HasConstraintName("FK__FundGr1__Membe__403A8C7D")
+                        .HasConstraintName("FK__FundGr__Membe__403A8C7D")
                         .IsRequired();
 
                     b.Navigation("Fund");

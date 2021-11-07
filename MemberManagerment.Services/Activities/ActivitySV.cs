@@ -55,16 +55,7 @@ namespace MemberManagement.Services.Activities
 
             _context.Activities.Add(activityAdd);
 
-            if (request.MemberId != 0)
-            {
-                activityAdd.FundMembers = new List<FundMember>()
-                { new FundMember()
-                    {
-                       MemberId = request.MemberId,
-                       FundId = activityAdd.Id,
-                    }
-                };
-            }
+            
             var a = await _context.SaveChangesAsync();
             if (a > 0)
             {

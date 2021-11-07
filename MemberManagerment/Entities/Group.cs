@@ -10,6 +10,7 @@ namespace MemberManagement.Data.Entities
         public Group()
         {
             Members = new HashSet<Member>();
+            FundGroups = new HashSet<FundGroup>();
         }
 
         public int Id { get; set; }
@@ -19,5 +20,6 @@ namespace MemberManagement.Data.Entities
         public int? IdMember { get; set; }
 
         public virtual ICollection<Member> Members { get; set; }
+        public virtual ICollection<FundGroup> FundGroups { get; set; }
     }
 }

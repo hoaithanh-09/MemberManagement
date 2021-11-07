@@ -35,7 +35,6 @@ namespace MemberManagement.Services.Funds
             {
                 MemberId = member.Id,
                 FundId = fundId,
-                Action=request.Action,
                 Total=request.Total,
             };
 
@@ -58,16 +57,7 @@ namespace MemberManagement.Services.Funds
 
             _context.Funds.Add(fund);
 
-            if (request.MemberId != 0)
-            {
-                fund.FundMembers = new List<FundMember>()
-                { new FundMember()
-                    {
-                       MemberId = request.MemberId,
-                       FundId = fund.Id,
-                    }
-                };
-            }
+           
             var a = await _context.SaveChangesAsync();
             if (a > 0)
             {
@@ -117,7 +107,7 @@ namespace MemberManagement.Services.Funds
         public async Task<FundVM> GetById(int id)
         {
             var memberVM = new MemberVM();
-            var activity = await _context.Funds.Include(x => x.FundMembers).
+            var activity = await _context.Funds.
                 Where(x => x.Id == id).FirstOrDefaultAsync();
             if (activity == null)
                 throw new MemberManagementException("Không tìm thấy!");
@@ -191,7 +181,7 @@ namespace MemberManagement.Services.Funds
                 var action1 = _context.FundMembers.Find(fundMember.FundId);
                 var action = new FundAction()
                 {
-                   Action=action1.Action,
+                    Action = "",
                    Total=action1.Total,
                 };
                 listAction.Add(action);
