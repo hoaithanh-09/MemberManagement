@@ -56,9 +56,8 @@ namespace MenaberManagement.Admin.Services
             requestContent.Add(new StringContent(string.IsNullOrEmpty(request.Word) ? "" : request.Gender.ToString()), "Word");
             requestContent.Add(new StringContent(string.IsNullOrEmpty(request.PersonalTtles) ? "" : request.Gender.ToString()), "PersonalTtles");
             
-            requestContent.Add(new StringContent(request.ContactId.ToString()), "ContactId");
             requestContent.Add(new StringContent(request.RoleId.ToString()), "RoleId");
-            requestContent.Add(new StringContent(request.IdAddress.ToString()), "IdAddress");
+    //        requestContent.Add(new StringContent(request.IdAddress.ToString()), "IdAddress");
 
 
             //var json = JsonConvert.SerializeObject(request);

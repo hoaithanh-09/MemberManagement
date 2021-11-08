@@ -53,7 +53,7 @@ namespace MenaberManagement.Admin.Controllers
             var images = await _iImageApi.GetAll();
             var postCreateRequest = new PostCreateRequest();
 
-            postCreateRequest.Images = images;
+           // postCreateRequest.Images = images;
             return View(postCreateRequest);
         }
 
@@ -64,7 +64,7 @@ namespace MenaberManagement.Admin.Controllers
             if (!ModelState.IsValid)
                 return View();
             var images = await _iImageApi.GetAll();
-            request.Images = images;
+           // request.Images = images;
             var result = await _iPostApi.Create(request);
 
             if (!result.IsSuccessed)

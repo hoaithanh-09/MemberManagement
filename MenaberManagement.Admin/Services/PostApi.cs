@@ -48,7 +48,7 @@ namespace MenaberManagement.Admin.Services
             requestContent.Add(new StringContent(request.ModifiedDate.ToString()), "ModifiedDate");
 
             requestContent.Add(new StringContent(request.AuthorId.ToString()), "AuthorId");
-            requestContent.Add(new StringContent(request.ImageId.ToString()), "ImageId");
+        //    requestContent.Add(new StringContent(request.ImageId.ToString()), "ImageId");
 
 
             //var json = JsonConvert.SerializeObject(request);

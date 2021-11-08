@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 #nullable disable
 
@@ -9,10 +10,10 @@ namespace MemberManagement.Data.Entities
     {
         public Post()
         {
-            ImageInPosts = new HashSet<ImageInPost>();
+            Images = new HashSet<Image>();
             PostInTopics = new HashSet<PostInTopic>();
         }
-
+        [Key]
         public int Id { get; set; }
         public string Title { get; set; }
         public DateTime? CreatedDate { get; set; }
@@ -20,7 +21,7 @@ namespace MemberManagement.Data.Entities
         public int? AuthorId { get; set; }
         public string Content { get; set; }
 
-        public virtual ICollection<ImageInPost> ImageInPosts { get; set; }
+        public virtual ICollection<Image> Images{ get; set; }
         public virtual ICollection<PostInTopic> PostInTopics { get; set; }
     }
 }

@@ -14,7 +14,6 @@ namespace MemberManagement.API.Controllers
     public class PostsController: ControllerBase
     {
         private readonly IPostSV _postSV;
-        //dd
         public PostsController(IPostSV postSV)
         {
             _postSV = postSV;
@@ -26,7 +25,7 @@ namespace MemberManagement.API.Controllers
             return Ok(post);
         }
         [HttpPost("CreatePost")]
-        public async Task<ActionResult> Create([FromBody] PostCreateRequest request)
+        public async Task<ActionResult> Create([FromForm] PostCreateRequest request)
         {
             var post = await _postSV.Create(request);
             return Ok(post);
@@ -71,7 +70,6 @@ namespace MemberManagement.API.Controllers
             var post = await _postSV.AddImage(id,request);
             return Ok(post);
         }
-
     }
     
 }

@@ -8,6 +8,8 @@
     <ProjectReference Include="..\ManaberManagement.Utilities\ManaberManagement.Utilities.csproj" />
     <ProjectReference Include="..\MemberManagement.ViewModels\MemberManagement.ViewModels.csproj" />
     <ProjectReference Include="..\MemberManagerment\MemberManagement.Data.csproj" />
-  </ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
 
+  </ItemGroup>
+  
 </Project>
