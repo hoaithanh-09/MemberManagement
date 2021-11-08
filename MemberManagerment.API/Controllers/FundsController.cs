@@ -1,4 +1,5 @@
 ﻿using MemberManagement.Services.Funds;
+using MemberManagement.ViewModels.FundGroupVIewModels;
 using MemberManagement.ViewModels.FundMemberViewModels;
 using MemberManagement.ViewModels.FundViewModels;
 using Microsoft.AspNetCore.Http;
@@ -35,7 +36,7 @@ namespace MemberManagement.API.Controllers
             return Ok(member.ResultObj);
         }
         [HttpGet("{id}")]
-        public async Task<ActionResult> getID([FromRoute] int id)
+        public async Task<ActionResult> getID(int id)
 
         {
             var member = await _fundSV.GetById(id);
@@ -57,9 +58,9 @@ namespace MemberManagement.API.Controllers
         }
 
         [HttpPost("Creat-activityMember")]
-        public async Task<ActionResult> AddMember([FromRoute] int activityId, [FromForm] FundMemberCreateRequest request)
+        public async Task<ActionResult> AddAction(int fundId, [FromQuery] FundGroupCreateRequest request)
         {
-            var member = await _fundSV.AddMember(activityId, request);
+            var member = await _fundSV.AddAction(fundId, request);
             return Ok(member);
         }
 
@@ -70,6 +71,13 @@ namespace MemberManagement.API.Controllers
         {
             var group = await _fundSV.Delete(id);
             return Ok(group);
+        }
+
+        [HttpGet("ListAction")]
+        public async Task<IActionResult> ListAction(int fundId, [FromQuery] GetFundPagingRequest request)
+        {
+            var family = await _fundSV.ListAction(fundId, request);
+            return Ok(family);
         }
     }
 }

@@ -78,10 +78,10 @@ namespace MenaberManagement.Admin.Services
             return data;
         }
 
-        public async Task<PagedResult<FundAction>> ListAction(int fundId, GetFundPagingRequest request)
+        public async Task<PagedResult<ListAction>> ListAction(int fundId, GetFundPagingRequest request)
         {
-            var data = await GetAsync<PagedResult<FundAction>>(
-             $"/api/Funds/ListMember?idContract={fundId}&PageIndex=" +
+            var data = await GetAsync<PagedResult<ListAction>>(
+             $"/api/Funds/ListAction?fundId={fundId}&PageIndex=" +
                $"{request.PageIndex}&PageSize={request.PageSize}&keyword={request.Keyword}");
             return data;
         }

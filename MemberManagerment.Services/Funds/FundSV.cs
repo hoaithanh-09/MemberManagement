@@ -1,8 +1,10 @@
 ﻿using ManaberManagement.Utilities;
 using MemberManagement.Data.Entities;
 using MemberManagement.ViewModels.Common;
+using MemberManagement.ViewModels.FundGroupVIewModels;
 using MemberManagement.ViewModels.FundMemberViewModels;
 using MemberManagement.ViewModels.FundViewModels;
+using MemberManagement.ViewModels.GroupViewModels;
 using MemberManagement.ViewModels.MemberViewModels;
 using MemberManagerment.Data.EF;
 using Microsoft.EntityFrameworkCore;
@@ -22,28 +24,33 @@ namespace MemberManagement.Services.Funds
             _context = context;
         }
 
-        public async Task<int> AddMember(int fundId, FundMemberCreateRequest request)
+        public async Task<bool> AddAction(int fundId, FundGroupCreateRequest request)
         {
-            var member = await _context.Members.FindAsync(request.MemberId);
-
-            if (member == null)
+            /*var group = _context.Groups.Find(request.GroupId);
+            if (group == null)
             {
-                throw new MemberManagementException("Thông tin không hợp lệ");
-            }
-
-            var activityMember = new FundMember()
+                return false;
+            }*/
+            var memberContact = new FundGroup()
             {
-                MemberId = member.Id,
+                GroupId = request.Id,
                 FundId = fundId,
-                Total=request.Total,
+                Name = request.Name,
+                Description = request.Description,
+                CreateDate = DateTime.Now,
+                Money = request.Money,
+                Finish = request.Finish,
             };
-
-            _context.FundMembers.Add(activityMember);
-            await _context.SaveChangesAsync();
-            return activityMember.MemberId;
+            _context.FundGroups.Add(memberContact);
+            int a = await _context.SaveChangesAsync();
+            if (a <= 0)
+            {
+                return false;
+            }
+            return true;
 
         }
-    
+
 
         public async Task<ApiResult<string>> Create(FundCreateRequest request)
         {
@@ -56,8 +63,8 @@ namespace MemberManagement.Services.Funds
             };
 
             _context.Funds.Add(fund);
-
            
+
             var a = await _context.SaveChangesAsync();
             if (a > 0)
             {
@@ -77,10 +84,10 @@ namespace MemberManagement.Services.Funds
             {
                 throw new MemberManagementException("Không tìm thấy!");
             }
-            var fundMember = await _context.FundMembers.AsQueryable().Where(x => x.FundId == fund.Id).ToListAsync();
+            var fundMember = await _context.FundGroups.AsQueryable().Where(x => x.FundId == fund.Id).ToListAsync();
             foreach (var member in fundMember)
             {
-                _context.FundMembers.Remove(member);
+                _context.FundGroups.Remove(member);
                 await _context.SaveChangesAsync();
             }
 
@@ -99,6 +106,7 @@ namespace MemberManagement.Services.Funds
                 CreatedDate = x.CreatedDate,
                 TotalFund = x.TotalFund
 
+
             }).ToListAsync();
 
             return role;
@@ -106,27 +114,27 @@ namespace MemberManagement.Services.Funds
 
         public async Task<FundVM> GetById(int id)
         {
-            var memberVM = new MemberVM();
-            var activity = await _context.Funds.
+            var groupVM = new GroupVM();
+            var activity = await _context.Funds.Include(x => x.FundGroups).
                 Where(x => x.Id == id).FirstOrDefaultAsync();
             if (activity == null)
                 throw new MemberManagementException("Không tìm thấy!");
 
-            var activityMember = await _context.FundMembers.Where(x => x.FundId == id).FirstOrDefaultAsync();
+            var activityMember = await _context.FundGroups.Where(x => x.FundId == id).FirstOrDefaultAsync();
             if (activityMember != null)
             {
-                var member = await _context.Members.Where(x => x.Id == activityMember.MemberId).FirstOrDefaultAsync();
-                memberVM = new MemberVM()
+                var member = await _context.Groups.Where(x => x.Id == activityMember.GroupId).FirstOrDefaultAsync();
+                groupVM = new GroupVM()
                 {
                     Name = member.Name,
-                    PersonalTtles = member.PersonalTtles,
+                    Id=member.Id,
                 };
             }
 
 
-            var activityMembers = new FundMemberVM()
+            var activityMembers = new FundGroupVM()
             {
-                Member = memberVM,
+                Group = groupVM,
             };
 
             var activityVM = new FundVM()
@@ -136,7 +144,7 @@ namespace MemberManagement.Services.Funds
                 Description = activity.Description,
                 TotalFund=activity.TotalFund,
                 CreatedDate=activity.CreatedDate,
-                FundMembers = activityMember,
+                FundGroups = activityMember,
             };
             return activityVM;
         }
@@ -172,21 +180,25 @@ namespace MemberManagement.Services.Funds
             return pagedResult;
         }
 
-        public async Task<PagedResult<FundAction>> ListAction(int fundId, GetFundPagingRequest request)
+        public async Task<PagedResult<ListAction>> ListAction(int fundId, GetFundPagingRequest request)
         {
-            var listAction = new List<FundAction>();
-            var listFundMember = await _context.FundMembers.AsQueryable().Where(x => x.FundId == fundId).ToListAsync();
+            var listAction = new List<ListAction>();
+            var listFundMember = await _context.FundGroups.AsQueryable().Where(x => x.FundId == fundId).ToListAsync();
             foreach (var fundMember in listFundMember)
             {
-                var action1 = _context.FundMembers.Find(fundMember.FundId);
-                var action = new FundAction()
+                var action1 = _context.FundGroups.Find(fundMember.Id);
+                var action = new ListAction()
                 {
-                    Action = "",
-                   Total=action1.Total,
+                    Id = action1.Id,
+                    Name = action1.Name,
+                    Description = action1.Description,
+                    CreateDate=action1.CreateDate,
+                    Finish=action1.Finish,
+                    Money= action1.Money,
                 };
                 listAction.Add(action);
             }
-            var pagedResult = new PagedResult<FundAction>
+            var pagedResult = new PagedResult<ListAction>
             {
                 PageIndex = request.PageIndex,
                 PageSize = request.PageSize,
@@ -196,9 +208,14 @@ namespace MemberManagement.Services.Funds
             return pagedResult;
         }
 
-        public async Task<bool> RomoveMember(int fundId, int idMember)
+        public Task<bool> RomoveAction(int fundId, int idMember)
         {
-            var fund = await _context.FundMembers.Where(x => x.FundId == fundId
+            throw new NotImplementedException();
+        }
+
+        public   Task<bool> RomoveMember(int fundId, int idMember)
+        {
+            /*var fund = await _context.FundMembers.Where(x => x.FundId == fundId
             && x.MemberId == idMember).FirstOrDefaultAsync();
             if (fund != null)
             {
@@ -210,7 +227,8 @@ namespace MemberManagement.Services.Funds
             {
                 return false;
             }
-            return true;
+            return true;*/
+            throw new NotImplementedException();
         }
 
         public async Task<Fund> Update(int id, FundEditRequest request)
@@ -242,5 +260,7 @@ namespace MemberManagement.Services.Funds
             }
             return rold;
         }
+
+       
     }
 }

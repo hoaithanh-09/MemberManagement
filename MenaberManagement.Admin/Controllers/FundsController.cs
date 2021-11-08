@@ -1,27 +1,25 @@
-﻿using MemberManagement.ViewModels.FundViewModels;
+﻿using MemberManagement.ViewModels.Common;
+using MemberManagement.ViewModels.FundViewModels;
 using MenaberManagement.Admin.Models;
 using MenaberManagement.Admin.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace MenaberManagement.Admin.Controllers
 {
-    public class FundsController:BaseController
+    public class FundsController : BaseController
     {
         private readonly IFundApi _iFundApi;
         private readonly IConfiguration _configuration;
-        private readonly IMemberApiClient _iMemberApiClient;
+        private readonly IGroupApiClient _iGroupApiClient;
         public FundsController(
-            IMemberApiClient iMemberApiClient,
+            IGroupApiClient iGroupApiClient,
             IConfiguration configuration,
             IFundApi iFundApi
             )
         {
-            _iMemberApiClient = iMemberApiClient;
+            _iGroupApiClient = iGroupApiClient;
             _configuration = configuration;
             _iFundApi = iFundApi;
         }
@@ -52,10 +50,10 @@ namespace MenaberManagement.Admin.Controllers
             CascadingModel model = new CascadingModel();
 
 
-            var members = await _iMemberApiClient.GetAll();
+            var members = await _iGroupApiClient.GetAll();
             var activityCreatRequest = new FundCreateRequest();
 
-            activityCreatRequest.Members = members;
+            activityCreatRequest.Groups = members;
             return View(activityCreatRequest);
         }
 
@@ -66,8 +64,8 @@ namespace MenaberManagement.Admin.Controllers
             if (!ModelState.IsValid)
                 return View();
 
-            var members = await _iMemberApiClient.GetAll();
-            request.Members = members;
+            var members = await _iGroupApiClient.GetAll();
+            request.Groups = members;
 
             var result = await _iFundApi.Create(request);
 
@@ -146,6 +144,31 @@ namespace MenaberManagement.Admin.Controllers
 
             ModelState.AddModelError("", "Cập nhật thất bại");
             return View(request);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> ListAction(int id)
+        {
+            var roleAssignRequest = await ListActionFund(id);
+
+            return View(roleAssignRequest.Items);
+        }
+
+        private async Task<PagedResult<ListAction>> ListActionFund(int id)
+        {
+            var request = new GetFundPagingRequest()
+            {
+                Keyword = "",
+                PageIndex = 1,
+                PageSize = 10,
+            };
+            var data = await _iFundApi.ListAction(id, request);
+
+            if (TempData["result"] != null)
+            {
+                ViewBag.SuccessMsg = TempData["result"];
+            }
+            return data;
         }
     }
 }

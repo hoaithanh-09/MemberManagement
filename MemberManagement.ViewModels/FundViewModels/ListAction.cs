@@ -1,18 +1,18 @@
-﻿using MemberManagement.Data.Entities;
+﻿using MemberManagement.ViewModels.GroupViewModels;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace MemberManagement.ViewModels.FundViewModels
 {
-    public class FundVM
+    public  class ListAction
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public double? TotalFund { get; set; }
-        public DateTime? CreatedDate { get; set; }
+        public double Money { get; set; }
+        public DateTime CreateDate { get; set; } = DateTime.Now.Date;
         public string Description { get; set; }
-        public FundGroup FundGroups { get; set; }
+        public bool Finish { get; set; } = true;
 
     }
 }

@@ -521,7 +521,7 @@ namespace MemberManagerment.Data.EF
                     .WithMany(p => p.FundGroups)
                     .HasForeignKey(d => d.GroupId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__FundGr1__Membe__403A8C7D");
+                    .HasConstraintName("FK__FundGr1__Group__403A8C7D");
             });
 
 

@@ -16,6 +16,6 @@ namespace MenaberManagement.Admin.Services
         Task<bool> Update(int id, FundEditRequest request);
         Task<FundVM> GetById(int id);
         Task<bool> Delete(int id);
-        Task<PagedResult<FundAction>> ListAction(int fundId, GetFundPagingRequest request);
+        Task<PagedResult<ListAction>> ListAction(int fundId, GetFundPagingRequest request);
     }
 }
