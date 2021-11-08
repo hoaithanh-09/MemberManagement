@@ -10,15 +10,15 @@ using System.Threading.Tasks;
 
 namespace MenaberManagement.Client.Controllers
 {
-    public class TopicController:Controller
+    public class TopicClientController:Controller
     {
         private readonly ITopicApi _iTopicApi;
         private readonly IConfiguration _configuration;
-        private readonly IPostApi _iPostApi;
-        public TopicController(
+        private readonly IPostApiClient _iPostApi;
+        public TopicClientController(
             ITopicApi iTopicApi,
             IConfiguration configuration,
-            IPostApi iPostApi
+            IPostApiClient iPostApi
 
             )
         {

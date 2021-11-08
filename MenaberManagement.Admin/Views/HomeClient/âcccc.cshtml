@@ -1,0 +1,32 @@
+﻿
+
+@{
+    ViewData["Title"] = "List_Activities";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    
+}
+@section post{
+    <div class="w3-container w3-white w3-margin w3-padding-large activities">
+        <div class="w3-container w3-padding  title">
+            <h3 class="w3-black">HOẠT ĐỘNG</h3>
+        </div>
+        <div class="content-acti ">
+            <div class="content-title">
+                @for (int index = 0; index < Model.Posts.Count; index++)
+                {
+                    var post = Model.Posts[index];
+                    <div class="row-avti @(index==0?"active":"")">
+                        <a href=""><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRyXgXzJnNvTQ7yBaZzSiLvgYtII6HZOSMQaQ&usqp=CAU" alt=""></a>
+                        <div>@post.Title</div>
+                        <p class="title-small">
+                            Từ trước đến nay, những người con của quê hương xã đã và đang sinh sống, công tác, học tập ở xa luôn đoàn kết, tương trợ giúp đỡ nhau
+                            và có tấm lòng vàng hướng về quê hương, gắn bó với cội nguồn của mình bằng những việc làm thiết thực.
+                        </p>
+                    </div>
+                    <div class="clear"></div>
+                    <hr />
+                }
+            </div>
+        </div>
+    </div>
+}

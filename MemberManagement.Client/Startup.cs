@@ -33,8 +33,8 @@ namespace MemberManagement.Client
             services.AddHttpClient();
             services.AddControllersWithViews();
             services.AddTransient<IHttpContextAccessor, HttpContextAccessor>();
-            services.AddTransient<IImageApi, ImageApi>();
-            services.AddTransient<IPostApi, PostApi>();
+            services.AddTransient<IImageApiClient, ImageApi>();
+            services.AddTransient<IPostApiClient, PostApiClient>();
             services.AddTransient<ITopicApi, TopicApi>();
             IMvcBuilder builder = services.AddRazorPages();
 
@@ -75,7 +75,7 @@ namespace MemberManagement.Client
 
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{controller=HomeClient}/{action=Index}/{id?}");
                 
             });
             

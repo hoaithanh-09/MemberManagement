@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace MenaberManagement.Client.Services
 {
-    public interface IPostApi
+    public interface IPostApiClient
     {
         Task<PagedResult<PostVM>> GetPostPaging(GetPostPagingRequest request);
         Task<PostVM> GetById(int id);

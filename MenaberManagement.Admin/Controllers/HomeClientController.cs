@@ -1,5 +1,6 @@
-﻿using MemberManagement.Client.Models;
-using MenaberManagement.Client.Services;
+﻿
+using MenaberManagement.Admin.Models;
+using MenaberManagement.Admin.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -9,14 +10,14 @@ using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace MemberManagement.Client.Controllers
+namespace MenaberManagement.Admin.Controllers
 {
-    public class HomeController : Controller
+    public class HomeClientController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
-        private readonly IPostApi _iPostApi;
+        private readonly ILogger<HomeClientController> _logger;
+        private readonly IPostApiClient _iPostApi;
 
-        public HomeController(ILogger<HomeController> logger, IPostApi iPostApi)
+        public HomeClientController(ILogger<HomeClientController> logger, IPostApiClient iPostApi)
         {
             _logger = logger;
             _iPostApi = iPostApi;

@@ -13,14 +13,14 @@ using System.Text;
 using System.Threading.Tasks;
 
 
-namespace MenaberManagement.Client.Services
+namespace MenaberManagement.Admin.Services
 {
-    public class PostApi : BaseApiClient, IPostApi
+    public class PostApiClient : BaseApiClient, IPostApiClient
     {
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IHttpClientFactory _httpClientFactory;
         private readonly IConfiguration _configuration;
-        public PostApi(IHttpClientFactory httpClientFactory,
+        public PostApiClient(IHttpClientFactory httpClientFactory,
                     IHttpContextAccessor httpContextAccessor,
                      IConfiguration configuration)
              : base(httpClientFactory, httpContextAccessor, configuration)

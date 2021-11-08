@@ -1,6 +1,6 @@
 ﻿using ManaberManagement.Utilities;
 using MemberManagement.ViewModels.Common;
-using MemberManagement.ViewModels.ImageViewModels;
+using MemberManagement.ViewModels.PostViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
@@ -15,13 +15,12 @@ using System.Threading.Tasks;
 
 namespace MenaberManagement.Client.Services
 {
-    public class ImageApi : BaseApiClient, IImageApiClient
+    public class PostApiClient : BaseApiClient, IPostApiClient
     {
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IHttpClientFactory _httpClientFactory;
         private readonly IConfiguration _configuration;
-
-        public ImageApi(IHttpClientFactory httpClientFactory,
+        public PostApiClient(IHttpClientFactory httpClientFactory,
                     IHttpContextAccessor httpContextAccessor,
                      IConfiguration configuration)
              : base(httpClientFactory, httpContextAccessor, configuration)
@@ -30,27 +29,20 @@ namespace MenaberManagement.Client.Services
             _configuration = configuration;
             _httpClientFactory = httpClientFactory;
         }
-        
 
-        public async Task<List<ImageVM>> GetAll()
+        public async Task<PagedResult<PostVM>> GetPostPaging(GetPostPagingRequest request)
         {
-            var client = _httpClientFactory.CreateClient();
-            var sessions = _httpContextAccessor.HttpContext.Session.GetString("JWT");
-
-            client.BaseAddress = new Uri(_configuration["BaseAddress"]);
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", sessions);
-            var response = await client.GetAsync($"/api/Images/GetAll");
-            var body = await response.Content.ReadAsStringAsync();
-            var author = JsonConvert.DeserializeObject<List<ImageVM>>(body);
-            return author;
+            var data = await GetAsync<PagedResult<PostVM>>(
+             $"/api/Posts/pagingPost?pageIndex=" +
+               $"{request.PageIndex}&pageSize={request.PageSize}&keyword={request.Keyword}");
+            return data;
         }
-
-        public async Task<ImageVM> GetById(int id)
+        public async  Task<PostVM> GetById(int id)
         {
-            var data = await GetAsync<ImageVM>(
-             $"/api/Images/GetByIdImage/{id}");
+            var data = await GetAsync<PostVM>(
+             $"api/Posts/GetByIdPost/{id}");
 
             return data;
-        }     
+        }       
     }
 }

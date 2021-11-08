@@ -61,7 +61,7 @@ namespace MenaberManagement.Admin.Controllers
         public async Task<IActionResult> Logout()
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-            return RedirectToAction("Index", "Login");
+            return RedirectToAction("Index", "HomeClient");
             
         }
         private ClaimsPrincipal ValidateToken(string jwtToken)

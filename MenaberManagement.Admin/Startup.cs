@@ -59,6 +59,7 @@ namespace MenaberManagement.Admin
             services.AddTransient<IMemberApiClient, MemberApiClient>();
             services.AddTransient<IImageApi, ImageApi>();
             services.AddTransient<IPostApi, PostApi>();
+            services.AddTransient<IPostApiClient, PostApiClient>();
             services.AddTransient<ITopicApi, TopicApi>();
             services.AddTransient<IActivityApi, ActivityApi>();
             services.AddTransient<IFundApi, FundApi>();
@@ -92,7 +93,7 @@ namespace MenaberManagement.Admin
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{controller=HomeClient}/{action=Index}/{id?}");
             });
 
             

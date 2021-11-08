@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace MenaberManagement.Client.Services
 {
-    public interface IImageApi
+    public interface IImageApiClient
     {
         Task<List<ImageVM>> GetAll();
         

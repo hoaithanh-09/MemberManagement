@@ -1,6 +1,5 @@
-﻿using MemberManagement.Client.Models;
-using MemberManagement.ViewModels.PostViewModels;
-using MenaberManagement.Client.Services;
+﻿using MemberManagement.ViewModels.PostViewModels;
+using MenaberManagement.Admin.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Configuration;
@@ -9,16 +8,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace MenaberManagement.Client.Controllers
+namespace MenaberManagement.Admin.Controllers
 {
-    public class PostController : Controller
+    public class PostClientController : Controller
     {
-        private readonly IPostApi _iPostApi;
+        private readonly IPostApiClient _iPostApi;
         private readonly IConfiguration _configuration;
         private readonly IImageApi _iImageApi;
         private readonly ITopicApi _iTopicApi;
-        public PostController(
-            IPostApi iPostApi,
+        public PostClientController(
+            IPostApiClient iPostApi,
             IConfiguration configuration,
             IImageApi iImageApi,
             ITopicApi iTopicApi
@@ -51,32 +50,16 @@ namespace MenaberManagement.Client.Controllers
                 PageSize = 10,
             };
             var post = await _iPostApi.GetPostPaging(a);
-
+            //var listpost = post.Items;
+            //var l = new List<PostVM>();
+            //foreach (var pos in listpost)
+            //{
+            //    pos.PathFile = "~" + pos.PathFile;
+            //    l.Add(pos);
+            //}
             return View(post.Items);
         }
 
-        public async Task<IActionResult> Details(int id)
-        {
-            var post = await _iPostApi.GetById(id);
-            return View(new PostDetailViewModel()
-            {
-                Post = post
-            }) ;
-        }
-
-        public async Task<IActionResult> Topic(int id, int page = 1)
-        {
-            var posts = await _iPostApi.GetPostPaging(new GetPostPagingRequest()
-            {
-                PageIndex = page,
-                PageSize = 10
-            });
-            return View(new PostInTopicVM()
-            {
-                Topics = await _iTopicApi.GetById(id),
-                 Posts= posts
-            }); 
-        }
 
 
     }
