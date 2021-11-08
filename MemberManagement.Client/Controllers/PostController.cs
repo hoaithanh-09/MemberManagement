@@ -30,8 +30,31 @@ namespace MenaberManagement.Client.Controllers
             _iImageApi = iImageApi;
             _iTopicApi = iTopicApi;
         }
-        
-        
+        public async Task<IActionResult> Index()
+        {
+            var a = new GetPostPagingRequest()
+            {
+                PageIndex = 1,
+                PageSize = 10,
+            };
+            var post = await _iPostApi.GetPostPaging(a);
+
+
+            return View(post.Items);
+        }
+
+        public async Task<IActionResult> Test()
+        {
+            var a = new GetPostPagingRequest()
+            {
+                PageIndex = 1,
+                PageSize = 10,
+            };
+            var post = await _iPostApi.GetPostPaging(a);
+
+            return View(post.Items);
+        }
+
         public async Task<IActionResult> Details(int id)
         {
             var post = await _iPostApi.GetById(id);

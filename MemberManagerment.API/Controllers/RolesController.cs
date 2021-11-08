@@ -53,8 +53,6 @@ namespace MemberManagement.API.Controllers
         }
 
 
-
-
         [HttpPut("{id}")]
         public async Task<IActionResult> Update([FromRoute] int id, [FromBody] RoleEditRequest request)
         {

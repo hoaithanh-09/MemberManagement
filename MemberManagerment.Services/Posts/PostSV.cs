@@ -87,23 +87,25 @@ namespace MemberManagement.Services.Posts
 
         public async Task<PagedResult<PostVM>> GetPagedResult(GetPostPagingRequest request)
         {
-            var query = from f in _context.Posts select f;
+            var query = from f in _context.Posts
+                       join i in _context.Images on f.Id equals i.PostID
+                        select new { f,i};
 
             if (!string.IsNullOrEmpty(request.Keyword))
-                query = query.Where(x => x.Title.Contains(request.Keyword));
+                query = query.Where(x => x.f.Title.Contains(request.Keyword));
 
             int totalRow = await query.CountAsync();
 
             var data = await query.Skip((request.PageIndex - 1) * request.PageSize).Take(request.PageSize)
                 .Select(x => new PostVM()
                 {
-                    Id = x.Id,
-                    Title = x.Title,
-                    CreatedDate = x.CreatedDate,
-                    ModifiedDate = x.ModifiedDate,
-                    AuthorId = x.AuthorId,
-                    Content = x.Content,
-
+                    Id = x.f.Id,
+                    Title = x.f.Title,
+                    CreatedDate = x.f.CreatedDate,
+                    ModifiedDate = x.f.ModifiedDate,
+                    AuthorId = x.f.AuthorId,
+                    Content = x.f.Content,
+                    PathFile = x.i.ImagePath,
                 }).ToListAsync();
 
             var pagedResult = new PagedResult<PostVM>()

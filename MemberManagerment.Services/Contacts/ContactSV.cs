@@ -103,8 +103,10 @@ namespace MemberManagement.Services.Contacts
 
         public async Task<PagedResult<ContactVM>> GetPagedResult(GetContactPagingRequest request)
         {
-            var query = from f in _context.Contacts select f;
+            var query = from f in _context.Contacts 
+                        select f;
 
+          
             if (!string.IsNullOrEmpty(request.Keyword))
                 query = query.Where(x => x.Name.Contains(request.Keyword));
 

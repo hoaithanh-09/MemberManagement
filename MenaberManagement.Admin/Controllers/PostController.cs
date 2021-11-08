@@ -59,12 +59,11 @@ namespace MenaberManagement.Admin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create(PostCreateRequest request)
+        [Consumes("multipart/form-data")]
+        public async Task<ActionResult> Create([FromForm]PostCreateRequest request)
         {
             if (!ModelState.IsValid)
                 return View();
-            var images = await _iImageApi.GetAll();
-           // request.Images = images;
             var result = await _iPostApi.Create(request);
 
             if (!result.IsSuccessed)

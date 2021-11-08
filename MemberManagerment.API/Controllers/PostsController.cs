@@ -24,7 +24,8 @@ namespace MemberManagement.API.Controllers
             var post = await _postSV.GetAll();
             return Ok(post);
         }
-        [HttpPost("CreatePost")]
+        [HttpPost]
+        [Consumes("multipart/form-data")]
         public async Task<ActionResult> Create([FromForm] PostCreateRequest request)
         {
             var post = await _postSV.Create(request);
