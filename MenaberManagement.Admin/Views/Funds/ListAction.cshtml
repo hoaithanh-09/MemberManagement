@@ -31,7 +31,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.Finish)
 
-            <th></th>
+            <th>
+                Tên chi hội
+            </th>
         </tr>
     </thead>
     <tbody>
@@ -54,7 +56,10 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Finish)
-
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NameGroup)
+            </td>
             <td>
                 @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
                 @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |

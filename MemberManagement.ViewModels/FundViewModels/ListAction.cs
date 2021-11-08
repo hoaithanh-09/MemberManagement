@@ -12,6 +12,7 @@ namespace MemberManagement.ViewModels.FundViewModels
         public double Money { get; set; }
         public DateTime CreateDate { get; set; } = DateTime.Now.Date;
         public string Description { get; set; }
+        public string NameGroup { get; set; }
         public bool Finish { get; set; } = true;
 
     }

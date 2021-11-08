@@ -186,6 +186,7 @@ namespace MemberManagement.Services.Funds
             var listFundMember = await _context.FundGroups.AsQueryable().Where(x => x.FundId == fundId).ToListAsync();
             foreach (var fundMember in listFundMember)
             {
+                var gr = _context.Groups.Find(fundMember.GroupId);
                 var action1 = _context.FundGroups.Find(fundMember.Id);
                 var action = new ListAction()
                 {
@@ -195,6 +196,7 @@ namespace MemberManagement.Services.Funds
                     CreateDate=action1.CreateDate,
                     Finish=action1.Finish,
                     Money= action1.Money,
+                    NameGroup = gr.Name,
                 };
                 listAction.Add(action);
             }
