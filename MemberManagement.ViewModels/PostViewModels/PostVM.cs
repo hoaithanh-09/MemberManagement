@@ -17,6 +17,8 @@ namespace MemberManagement.ViewModels.PostViewModels
         public int? AuthorId { get; set; }
         public string Content { get; set; }
 
+        public string PathFile { get; set; }
+
         public ImageInPostVM ImageInPosts { get; set; }
 
     }

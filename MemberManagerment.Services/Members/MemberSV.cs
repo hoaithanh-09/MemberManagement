@@ -153,16 +153,16 @@ namespace MemberManagement.Services.Members
                 _context.Members.Add(member);
             }
             
-            if (request.IdAddress != 0)
-            {
-                member.AddressMembers = new List<AddressMember>()
-                { new AddressMember()
-                    {
-                        AddressId = request.IdAddress,
-                        MemberId = member.Id,
-                    }
-                };
-            }
+            //if (request.IdAddress != 0)
+            //{
+            //    member.AddressMembers = new List<AddressMember>()
+            //    { new AddressMember()
+            //        {
+            //            AddressId = request.IdAddress,
+            //            MemberId = member.Id,
+            //        }
+            //    };
+            //}
 
             if (request.RoleId != 0)
             {
@@ -174,16 +174,7 @@ namespace MemberManagement.Services.Members
                     }
                 };
             }
-            if (request.ContactId != 0)
-            {
-                member.ContactMembers = new List<ContactMembers>()
-                { new ContactMembers()
-                    {
-                        ContactId = request.ContactId,
-                        MemberId = member.Id,
-                    }
-                };
-            }
+          
            
             var a = await _context.SaveChangesAsync();
             if (a>0)

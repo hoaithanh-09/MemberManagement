@@ -44,8 +44,7 @@ namespace MemberManagement.ViewModels.MemberViewModels
 
         [Display(Name = "Chức vụ")]
         public int RoleId { get; set; }
-        [Display(Name = "Ban Liên lạc")]
-        public int ContactId { get; set; }
+        
         [Display(Name = "Chức danh")]
         public string PersonalTtles { get; set; }
         [Display(Name = "Gmail")]

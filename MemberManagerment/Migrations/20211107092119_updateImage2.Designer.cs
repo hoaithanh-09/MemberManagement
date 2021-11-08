@@ -4,14 +4,16 @@ using MemberManagerment.Data.EF;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace MemberManagement.Data.Migrations
 {
     [DbContext(typeof(MemberManagementContext))]
-    partial class MemberManagementContextModelSnapshot : ModelSnapshot
+    [Migration("20211107092119_updateImage2")]
+    partial class updateImage2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -982,7 +984,7 @@ namespace MemberManagement.Data.Migrations
                     b.HasOne("MemberManagement.Data.Entities.Group", "Group")
                         .WithMany("FundGroups")
                         .HasForeignKey("GroupId")
-                        .HasConstraintName("FK__FundGr1__Group__403A8C7D")
+                        .HasConstraintName("FK__FundGr1__Membe__403A8C7D")
                         .IsRequired();
 
                     b.Navigation("Fund");

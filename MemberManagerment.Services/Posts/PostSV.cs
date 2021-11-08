@@ -10,15 +10,22 @@ using MemberManagement.ViewModels.Common;
 using MemberManagement.Data.Entities;
 using MemberManagement.ViewModels.ImageViewModels;
 using MemberManagement.ViewModels.PostViewModels;
+using Microsoft.AspNetCore.Http;
+using System.Net.Http.Headers;
+using System.IO;
+using MemberManagement.Services.Common;
 
 namespace MemberManagement.Services.Posts
 {
     public class PostSV : IPostSV
     {
         private readonly MemberManagementContext _context;
-        public PostSV(MemberManagementContext context)
+        private readonly IStorageService _storageService;
+        private const string USER_CONTENT_FOLDER_NAME = "user-content";
+        public PostSV(MemberManagementContext context, IStorageService storageService)
         {
             _context = context;
+            _storageService = storageService;
         }
 
         public async Task<string> Delete(int id)
@@ -52,34 +59,23 @@ namespace MemberManagement.Services.Posts
         public async Task<PostVM> GetById(int id)
         {
             var imageVM = new ImageVM();
-            var post = await _context.Posts.Include(x => x.ImageInPosts).
+            var post = await _context.Posts.
                 Where(x => x.Id == id).FirstOrDefaultAsync();
             if (post == null)
                 throw new MemberManagementException("Không tìm thấy bài viết");
 
-            var imageInPost = await _context.ImageInPosts.Where(x => x.PostId == id).FirstOrDefaultAsync();
-            if (imageInPost != null)
-            {
-                var image = await _context.Images.Where(x => x.Id == imageInPost.ImageId).FirstOrDefaultAsync();
-                imageVM = new ImageVM()
-                {
-                    Id=image.Id,
-                    DateCreated = image.DateCreated,
-                    FileSize = image.FileSize,
-                    ImagePath = image.ImagePath,                   
-                };
-            }
-          
+
+
             var imagePost = new ImageInPostVM()
             {
                 Image = imageVM,
-            };            
+            };
 
             var postVM = new PostVM()
             {
                 Id = post.Id,
                 CreatedDate = post.CreatedDate,
-                Title = post.Title,               
+                Title = post.Title,
                 Content = post.Content,
                 ModifiedDate = post.ModifiedDate,
                 ImageInPosts = imagePost,
@@ -91,23 +87,25 @@ namespace MemberManagement.Services.Posts
 
         public async Task<PagedResult<PostVM>> GetPagedResult(GetPostPagingRequest request)
         {
-            var query = from f in _context.Posts select f;
+            var query = from f in _context.Posts
+                       join i in _context.Images on f.Id equals i.PostID
+                        select new { f,i};
 
             if (!string.IsNullOrEmpty(request.Keyword))
-                query = query.Where(x => x.Title.Contains(request.Keyword));
+                query = query.Where(x => x.f.Title.Contains(request.Keyword));
 
             int totalRow = await query.CountAsync();
 
             var data = await query.Skip((request.PageIndex - 1) * request.PageSize).Take(request.PageSize)
                 .Select(x => new PostVM()
                 {
-                    Id = x.Id,
-                    Title = x.Title,
-                    CreatedDate = x.CreatedDate,
-                    ModifiedDate = x.ModifiedDate,
-                    AuthorId = x.AuthorId,
-                    Content = x.Content,
-
+                    Id = x.f.Id,
+                    Title = x.f.Title,
+                    CreatedDate = x.f.CreatedDate,
+                    ModifiedDate = x.f.ModifiedDate,
+                    AuthorId = x.f.AuthorId,
+                    Content = x.f.Content,
+                    PathFile = x.i.ImagePath,
                 }).ToListAsync();
 
             var pagedResult = new PagedResult<PostVM>()
@@ -151,7 +149,7 @@ namespace MemberManagement.Services.Posts
             return post;
         }
 
-        public async Task<int> AddImage(int postId,ImageInPostCreateRequest request)
+        public async Task<int> AddImage(int postId, ImageInPostCreateRequest request)
         {
             var image = await _context.Images.FindAsync(request.ImageId);
 
@@ -160,46 +158,39 @@ namespace MemberManagement.Services.Posts
                 throw new MemberManagementException("Thông tin không hợp lệ");
             }
 
-            var imageInPost = new ImageInPost()
-            {
-                ImageId = image.Id,
-                PostId = request.PostId,
-            };
-
-            _context.ImageInPosts.Add(imageInPost);
-            await _context.SaveChangesAsync();
             return image.Id;
         }
 
 
-        public async Task<ApiResult<string>>Create(PostCreateRequest request)
+        public async Task<ApiResult<string>> Create(PostCreateRequest request)
         {
             var post = await _context.Posts.FirstOrDefaultAsync(x => x.Title == request.Title);
             if (post != null)
             {
-                return new ApiErrorResult<string>("Baì viết đã tồn tại");
+                return new ApiErrorResult<string>("Bài viết đã tồn tại");
             }
 
             post = new Post()
             {
-                Id=request.Id,
                 Title = request.Title,
                 CreatedDate = request.CreatedDate,
                 ModifiedDate = request.ModifiedDate,
                 AuthorId = request.AuthorId,
                 Content = request.Content,
             };
-
-            if (request.ImageId != 0)
+            //Save image
+            if (request.ThumbnailImage != null)
             {
-                post.ImageInPosts = new List<ImageInPost>()
-                { new ImageInPost()
+                post.Images = new List<Image>()
+                {
+                    new Image()
                     {
-                        ImageId = request.ImageId,
-                        PostId = post.Id,
+                        DateCreated = DateTime.Now,
+                        FileSize = request.ThumbnailImage.Length,
+                        ImagePath = await this.SaveFile(request.ThumbnailImage),
                     }
                 };
-            }      
+            }
             _context.Posts.Add(post);
             var a = await _context.SaveChangesAsync();
             if (a > 0)
@@ -209,5 +200,15 @@ namespace MemberManagement.Services.Posts
             }
             return new ApiErrorResult<string>("Tạo mới thất bại");
         }
+
+        private async Task<string> SaveFile(IFormFile file)
+        {
+            var originalFileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
+            var fileName = $"{Guid.NewGuid()}{Path.GetExtension(originalFileName)}";
+            await _storageService.SaveFileAsync(file.OpenReadStream(), fileName);
+            return "/" + USER_CONTENT_FOLDER_NAME + "/" + fileName;
+        }
     }
 }
+        
+    

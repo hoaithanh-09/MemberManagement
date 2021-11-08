@@ -1,4 +1,5 @@
 ﻿using MemberManagement.ViewModels.ImageViewModels;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,14 +10,12 @@ namespace MemberManagement.ViewModels.PostViewModels
 {
     public class PostCreateRequest
     {
-        public int Id { get; set; }
         public string Title { get; set; }
-        public DateTime? CreatedDate { get; set; }
+        public DateTime? CreatedDate { get; set; } = DateTime.Now.Date;
         public DateTime? ModifiedDate { get; set; }
         public int? AuthorId { get; set; }
         public string Content { get; set; }
-        public int ImageId { get; set; }
-        public List<ImageVM> Images { get; set; }
 
+        public IFormFile ThumbnailImage { get; set; }
     }
 }

@@ -32,7 +32,6 @@ namespace MemberManagerment.Data.EF
         public virtual DbSet<Province> Provinces { get; set; }
         public virtual DbSet<District> Districts { get; set; }
         public virtual DbSet<Image> Images { get; set; }
-        public virtual DbSet<ImageInPost> ImageInPosts { get; set; }
         public virtual DbSet<Post> Posts { get; set; }
         public virtual DbSet<PostInTopic> PostInTopics { get; set; }
         public virtual DbSet<Topic> Topics { get; set; }
@@ -248,8 +247,15 @@ namespace MemberManagerment.Data.EF
             modelBuilder.Entity<Image>(entity =>
             {
                 entity.ToTable("Image");
-
-                entity.Property(e => e.ImagePath).HasMaxLength(2000);
+                entity.Property(e => e.ImagePath).HasMaxLength(5000);
+                entity.Property(e => e.DateCreated).IsRequired(true);
+                entity.Property(e => e.FileSize);
+              
+                entity.HasOne(d => d.Post)
+                    .WithMany(p => p.Images)
+                    .HasForeignKey(d => d.PostID)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK__Image_Post__5535A963");
             });
 
             modelBuilder.Entity<Member>(entity =>
@@ -390,25 +396,7 @@ namespace MemberManagerment.Data.EF
                     .IsUnicode(false);
             });
 
-            modelBuilder.Entity<ImageInPost>(entity =>
-            {
-                entity.HasKey(e => new { e.ImageId, e.PostId })
-                    .HasName("PK__ImageInP__EFB7D10D89F1BD63");
-
-                entity.ToTable("ImageInPost");
-
-                entity.HasOne(d => d.Image)
-                    .WithMany(p => p.ImageInPosts)
-                    .HasForeignKey(d => d.ImageId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__ImageInPo__Image__5FB337D6");
-
-                entity.HasOne(d => d.Post)
-                    .WithMany(p => p.ImageInPosts)
-                    .HasForeignKey(d => d.PostId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__ImageInPo__PostI__60A75C0F");
-            });
+           
 
             modelBuilder.Entity<Post>(entity =>
             {

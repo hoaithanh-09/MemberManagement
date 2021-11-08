@@ -15,7 +15,6 @@ namespace MenaberManagement.Admin.Controllers
         private readonly IGroupApiClient _iGroupApiClient;
         private readonly IConfiguration _configuration;
 
-
         public GroupController(IGroupApiClient iGroupApiClient,
             IConfiguration configuration)
         {

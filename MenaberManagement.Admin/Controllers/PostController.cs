@@ -53,18 +53,17 @@ namespace MenaberManagement.Admin.Controllers
             var images = await _iImageApi.GetAll();
             var postCreateRequest = new PostCreateRequest();
 
-            postCreateRequest.Images = images;
+           // postCreateRequest.Images = images;
             return View(postCreateRequest);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create(PostCreateRequest request)
+        [Consumes("multipart/form-data")]
+        public async Task<ActionResult> Create([FromForm]PostCreateRequest request)
         {
             if (!ModelState.IsValid)
                 return View();
-            var images = await _iImageApi.GetAll();
-            request.Images = images;
             var result = await _iPostApi.Create(request);
 
             if (!result.IsSuccessed)

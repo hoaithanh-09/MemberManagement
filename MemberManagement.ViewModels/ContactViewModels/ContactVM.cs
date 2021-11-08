@@ -10,5 +10,6 @@ namespace MemberManagement.ViewModels.ContactViewModels
         public string Note { get; set; }
         public string Description { get; set; }
         public int Id { get; set; }
+
     }
 }
