@@ -63,34 +63,41 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach (var item in Model.Items)
-                        {
-                            <tr>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Number)
-                                </td>
+                        @{int stt = 1;
+                            foreach (var item in Model.Items)
+                            {
+                                if (item.Id != 0 && item.IdMember != 0)
+                                {
+                                <tr>
+                                    <td>
+                                        @stt
+                                        @{stt = stt + 1; }
+                                    </td>
 
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.HousldRepre)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.YearBirth)
-                                </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.HousldRepre)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.YearBirth)
+                                    </td>
 
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.MumberMembers)
-                                </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.MumberMembers)
+                                    </td>
 
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.PhoneNumber)
-                                </td>
-                                <td>
-                                    <a asp-action="Edit" asp-route-id="@item.Id">Sửa</a> |
-                                    <a asp-action="Details" asp-route-id="@item.Id">Chi tiết</a> |
-                                    <a asp-action="Delete" asp-route-id="@item.Id">Xóa</a>|
-                                </td>
-                            </tr>
-                        }
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.PhoneNumber)
+                                    </td>
+                                    <td>
+                                        <a asp-action="Edit" asp-route-id="@item.Id">Sửa</a> |
+                                        <a asp-action="Details" asp-route-id="@item.Id">Chi tiết</a> |
+                                        <a asp-action="Delete" asp-route-id="@item.Id">Xóa</a>|
+                                    </td>
+                                </tr>
+                                                    }
+
+                                                }
+                                            }
                     </tbody>
                 </table>
             </div>

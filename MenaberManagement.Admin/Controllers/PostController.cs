@@ -48,12 +48,9 @@ namespace MenaberManagement.Admin.Controllers
             return View(data);
 
         }
-        public async Task<IActionResult> Create()
+        public  IActionResult Create()
         {
-            var images = await _iImageApi.GetAll();
             var postCreateRequest = new PostCreateRequest();
-
-           // postCreateRequest.Images = images;
             return View(postCreateRequest);
         }
 

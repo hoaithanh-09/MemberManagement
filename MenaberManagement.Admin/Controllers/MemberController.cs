@@ -68,8 +68,8 @@ namespace MenaberManagement.Admin.Controllers
             var familtObj = await _familyApiClient.GetAll();
 
 
-            CascadingModel model = new CascadingModel();
             var GoupObj = await _iGroupApiClient.GetAll();
+
 
             var addObj = await _iAddressApiClient.GetAll();
 

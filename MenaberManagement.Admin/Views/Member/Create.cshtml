@@ -35,8 +35,7 @@
                                         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                                         <div class="form-group">
                                             <label class="control-label"> Gia đình</label>
-                                            @*   @Html.DropDownListFor(model => model.FamilyId, new SelectList(Model.familyVMs, "Id", "HousldRepre"), new { @class = "form-control" })*@
-                                            <input asp-for="FamilyId" class="form-control" />
+                                              @Html.DropDownListFor(model => model.FamilyId, new SelectList(Model.familyVMs, "Id", "HousldRepre"), new { @class = "form-control" })
                                         </div>
                                         <div class="form-group">
                                             <label class="control-label"> Chi hội</label>

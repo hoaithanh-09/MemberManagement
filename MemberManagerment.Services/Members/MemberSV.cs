@@ -14,7 +14,6 @@ using MemberManagement.ViewModels.ContractMemberViewModels;
 using MemberManagement.ViewModels.RoleMemberViewModels;
 using MemberManagement.ViewModels.RoleViewModels;
 using MemberManagement.Data.Entities;
-
 namespace MemberManagement.Services.Members
 {
     public class MemberSV : IMemberSV
@@ -100,16 +99,15 @@ namespace MemberManagement.Services.Members
             {
                 return new ApiErrorResult<string>("Chi hội không tồn lại");
             }
-            if ( request.FamilyId == 0)
+            if (request.FamilyId == 0)
             {
                 var familyAdd = new Family()
                 { 
                 };
 
                 _context.Add(familyAdd);
-                _context.SaveChanges();
-                var  f =  _context.Families.Find(familyAdd.Id);
-
+                _context.SaveChanges(); 
+                var  f =  _context.Families.FirstOrDefault(x=>x.Id != 0 && x.IdMember ==0);
                 member = new Member()
                 {
                     Name = request.Name,
@@ -117,7 +115,6 @@ namespace MemberManagement.Services.Members
                     Idcard = request.Idcard,
                     JoinDate = request.JoinDate,
                     Notes = request.Notes,
-                    Family = family,
                     Group = group,
                     FamilyId = f.Id,
                     GroupId = request.GroupId,
@@ -128,7 +125,7 @@ namespace MemberManagement.Services.Members
                     PhoneNumber = request.PhoneNumber,
                 };
                 _context.Members.Add(member);
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
                 f.IdMember = member.Id;
             }
             else
@@ -152,18 +149,7 @@ namespace MemberManagement.Services.Members
                 };
                 _context.Members.Add(member);
             }
-            
-            //if (request.IdAddress != 0)
-            //{
-            //    member.AddressMembers = new List<AddressMember>()
-            //    { new AddressMember()
-            //        {
-            //            AddressId = request.IdAddress,
-            //            MemberId = member.Id,
-            //        }
-            //    };
-            //}
-
+           
             if (request.RoleId != 0)
             {
                 member.RoleMembers = new List<RoleMember>()
@@ -175,7 +161,6 @@ namespace MemberManagement.Services.Members
                 };
             }
           
-           
             var a = await _context.SaveChangesAsync();
             if (a>0)
             {

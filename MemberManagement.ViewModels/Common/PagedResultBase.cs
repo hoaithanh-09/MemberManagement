@@ -10,12 +10,19 @@ namespace MemberManagement.ViewModels.Common
 
         public int TotalRecords { get; set; }
 
+        private int pageCount1;
+
         public int PageCount
         {
             get
             {
                 var pageCount = (double)TotalRecords / PageSize;
-                return (int)Math.Ceiling(pageCount);
+                pageCount1 = (int)Math.Ceiling(pageCount);
+                return pageCount1;
+            }
+            set
+            {
+               this.pageCount1 = value;
             }
         }
     }

@@ -59,24 +59,37 @@ namespace MemberManagement.Services.Families
             var listFamilyVM = new List<FamilyVM>();
             foreach (var f in family)
             {
-                var chuho = await _context.Members.FirstOrDefaultAsync(x=>x.Id == f.IdMember);
                 var fm = new FamilyVM();
-                if (chuho != null)
+
+                if (f.Id == 0)
                 {
-                     fm = new FamilyVM()
+                    fm = new FamilyVM()
                     {
-                        Id = f.Id,
-                        HousldRepre = chuho.Name,
+                        Id = 0,
+                        HousldRepre = "Chưa có trong danh sách",
                     };
                 }
                 else
                 {
-                    fm = new FamilyVM()
+                    var chuho = await _context.Members.FirstOrDefaultAsync(x => x.Id == f.IdMember);
+                    if (chuho != null)
                     {
-                        Id = f.Id,
-                    };
+                        fm = new FamilyVM()
+                        {
+                            Id = f.Id,
+                            HousldRepre = chuho.Name,
+                        };
+                    }
+                    else
+                    {
+                        fm = new FamilyVM()
+                        {
+                            Id = fm.Id,
+                        };
 
+                    }
                 }
+                
                
                 listFamilyVM.Add(fm);
             }
@@ -129,6 +142,7 @@ namespace MemberManagement.Services.Families
                         MumberMembers = membes.Count,
                         PhoneNumber = member.PhoneNumber,
                         YearBirth = member.Birth,
+                        IdMember = member.Id
                     };
                     familyVMs.Add(family2);
                 }

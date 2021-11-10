@@ -38,6 +38,8 @@ namespace MenaberManagement.Admin.Controllers
             {
                 ViewBag.SuccessMsg = TempData["result"];
             }
+
+
             return View(data);
         }
 

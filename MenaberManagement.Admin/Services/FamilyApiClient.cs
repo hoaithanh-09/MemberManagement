@@ -83,6 +83,19 @@ namespace MenaberManagement.Admin.Services
             var data = await GetAsync<PagedResult<FamilyVM>>(
               $"/api/Families/paging?pageIndex=" +
                 $"{request.PageIndex}&pageSize={request.PageSize}&keyword={request.Keyword}");
+           // PagedResult<FamilyVM> query = new PagedResult<FamilyVM>();
+           // query.PageIndex = data.PageIndex;
+           // query.PageSize = data.PageSize;
+           // query.PageCount = data.PageCount;
+
+           // foreach ( var familyVm in data.Items)
+           //{
+           //     if(familyVm.Id !=0 && familyVm.IdMember != 0)
+           //     {
+           //         query.Items.Add(familyVm);
+           //     }
+           //} 
+
             return data;
         }
 
