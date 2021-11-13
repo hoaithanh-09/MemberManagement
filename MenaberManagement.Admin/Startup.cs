@@ -1,4 +1,5 @@
 /////*using MemberManagement.ViewModels.UserViewModels;
+using MemberManagement.ViewModels.CommonSV;
 using MenaberManagement.Admin.Models;
 using MenaberManagement.Admin.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -64,6 +65,7 @@ namespace MenaberManagement.Admin
             services.AddTransient<ITopicApi, TopicApi>();
             services.AddTransient<IActivityApi, ActivityApi>();
             services.AddTransient<IFundApi, FundApi>();
+            services.AddTransient<IStorageService, FileStorageService>();
             IMvcBuilder builder = services.AddRazorPages();
         }
 

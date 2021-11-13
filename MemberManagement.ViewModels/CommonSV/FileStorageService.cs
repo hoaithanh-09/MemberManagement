@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
 
-namespace MemberManagement.Services.Common
+namespace MemberManagement.ViewModels.CommonSV
 {
    public class FileStorageService : IStorageService
     {

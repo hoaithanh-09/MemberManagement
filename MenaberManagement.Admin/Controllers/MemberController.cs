@@ -40,7 +40,7 @@ namespace MenaberManagement.Admin.Controllers
             _iRoleApiClient = iRoleApiClient;
             _iContactApiClient = iContactApiClient;
         }
-        public async Task< IActionResult> Index(string keyword , int pageIndex =1 , int pageSize = 10  )
+        public async Task< IActionResult> Index(string keyword , int pageIndex =1 , int pageSize = 2  )
         {
             if (!ModelState.IsValid)
                 return View();
@@ -93,10 +93,8 @@ namespace MenaberManagement.Admin.Controllers
             if (!ModelState.IsValid)
                 return View();
             var familtObj = await _familyApiClient.GetAll();
-            //ViewBag.HousldRepre = new SelectList(familtObj, "Id", "Id");
 
             var GoupObj = await _iGroupApiClient.GetAll();
-            //ViewBag.Group = new SelectList(GoupObj, "Id", "Id");
 
             var addObj = await _iAddressApiClient.GetAll();
 

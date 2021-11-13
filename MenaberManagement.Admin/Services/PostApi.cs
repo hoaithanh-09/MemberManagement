@@ -1,5 +1,6 @@
 ﻿using ManaberManagement.Utilities;
 using MemberManagement.ViewModels.Common;
+using MemberManagement.ViewModels.CommonSV;
 using MemberManagement.ViewModels.PostViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
@@ -21,14 +22,19 @@ namespace MenaberManagement.Admin.Services
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IHttpClientFactory _httpClientFactory;
         private readonly IConfiguration _configuration;
+        private readonly IStorageService _storageService;
+        private const string USER_CONTENT_FOLDER_NAME = "user-content";
         public PostApi(IHttpClientFactory httpClientFactory,
                     IHttpContextAccessor httpContextAccessor,
-                     IConfiguration configuration)
+                     IConfiguration configuration,
+                     IStorageService storageService
+                     )
              : base(httpClientFactory, httpContextAccessor, configuration)
         {
             _httpContextAccessor = httpContextAccessor;
             _configuration = configuration;
             _httpClientFactory = httpClientFactory;
+            _storageService = storageService;
         }
         public async Task<ApiResult<string>> Create(PostCreateRequest request)
         {
@@ -47,12 +53,14 @@ namespace MenaberManagement.Admin.Services
             if (request.ThumbnailImage != null)
             {
                 byte[] data;
+                string filename;
                 using (var br = new BinaryReader(request.ThumbnailImage.OpenReadStream()))
                 {
                     data = br.ReadBytes((int)request.ThumbnailImage.OpenReadStream().Length);
+                    filename = await this.SaveFile(request.ThumbnailImage);
                 }
                 ByteArrayContent bytes = new ByteArrayContent(data);
-                requestContent.Add(bytes, "ThumbnailImage", request.ThumbnailImage.FileName);
+                requestContent.Add(bytes, "ThumbnailImage", filename);
             }
 
 
@@ -71,9 +79,17 @@ namespace MenaberManagement.Admin.Services
             return new ApiErrorResult<string>(result);
         }
 
+        private async Task<string> SaveFile(IFormFile file)
+        {
+            var originalFileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
+            var fileName = $"{Guid.NewGuid()}{Path.GetExtension(originalFileName)}";
+            await _storageService.SaveFileAsync(file.OpenReadStream(), fileName);
+            return "/" + USER_CONTENT_FOLDER_NAME + "/" + fileName;
+        }
+
         public async Task<bool> Delete(int id)
         {
-            return await Delete($"api/Posts/DeletePost" + id);
+            return await Delete($"api/Posts?id=" + id);
         }
 
         public async Task<List<PostVM>> GetAll()
@@ -92,7 +108,7 @@ namespace MenaberManagement.Admin.Services
         public async  Task<PostVM> GetById(int id)
         {
             var data = await GetAsync<PostVM>(
-             $"/api/Posts/GetByIdPost/{id}");
+             $"/api/Posts?id={id}");
 
             return data;
         }
@@ -116,7 +132,7 @@ namespace MenaberManagement.Admin.Services
             var json = JsonConvert.SerializeObject(request);
             var httpContent = new StringContent(json, Encoding.UTF8, "application/json");
 
-            var response = await client.PutAsync($"/api/Posts/UpdatePosst/{id}", httpContent);
+            var response = await client.PutAsync($"/api/Posts/{id}", httpContent);
             var result = await response.Content.ReadAsStringAsync();
             if (response.IsSuccessStatusCode)
                 return true;

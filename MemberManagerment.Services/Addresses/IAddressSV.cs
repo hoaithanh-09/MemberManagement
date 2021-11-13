@@ -22,5 +22,6 @@ namespace MemberManagement.Services.Addresses
         Task<List<DistrictVM>> LoadDistrict(int id);
 
         Task<List<WardVM>> LoadWard(int id);
+        Task<string> Test();
     }
 }

@@ -221,6 +221,7 @@ namespace MemberManagement.Services.Members
                 Word = x.Word,
                 PersonalTtles = x.PersonalTtles,
                 PhoneNumber = x.PhoneNumber,
+                Id = x.Id,
 
             }).ToListAsync();
 
@@ -251,6 +252,11 @@ namespace MemberManagement.Services.Members
                     Idcard = x.m.Idcard,
                     JoinDate = x.m.JoinDate,
                     Notes = x.m.Notes,
+                    Email = x.m.Email,
+                    PersonalTtles = x.m.PersonalTtles,
+                    PhoneNumber = x.m.PhoneNumber,
+                    Word = x.m.Word,
+                    
                 }).ToListAsync();
             var paging = new PagedResult<MemberVM>()
             {
