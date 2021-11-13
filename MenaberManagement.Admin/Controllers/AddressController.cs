@@ -5,8 +5,13 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Data;
+using System.IO;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace MenaberManagement.Admin.Controllers
@@ -15,13 +20,14 @@ namespace MenaberManagement.Admin.Controllers
     {
         private readonly IAddressApiClient _iAddressApiClient;
         private readonly IConfiguration _configuration;
-
+        private readonly Tinh tinh;
 
         public AddressController(IAddressApiClient iAddressApiClient,
-            IConfiguration configuration)
+            IConfiguration configuration, IOptions<Tinh> optionsTinh)
         {
             _configuration = configuration;
             _iAddressApiClient = iAddressApiClient;
+            tinh = optionsTinh.Value;
         }
         public async Task<IActionResult> Index(string keyword, int pageIndex = 1, int pageSize = 10)
         {
@@ -40,13 +46,7 @@ namespace MenaberManagement.Admin.Controllers
             }
             return View(data);
         }
-        public async Task<IActionResult> test()
-        {
-            var data = await _iAddressApiClient.GetProvince();
-            return View(data);
-        }
-
-
+       
         // GET: FamiliesController/Details/5
         public async Task<IActionResult> Details(int id)
         {
@@ -57,8 +57,67 @@ namespace MenaberManagement.Admin.Controllers
         // GET: FamiliesController/Create
         public ActionResult Create()
         {
-            ViewBag.Province = new SelectList("Id","Name");
+            var request = new AddressCreatRequest();
+            var webClient = new WebClient();
+            var json = webClient.DownloadString(@"wwwroot/Json/jsconfig.json");
+            var books = JsonConvert.DeserializeObject<Tinh>(json);
+
+            request.ProvinceJsons = books.Data;
+         
+            return View(request);
+        }
+       
+        public ActionResult Action()
+        {
+            Country_Bind();
             return View();
+
+        }
+        public void Country_Bind()
+        {
+            var webClient = new WebClient();
+            var json = webClient.DownloadString(@"wwwroot/Json/jsconfig.json");
+            var books = JsonConvert.DeserializeObject<Tinh>(json);
+
+            List<ProvinceJson> provinceJsons  = books.Data;
+            List<SelectListItem> coutrylist = new List<SelectListItem>();
+            foreach (ProvinceJson dr in provinceJsons)
+            {
+
+                coutrylist.Add(new SelectListItem { Text = dr.name, Value = dr.level1_id. ToString() });
+
+            }
+            ViewBag.Country = coutrylist;
+
+        }
+        public ActionResult GetAll()
+        {
+            return View();
+
+        }
+        public JsonResult State_Bind(string level1_id)
+        {
+            var webClient = new WebClient();
+            var json = webClient.DownloadString(@"wwwroot/Json/jsconfig.json");
+            var books = JsonConvert.DeserializeObject<Tinh>(json);
+
+            List<ProvinceJson> provinceJsons = books.Data;
+            List<SelectListItem> coutrylist = new List<SelectListItem>();
+
+            foreach (ProvinceJson dr in provinceJsons)
+            {
+                if(dr.level1_id.ToString().Contains(level1_id))
+                {
+                    foreach (var a in dr.level2s)
+                    {
+                        coutrylist.Add(new SelectListItem { Text = a.name, Value = a.name });
+                    }
+
+                }
+
+            }
+            return Json(coutrylist);
+
         }
 
         // POST: FamiliesController/Create

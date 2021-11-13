@@ -1,4 +1,5 @@
 /////*using MemberManagement.ViewModels.UserViewModels;
+using MenaberManagement.Admin.Models;
 using MenaberManagement.Admin.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
@@ -32,7 +33,7 @@ namespace MenaberManagement.Admin
                                                                    .AllowAnyMethod()
                                                                     .AllowAnyHeader()));
 
-
+            services.Configure<Tinh>(Configuration.GetSection("Tinh"));
             services.AddHttpClient();
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                .AddCookie(options =>

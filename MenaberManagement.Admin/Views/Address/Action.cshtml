@@ -1,0 +1,33 @@
+﻿
+@{
+    ViewData["Title"] = "Test";
+    Layout = null;
+}
+
+
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script src="/js/JavaScript.js"></script>
+</head>
+
+<body>
+    <div>
+        <div>
+            <b>Country: </b>
+            @Html.DropDownList("Country", null, "---Select Country----")<br />
+        </div>
+        <div>
+            <b>State: </b>
+            <select id="state"></select><br />
+        </div>
+        <div>
+            <b>City: </b>
+            <select id="city"></select><br />
+        </div>
+    </div>
+</body>
+
+
+

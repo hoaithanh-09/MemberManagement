@@ -138,5 +138,12 @@ namespace MenaberManagement.Admin.Services
             var families = JsonConvert.DeserializeObject<List<WardVM>>(body);
             return families;
         }
+
+        public  List<ProvinceJson> GietProvinceVM()
+        {
+            object b = _configuration["Tinh:data"];
+            var a = JsonConvert.DeserializeObject<List<ProvinceJson>>(_configuration["Tinh:data"]);
+            return a;
+        }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
 namespace MemberManagement.ViewModels.AddressViewModels
@@ -13,5 +14,15 @@ namespace MemberManagement.ViewModels.AddressViewModels
         public string StayingAddress { get; set; }
         public string Notes { get; set; }
         public string ParentId { get; set; }
+
+        [NotMapped]
+        public List<ProvinceJson> ProvinceJsons { get; set; }
+
+        [NotMapped]
+        public List<DistrictJon> DistrictJons { get; set; }
+
+        [NotMapped]
+        public List<WardJson> WardJsons { get; set; }
+       
     }
 }

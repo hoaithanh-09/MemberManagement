@@ -9,6 +9,7 @@ namespace MenaberManagement.Admin.Services
 {
   public  interface IAddressApiClient
     {
+        List<ProvinceJson> GietProvinceVM();
         Task<PagedResult<AddressVM>> GetFamilyPaging(GetAddressPagingRequest request);
         Task<List<AddressVM>> GetAll();
         Task<bool> Create(AddressCreatRequest request);
