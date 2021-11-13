@@ -63,7 +63,20 @@ namespace MenaberManagement.Admin.Controllers
             var books = JsonConvert.DeserializeObject<Tinh>(json);
 
             request.ProvinceJsons = books.Data;
-         
+            List<SelectListItem> coutrylist = new List<SelectListItem>();
+            foreach (ProvinceJson dr in books.Data)
+            {
+                if (dr.level1_id.ToString() =="1")
+                {
+                    foreach (var a in dr.level2s)
+                    {
+                        coutrylist.Add(new SelectListItem { Text = a.name, Value = a.name });
+                    }
+
+                }
+
+            }
+            ViewBag.Districts = coutrylist;
             return View(request);
         }
        
@@ -90,9 +103,29 @@ namespace MenaberManagement.Admin.Controllers
             ViewBag.Country = coutrylist;
 
         }
-        public ActionResult GetAll()
+        public ActionResult GetAll(string level1_id)
         {
-            return View();
+            var webClient = new WebClient();
+            var json = webClient.DownloadString(@"wwwroot/Json/jsconfig.json");
+            var books = JsonConvert.DeserializeObject<Tinh>(json);
+
+            List<ProvinceJson> provinceJsons = books.Data;
+            List<SelectListItem> coutrylist = new List<SelectListItem>();
+
+            foreach (ProvinceJson dr in provinceJsons)
+            {
+                if (dr.level1_id.ToString().Contains(level1_id))
+                {
+                    foreach (var a in dr.level2s)
+                    {
+                        coutrylist.Add(new SelectListItem { Text = a.name, Value = a.name });
+                    }
+
+                }
+
+            }
+            ViewBag.Districts = coutrylist;
+            return View("Create");
 
         }
         public JsonResult State_Bind(string level1_id)
