@@ -71,7 +71,7 @@ namespace MemberManagement.API.Controllers
 
 
         [HttpDelete("RemoveMember")]
-        public async Task<IActionResult> RomoveMember(int idContract,int idMember)
+        public async Task<IActionResult> RomoveMember(int idContract, [FromBody] int idMember)
         {
             var family = await _contactSV.RomoveMember(idContract, idMember);
             return Ok(family);
@@ -79,7 +79,7 @@ namespace MemberManagement.API.Controllers
 
 
         [HttpPost("AddMember")]
-        public async Task<IActionResult> AddMember( int idContract,[FromQuery] ContactMemberCreateRequest idMember)
+        public async Task<IActionResult> AddMember( int idContract, [FromBody] ContactMemberCreateRequest idMember)
         {
             var family = await _contactSV.AddMember(idContract,idMember);
             return Ok(family);

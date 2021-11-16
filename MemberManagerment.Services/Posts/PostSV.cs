@@ -185,6 +185,7 @@ namespace MemberManagement.Services.Posts
                 ModifiedDate = request.ModifiedDate,
                 AuthorId = request.AuthorId,
                 Content = request.Content,
+                
             };
             //Save image
             if (request.ThumbnailImage != null)
