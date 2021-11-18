@@ -50,14 +50,8 @@ namespace MenaberManagement.Admin.Controllers
                 PageSize = 10,
             };
             var post = await _iPostApi.GetPostPaging(a);
-            //var listpost = post.Items;
-            //var l = new List<PostVM>();
-            //foreach (var pos in listpost)
-            //{
-            //    pos.PathFile = "~" + pos.PathFile;
-            //    l.Add(pos);
-            //}
-            return View(post.Items);
+            
+            return View(post);
         }
 
 

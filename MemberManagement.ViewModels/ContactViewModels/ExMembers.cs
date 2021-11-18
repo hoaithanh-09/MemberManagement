@@ -4,6 +4,12 @@ using System.Text;
 
 namespace MemberManagement.ViewModels.ContactViewModels
 {
+    public class ExMembersViewModel
+    {
+        public int IdContact { get; set; }
+        public List<ExMembers> exMembers { get; set; }
+
+     }
     public class ExMembers
     {
         public string Name { get; set; }

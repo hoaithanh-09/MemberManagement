@@ -153,17 +153,17 @@ namespace MenaberManagement.Admin.Controllers
             return View();
         }
 
-       
+
 
         [HttpGet]
         public async Task<IActionResult> ListMember(int id)
         {
             var roleAssignRequest = await ListMemberContact(id);
 
-            return View(roleAssignRequest.Items);
+            return View(roleAssignRequest);
         }
 
-        private async Task<PagedResult<ExMembers>> ListMemberContact(int id)
+        private async Task<GetContactPagedResult<ExMembers>> ListMemberContact(int id)
         {
             var request = new GetContactPagingRequest()
             {
@@ -172,15 +172,21 @@ namespace MenaberManagement.Admin.Controllers
                 PageSize = 10,
             };
             var data = await _iContactApiClient.ListMember(id, request);
+            var re = new GetContactPagedResult<ExMembers>();
 
+            re.Items = data.Items;
+            re.PageCount = data.PageCount;
+            re.PageIndex = data.PageIndex;
+            re.PageSize = data.PageSize;
+            re.IdContact = id;
             if (TempData["result"] != null)
             {
                 ViewBag.SuccessMsg = TempData["result"];
             }
-            return data;
+            return re;
         }
         [HttpGet]
-        public  async Task<IActionResult> AddMember(int id)
+        public async Task<IActionResult> AddMember(int id)
         {
             var member = new ContactMemberCreateRequest();
             var a = await _iMemberApiClient.GetAll();
@@ -190,12 +196,13 @@ namespace MenaberManagement.Admin.Controllers
             return View(member);
         }
 
-        [HttpPost]
+        [HttpPost("AddMember/{idContract}")]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddMember(int idContract, [FromBody] ContactMemberCreateRequest idMember)
         {
             var family = await _iContactApiClient.AddMember(idContract, idMember);
-            return Ok(family);
-        }
+            return RedirectToAction($"ListMember{idContract}", "Contacts");
+        } 
 
         public async Task<ActionResult> RemoveMember(int id)
         {
