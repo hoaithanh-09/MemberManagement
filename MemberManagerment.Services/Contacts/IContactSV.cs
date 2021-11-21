@@ -18,7 +18,7 @@ namespace MemberManagement.Services.Contacts
         Task<Contact> Update(int id, ContactEditRequest request);
         Task<PagedResult<ContactVM>> GetPagedResult(GetContactPagingRequest request);
         Task<PagedResult<ExMembers>> ListMember(int idContract, GetContactPagingRequest request);
-        Task<bool> AddMember(int idMember, ContactMemberCreateRequest idMember1);
+        Task<bool> AddMember(int idContract, ContactMemberCreateRequest idMember1);
         Task<bool> RomoveMember(int idContract, int idMember);
     }
 }

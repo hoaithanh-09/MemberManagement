@@ -1,4 +1,6 @@
-﻿@model IEnumerable<MemberManagement.ViewModels.ContactViewModels.ExMembers>
+﻿@using MemberManagement.ViewModels.ContactViewModels; 
+
+@model GetContactPagedResult<MemberManagement.ViewModels.ContactViewModels.ExMembers>
 
 @{
     ViewData["Title"] = "ListMember";
@@ -8,31 +10,31 @@
 <h1>ListMember</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    @Html.ActionLink("AddMember", "AddMember", new {  id=Model.IdContact  })
 </p>
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Name)
+               Tên hội viên
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.PersonalTitles)
+                Chức danh
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Work)
+               Công việc
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Address)
+               Địa chỉ
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.PhoneNumber)
+                Số điện thoại
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
+@foreach (var item in Model.Items) {
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.Name)

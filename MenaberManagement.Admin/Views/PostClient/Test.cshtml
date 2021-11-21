@@ -1,80 +1,67 @@
-﻿@model IEnumerable<MemberManagement.ViewModels.PostViewModels.PostVM>
+﻿@using MemberManagement.ViewModels.Common
+@model PagedResult<MemberManagement.ViewModels.PostViewModels.PostVM>
 
 @{
     ViewData["Title"] = "sdasd";
     Layout = "~/Views/Shared/_LayoutClient.cshtml";
 }
 
-<body>
-    <form method="post" action="./group.aspx?id=02" id="form1">
-        <table border="0" cellpadding="0" cellspacing="0" style="width: 520px">
-            <tr>
-                <td style="width: 100px" align="center">
-                    <table id="ContentPlaceHolder1_d_group" cellspacing="0" style="width:500px;border-collapse:collapse;">
-                        @foreach (var item in Model)
-                        {
+<div class="card mb-12">
+    <div class="table-responsive">
+        <table id="ContentPlaceHolder1_d_group" cellspacing="0" style="width:500px;border-collapse:collapse;">
+            @foreach (var item in Model.Items)
+            {
+                <tr>
+                    <td>
+                        <table border="0" cellpadding="0" cellspacing="0" style="width: 500px">
                             <tr>
-                                <td>
-                                    <table border="0" cellpadding="0" cellspacing="0" style="width: 500px">
+                                <td align="left" class="tieude_l" colspan="3">
+                                    @Html.ActionLink(item.Title, "Edit", new { id = item.Id })
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="hinh_h">
+                                    <a href='detail.aspx?id=05/08/2021 07/02/18'>
+                                        <img id="ContentPlaceHolder1_d_group_Image1_0" src="@item.PathFile" width="120" height="150" style="border-width:0px;" />
+                                    </a>
+                                </td>
+                                <td style="width: 20px">
+                                </td>
+                                <td style="width: 340px" valign="top">
+                                    <table border="0" cellpadding="0" cellspacing="0" style="width: 340px">
                                         <tr>
-                                            <td align="left" class="tieude_l" colspan="3">
-                                                @Html.ActionLink(item.Title, "Edit", new { id = item.Id })
+                                            <td align="left" class="noidung_l" style="height: 90px" valign="top">
+                                                <span id="@item.Id">@item.Content</span>
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td class="hinh_h">
-                                                <a href='detail.aspx?id=05/08/2021 07/02/18'>
-                                                    <img id="ContentPlaceHolder1_d_group_Image1_0" src="@item.PathFile" width="120" height="150" style="border-width:0px;" />
-                                                </a>
-                                            </td>
-                                            <td style="width: 20px">
-                                            </td>
-                                            <td style="width: 340px" valign="top">
-                                                <table border="0" cellpadding="0" cellspacing="0" style="width: 340px">
-                                                    <tr>
-                                                        <td align="left" class="noidung_l" style="height: 90px" valign="top">
-                                                            <span id="@item.Id">@item.Content</span>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td style="height: 20px">
-                                                            <div class="date">
-                                                                Cập nhật:
-                                                                <span id="ContentPlaceHolder1_d_group_Label2_0">@item.CreatedDate</span>
-                                                            </div>
-                                                            <div class="xem_tiep">
-                                                                <a href='detail.aspx?id=05/08/2021 07/02/18'>Xem tiếp...</a>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                </table>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td colspan="3" style="height: 20px">
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td colspan="3" style="height: 20px; border-top:solid 1px #dadada;">
+                                            <td style="height: 20px">
+                                                <div class="date">
+                                                    Cập nhật:
+                                                    <span id="ContentPlaceHolder1_d_group_Label2_0">@item.CreatedDate</span>
+                                                </div>
+                                                <div class="xem_tiep">
+                                                    <a href='detail.aspx?id=05/08/2021 07/02/18'>Xem tiếp...</a>
+                                                </div>
                                             </td>
                                         </tr>
                                     </table>
                                 </td>
                             </tr>
-                        }
-                    </table>
-                </td>
-            </tr>
-            <tr>
-                <td style="width: 100px" align="center" class="phantrang">
-
-                    <div><div><span style='FONT-WEIGHT: bold;'>Trang: ---</span><span style='padding-left:5'></span><span><B>1</B> - <a href='/group.aspx?id=02&Page=2'>2</a> - <a href='/group.aspx?id=02&Page=3'>3</a> - <a href='/group.aspx?id=02&Page=4'>4</a> - <a href='/group.aspx?id=02&Page=5'>5</a> - <a href='/group.aspx?id=02&Page=6'>6</a> - <a href='/group.aspx?id=02&Page=7'>7</a> - <a href='/group.aspx?id=02&Page=8'>8</a> - <a href='/group.aspx?id=02&Page=9'>9</a> - <a href='/group.aspx?id=02&Page=10'>10</a></span><span style='padding-left:10'></span><span>--- « Trước | <a href='/group.aspx?id=02&Page=2'>Tiếp theo »</a></span></div><div style='PADDING-BOTTOM:4px;PADDING-TOP:4px;FONT-WEIGHT: bold;'>Số tin từ 1-8 (trong tổng số 80 tin)</div></div>
-                </td>
-            </tr>
+                            <tr>
+                                <td colspan="3" style="height: 20px">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="3" style="height: 20px; border-top:solid 1px #dadada;">
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            }
         </table>
-        @*</tr>
-            </table>*@
-    </form>
-
-</body>
+    </div>
+     @await Component.InvokeAsync("Pager", Model)
+</div>
 

@@ -1,6 +1,7 @@
 ﻿using MemberManagement.ViewModels.AddressViewModels;
 using MemberManagement.ViewModels.Common;
 using MemberManagement.ViewModels.ContactViewModels;
+using MemberManagement.ViewModels.ContractMemberViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,5 +21,6 @@ namespace MenaberManagement.Admin.Services
 
         Task<List<ContactVM>> GetAll();
         Task<PagedResult<ExMembers>> ListMember(int idContract, GetContactPagingRequest request);
+        Task<bool> AddMember(int idContract, ContactMemberCreateRequest idMember);
     }
 }

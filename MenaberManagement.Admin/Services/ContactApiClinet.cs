@@ -1,6 +1,7 @@
 ﻿using ManaberManagement.Utilities;
 using MemberManagement.ViewModels.Common;
 using MemberManagement.ViewModels.ContactViewModels;
+using MemberManagement.ViewModels.ContractMemberViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
@@ -109,6 +110,24 @@ namespace MenaberManagement.Admin.Services
              $"/api/Contacts/ListMember?idContract={idContract}&PageIndex=" +
                $"{request.PageIndex}&PageSize={request.PageSize}&keyword={request.Keyword}");
             return data;
+        }
+
+        public async Task<bool> AddMember(int idContract, ContactMemberCreateRequest request)
+        {
+
+            var sessions = _httpContextAccessor
+                .HttpContext
+                .Session
+                .GetString(SystemConstants.AppSettings.Token);
+
+            var client = _httpClientFactory.CreateClient();
+            client.BaseAddress = new Uri(_configuration[SystemConstants.AppSettings.BaseAddress]);
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", sessions);
+
+            var json = JsonConvert.SerializeObject(request);
+            var httpContent = new StringContent(json, Encoding.UTF8, "application/json");
+            var response = await client.PostAsync($"/api/Contacts/AddMember?idContract={idContract}", httpContent);
+            return response.IsSuccessStatusCode;
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using MemberManagement.ViewModels.Common;
 using MemberManagement.ViewModels.ContactViewModels;
+using MemberManagement.ViewModels.ContractMemberViewModels;
 using MenaberManagement.Admin.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -16,12 +17,16 @@ namespace MenaberManagement.Admin.Controllers
         private readonly IContactApiClientcs _iContactApiClient;
         private readonly IConfiguration _configuration;
 
+        private readonly IRoleApiClient _iRoleApiClient;
+        private readonly IMemberApiClient _iMemberApiClient;
 
-        public ContactsController(IContactApiClientcs iContactApiClient,
-            IConfiguration configuration)
+        public ContactsController(IContactApiClientcs iContactApiClient, IRoleApiClient iRoleApiClient, IMemberApiClient iMemberApiClient,
+        IConfiguration configuration)
         {
             _configuration = configuration;
             _iContactApiClient = iContactApiClient;
+            _iMemberApiClient = iMemberApiClient;
+            _iRoleApiClient = iRoleApiClient;
         }
         public async Task<IActionResult> Index(string keyword, int pageIndex = 1, int pageSize = 10)
         {
@@ -148,35 +153,17 @@ namespace MenaberManagement.Admin.Controllers
             return View();
         }
 
-        //[HttpGet]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> ListMember(int idContract)
-        //{
-        //    var request = new GetContactPagingRequest()
-        //    {
-        //        Keyword = "",
-        //        PageIndex = 1,
-        //        PageSize = 10,
-        //    };
-        //    var data = await _iContactApiClient.ListMember(idContract, request);
-        //   // ViewBag.Keyword = keyword;
 
-        //    if (TempData["result"] != null)
-        //    {
-        //        ViewBag.SuccessMsg = TempData["result"];
-        //    }
-        //    return View(data);
-        //}
 
         [HttpGet]
         public async Task<IActionResult> ListMember(int id)
         {
             var roleAssignRequest = await ListMemberContact(id);
 
-            return View(roleAssignRequest.Items);
+            return View(roleAssignRequest);
         }
 
-        private async Task<PagedResult<ExMembers>> ListMemberContact(int id)
+        private async Task<GetContactPagedResult<ExMembers>> ListMemberContact(int id)
         {
             var request = new GetContactPagingRequest()
             {
@@ -185,12 +172,72 @@ namespace MenaberManagement.Admin.Controllers
                 PageSize = 10,
             };
             var data = await _iContactApiClient.ListMember(id, request);
+            var re = new GetContactPagedResult<ExMembers>();
 
+            re.Items = data.Items;
+            re.PageCount = data.PageCount;
+            re.PageIndex = data.PageIndex;
+            re.PageSize = data.PageSize;
+            re.IdContact = id;
             if (TempData["result"] != null)
             {
                 ViewBag.SuccessMsg = TempData["result"];
             }
-            return data;
+            return re;
+        }
+        [HttpGet]
+        public async Task<IActionResult> AddMember(int id)
+        {
+            var member = new ContactMemberCreateRequest();
+            var a = await _iMemberApiClient.GetAll();
+            var b = await _iRoleApiClient.GetAll();
+            member.Members = a;
+            member.Roles = b;
+            return View(member);
+        }
+
+        [HttpPost("AddMember/{idContract}")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AddMember(int idContract, [FromBody] ContactMemberCreateRequest idMember)
+        {
+            var family = await _iContactApiClient.AddMember(idContract, idMember);
+            return RedirectToAction($"ListMember{idContract}", "Contacts");
+        } 
+
+        public async Task<ActionResult> RemoveMember(int id)
+        {
+            var result = await _iContactApiClient.GetById(id);
+
+            if (result != null)
+            {
+                var family = new ContactDeleteRequest()
+                {
+                    Id = id,
+                };
+                return View(family);
+            }
+            return View(StatusCodes.Status400BadRequest);
+        }
+
+        // POST: FamiliesController/Delete/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> RemoveMember(int id, ContactDeleteRequest request)
+        {
+            if (!ModelState.IsValid)
+                return View();
+
+            var result = await _iContactApiClient.Delete(request.Id);
+            if (result)
+            {
+                TempData["result"] = "Xóa người dùng thành công";
+                return RedirectToAction("Index");
+            }
+
+            ModelState.AddModelError("", "Xóa thất bại");
+            return View();
+
+
         }
     }
 }
