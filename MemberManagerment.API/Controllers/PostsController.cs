@@ -31,21 +31,21 @@ namespace MemberManagement.API.Controllers
             var post = await _postSV.Create(request);
             return Ok(post);
         }
-        [HttpDelete("DeletePost/{id}")]
+        [HttpDelete]
         public async Task<ActionResult> Delete(int id)
         {
             var post = await _postSV.Delete(id);
             return Ok();
         }
 
-        [HttpGet("GetByIdPost/{id}")]
+        [HttpGet]
         public async Task<IActionResult> GetById(int id)
         {
             var post = await _postSV.GetById(id);
             return Ok(post);
         }
 
-        [HttpPut("UpdatePosst/{id}")]
+        [HttpPut]
         public async Task<IActionResult> Update([FromRoute] int id, [FromBody] PostEditRequest request)
         {
             try
@@ -65,7 +65,7 @@ namespace MemberManagement.API.Controllers
             return Ok(post);
         }
         //add ImageInPost
-        [HttpPost("Add ImageInPost")]
+        [HttpPost("AddImageInPost")]
         public async Task<ActionResult> AddImage([FromRoute] int id,[FromBody] ImageInPostCreateRequest request)
         {
             var post = await _postSV.AddImage(id,request);

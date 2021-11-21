@@ -13,19 +13,18 @@ using MemberManagement.ViewModels.PostViewModels;
 using Microsoft.AspNetCore.Http;
 using System.Net.Http.Headers;
 using System.IO;
-using MemberManagement.Services.Common;
+
 
 namespace MemberManagement.Services.Posts
 {
     public class PostSV : IPostSV
     {
         private readonly MemberManagementContext _context;
-        private readonly IStorageService _storageService;
         private const string USER_CONTENT_FOLDER_NAME = "user-content";
-        public PostSV(MemberManagementContext context, IStorageService storageService)
+        public PostSV(MemberManagementContext context)
         {
             _context = context;
-            _storageService = storageService;
+      
         }
 
         public async Task<string> Delete(int id)
@@ -35,9 +34,18 @@ namespace MemberManagement.Services.Posts
             {
                 return "Không tìm thấy bài viết";
             }
+            var images =  _context.Images.Where(x => x.PostID == id);
+            foreach (var image in images)
+            {
+                _context.Images.Remove(image);
+            }
             _context.Posts.Remove(post);
-            await _context.SaveChangesAsync();
-            return "Xóa thành công";
+            var a = await _context.SaveChangesAsync();
+            if (a >0)
+            {
+                return "Xóa thành công";
+            }
+            return "Xóa thất bại";
         }
 
         public async Task<List<PostVM>> GetAll()
@@ -187,7 +195,7 @@ namespace MemberManagement.Services.Posts
                     {
                         DateCreated = DateTime.Now,
                         FileSize = request.ThumbnailImage.Length,
-                        ImagePath = await this.SaveFile(request.ThumbnailImage),
+                        ImagePath = request.ThumbnailImage.FileName,
                     }
                 };
             }
@@ -205,7 +213,6 @@ namespace MemberManagement.Services.Posts
         {
             var originalFileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
             var fileName = $"{Guid.NewGuid()}{Path.GetExtension(originalFileName)}";
-            await _storageService.SaveFileAsync(file.OpenReadStream(), fileName);
             return "/" + USER_CONTENT_FOLDER_NAME + "/" + fileName;
         }
     }

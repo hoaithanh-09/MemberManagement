@@ -26,6 +26,13 @@ namespace MemberManagement.API.Controllers
             return Ok(group);
         }
 
+        [HttpGet("Test")]
+        public async Task<IActionResult> Test()
+        {
+            var group = await _address.Test();
+            return Ok(group);
+        }
+
         [HttpGet("paging")]
         public async Task<IActionResult> GetPaing([FromQuery] GetAddressPagingRequest request)
         {

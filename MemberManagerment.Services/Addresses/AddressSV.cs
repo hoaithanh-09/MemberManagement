@@ -160,6 +160,11 @@ namespace MemberManagement.Services.Addresses
             return provinces;
         }
 
+        public Task<string> Test()
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<Address> Update(int id, AddressEditRequest request)
         {
             var address = await _context.Addresses.FindAsync(id);

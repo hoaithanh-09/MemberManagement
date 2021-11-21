@@ -10,6 +10,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\MemberManagerment\MemberManagement.Data.csproj" />
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
   </ItemGroup>
 
 </Project>

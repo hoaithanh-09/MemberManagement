@@ -4,7 +4,7 @@ using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MemberManagement.Services.Common
+namespace MemberManagement.ViewModels.CommonSV
 {
   public  interface IStorageService
     {
