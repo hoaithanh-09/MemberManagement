@@ -1,6 +1,7 @@
 ﻿using MemberManagement.Data.Entities;
 using MemberManagement.ViewModels.Common;
 using MemberManagement.ViewModels.FundGroupVIewModels;
+using MemberManagement.ViewModels.FundMemberViewModels;
 using MemberManagement.ViewModels.FundViewModels;
 using System;
 using System.Collections.Generic;
@@ -20,5 +21,8 @@ namespace MemberManagement.Services.Funds
         Task<bool> AddAction(int fundId, FundGroupCreateRequest request);
         Task<PagedResult<ListAction>> ListAction(int fundId, GetFundPagingRequest request);
         Task<bool> RomoveAction(int fundId, int idMember);
+        Task<PagedResult<ListMember>> ListMembers(int FundId, GetFundPagingRequest request);
+        Task<bool> AddMember(int fundId, FundMemberCreateRequest request);
+        Task<bool> RomoveAMember(int fundId, int idMember);
     }
 }

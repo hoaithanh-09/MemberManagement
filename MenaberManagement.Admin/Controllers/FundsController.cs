@@ -1,4 +1,5 @@
 ﻿using MemberManagement.ViewModels.Common;
+using MemberManagement.ViewModels.FundMemberViewModels;
 using MemberManagement.ViewModels.FundViewModels;
 using MenaberManagement.Admin.Models;
 using MenaberManagement.Admin.Services;
@@ -170,5 +171,60 @@ namespace MenaberManagement.Admin.Controllers
             }
             return data;
         }
+
+
+        [HttpGet]
+        public async Task<IActionResult> ListMember(int id)
+        {
+            var roleAssignRequest = await ListMemberFund(id);
+
+            return View(roleAssignRequest.Items);
+        }
+
+        private async Task<PagedResult<ListMember>> ListMemberFund(int id)
+        {
+            var request = new GetFundPagingRequest()
+            {
+                Keyword = "",
+                PageIndex = 1,
+                PageSize = 10,
+            };
+            var data = await _iFundApi.ListMembers(id, request);
+
+            if (TempData["result"] != null)
+            {
+                ViewBag.SuccessMsg = TempData["result"];
+            }
+            return data;
+        }
+
+        //add memberoflistMember
+        public ActionResult CreateListMember()
+        {
+            return View();
+        }
+
+        // POST: FamiliesController/Create
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> CreateListMember(int fundId,FundMemberCreateRequest request)
+        {
+            if (!ModelState.IsValid)
+                return View();
+
+            var result = await _iFundApi.AddMember(fundId,request);
+            if (!result)
+            {
+                ModelState.AddModelError("", "Tạo mới thất bại");
+                return View(request);
+            }
+            if (result)
+            {
+                TempData["result"] = "Tạo mới thành công";
+                return RedirectToAction("Index", "Families");
+            }
+            return View(request);
+        }
+
     }
 }

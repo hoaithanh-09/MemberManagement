@@ -64,6 +64,13 @@ namespace MemberManagement.API.Controllers
             return Ok(member);
         }
 
+        [HttpPost("Creat-listmember")]
+        public async Task<ActionResult> AddMember(int fundId, [FromQuery] FundMemberCreateRequest request)
+        {
+            var member = await _fundSV.AddMember(fundId, request);
+            return Ok(member);
+        }
+
 
 
         [HttpDelete("{id}")]
@@ -77,6 +84,13 @@ namespace MemberManagement.API.Controllers
         public async Task<IActionResult> ListAction(int fundId, [FromQuery] GetFundPagingRequest request)
         {
             var family = await _fundSV.ListAction(fundId, request);
+            return Ok(family);
+        }
+
+        [HttpGet("ListMember")]
+        public async Task<IActionResult> ListMembers(int fundId, [FromQuery] GetFundPagingRequest request)
+        {
+            var family = await _fundSV.ListMembers(fundId, request);
             return Ok(family);
         }
     }

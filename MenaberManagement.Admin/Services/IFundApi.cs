@@ -1,4 +1,6 @@
 ﻿using MemberManagement.ViewModels.Common;
+using MemberManagement.ViewModels.FundGroupVIewModels;
+using MemberManagement.ViewModels.FundMemberViewModels;
 using MemberManagement.ViewModels.FundViewModels;
 using System;
 using System.Collections.Generic;
@@ -17,5 +19,8 @@ namespace MenaberManagement.Admin.Services
         Task<FundVM> GetById(int id);
         Task<bool> Delete(int id);
         Task<PagedResult<ListAction>> ListAction(int fundId, GetFundPagingRequest request);
+        Task<PagedResult<ListMember>> ListMembers(int fundId, GetFundPagingRequest request);
+        Task<bool> AddMember(int fundId, FundMemberCreateRequest request);
+        Task<bool> AddAction(int fundId, FundGroupCreateRequest request);
     }
 }

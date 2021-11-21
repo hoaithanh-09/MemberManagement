@@ -51,6 +51,24 @@ namespace MemberManagement.Services.Funds
 
         }
 
+        public async Task<bool> AddMember(int fundId, FundMemberCreateRequest request)
+        {
+            var memberContact = new FundMember()
+            {
+                MemberId = request.Id,
+                FundId = fundId,
+                Status = request.Status,
+                Total  = request.Total,
+                CreateDate = DateTime.Now,               
+            };
+            _context.FundMembers.Add(memberContact);
+            int a = await _context.SaveChangesAsync();
+            if (a <= 0)
+            {
+                return false;
+            }
+            return true;
+        }
 
         public async Task<ApiResult<string>> Create(FundCreateRequest request)
         {
@@ -63,7 +81,7 @@ namespace MemberManagement.Services.Funds
             };
 
             _context.Funds.Add(fund);
-           
+
 
             var a = await _context.SaveChangesAsync();
             if (a > 0)
@@ -127,7 +145,7 @@ namespace MemberManagement.Services.Funds
                 groupVM = new GroupVM()
                 {
                     Name = member.Name,
-                    Id=member.Id,
+                    Id = member.Id,
                 };
             }
 
@@ -142,8 +160,8 @@ namespace MemberManagement.Services.Funds
                 Id = activity.Id,
                 Name = activity.Name,
                 Description = activity.Description,
-                TotalFund=activity.TotalFund,
-                CreatedDate=activity.CreatedDate,
+                TotalFund = activity.TotalFund,
+                CreatedDate = activity.CreatedDate,
                 FundGroups = activityMember,
             };
             return activityVM;
@@ -193,9 +211,9 @@ namespace MemberManagement.Services.Funds
                     Id = action1.Id,
                     Name = action1.Name,
                     Description = action1.Description,
-                    CreateDate=action1.CreateDate,
-                    Finish=action1.Finish,
-                    Money= action1.Money,
+                    CreateDate = action1.CreateDate,
+                    Finish = action1.Finish,
+                    Money = action1.Money,
                     NameGroup = gr.Name,
                 };
                 listAction.Add(action);
@@ -210,12 +228,43 @@ namespace MemberManagement.Services.Funds
             return pagedResult;
         }
 
+        public async Task<PagedResult<ListMember>> ListMembers(int FundId, GetFundPagingRequest request)
+        {
+            var listMember = new List<ListMember>();
+            var listFundMember = await _context.FundMembers.AsQueryable().Where(x => x.FundId == FundId).ToListAsync();
+            foreach (var fundMember in listFundMember)
+            {
+                var member = _context.Members.Find(fundMember.MemberId);
+                var action1 = _context.FundMembers.Find(fundMember.Id);
+                var action = new ListMember()
+                {
+                    Name = member.Name,
+                    Total = action1.Total,
+                    Status = action1.Status,
+                };
+                listMember.Add(action);
+            }
+            var pagedResult = new PagedResult<ListMember>
+            {
+                PageIndex = request.PageIndex,
+                PageSize = request.PageSize,
+                TotalRecords = listMember.Count,
+                Items = listMember,
+            };
+            return pagedResult;
+        }
+
         public Task<bool> RomoveAction(int fundId, int idMember)
         {
             throw new NotImplementedException();
         }
 
-        public   Task<bool> RomoveMember(int fundId, int idMember)
+        public Task<bool> RomoveAMember(int fundId, int idMember)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<bool> RomoveMember(int fundId, int idMember)
         {
             /*var fund = await _context.FundMembers.Where(x => x.FundId == fundId
             && x.MemberId == idMember).FirstOrDefaultAsync();
@@ -263,6 +312,6 @@ namespace MemberManagement.Services.Funds
             return rold;
         }
 
-       
+
     }
 }

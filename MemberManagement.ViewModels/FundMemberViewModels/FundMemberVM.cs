@@ -9,7 +9,9 @@ namespace MemberManagement.ViewModels.FundMemberViewModels
     public class FundMemberVM
     {
         public MemberVM Member { get; set; }
-        public string Action { get; set; }
-        public double? Total { get; set; }
+        public double Total { get; set; }
+        public bool Status { get; set; }
+        public DateTime CreateDate { get; set; }
+
     }
 }

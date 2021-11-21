@@ -431,7 +431,7 @@ namespace MemberManagement.Data.Migrations
                     b.Property<bool>("Status")
                         .HasColumnType("bit");
 
-                    b.Property<double?>("Total")
+                    b.Property<double>("Total")
                         .HasColumnType("float");
 
                     b.HasKey("Id");
@@ -440,7 +440,7 @@ namespace MemberManagement.Data.Migrations
 
                     b.HasIndex("MemberId");
 
-                    b.ToTable("FundMembers");
+                    b.ToTable("FundMember");
                 });
 
             modelBuilder.Entity("MemberManagement.Data.Entities.Group", b =>
@@ -995,13 +995,13 @@ namespace MemberManagement.Data.Migrations
                     b.HasOne("MemberManagement.Data.Entities.Fund", "Fund")
                         .WithMany("FundMembers")
                         .HasForeignKey("FundId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .HasConstraintName("FK__FundMember__Fund__6478ECF3")
                         .IsRequired();
 
                     b.HasOne("MemberManagement.Data.Entities.Member", "Member")
-                        .WithMany()
+                        .WithMany("FundMembers")
                         .HasForeignKey("MemberId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .HasConstraintName("FK__FundMember__Member__403A8C7D")
                         .IsRequired();
 
                     b.Navigation("Fund");
@@ -1218,6 +1218,8 @@ namespace MemberManagement.Data.Migrations
                     b.Navigation("AddressMembers");
 
                     b.Navigation("ContactMembers");
+
+                    b.Navigation("FundMembers");
 
                     b.Navigation("MemberUsers");
 

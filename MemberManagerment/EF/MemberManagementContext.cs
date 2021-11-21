@@ -40,7 +40,7 @@ namespace MemberManagerment.Data.EF
         public virtual DbSet<Activity> Activities { get; set; }
         public virtual DbSet<ActivityMember> ActivityMembers { get; set; }
         public virtual DbSet<Fund> Funds { get; set; }
-        public virtual DbSet<FundMember> FundMembers { get; set; }
+        public virtual DbSet<FundMember> FundMembers{ get; set; }
         public virtual DbSet<FundGroup> FundGroups { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -510,6 +510,29 @@ namespace MemberManagerment.Data.EF
                     .HasForeignKey(d => d.GroupId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK__FundGr1__Group__403A8C7D");
+            });
+
+            modelBuilder.Entity<FundMember>(entity =>
+            {
+
+                entity.ToTable("FundMember");
+
+                entity.Property(e => e.CreateDate).IsRequired(true);
+                entity.Property(e => e.Total).IsRequired(true);
+                entity.Property(e => e.Status).IsRequired(true);
+
+
+                entity.HasOne(d => d.Fund)
+                    .WithMany(p => p.FundMembers)
+                    .HasForeignKey(d => d.FundId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK__FundMember__Fund__6478ECF3");
+
+                entity.HasOne(d => d.Member)
+                    .WithMany(p => p.FundMembers)
+                    .HasForeignKey(d => d.MemberId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK__FundMember__Member__403A8C7D");
             });
 
 

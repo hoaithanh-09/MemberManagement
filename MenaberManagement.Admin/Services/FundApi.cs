@@ -1,5 +1,7 @@
 ﻿using ManaberManagement.Utilities;
 using MemberManagement.ViewModels.Common;
+using MemberManagement.ViewModels.FundGroupVIewModels;
+using MemberManagement.ViewModels.FundMemberViewModels;
 using MemberManagement.ViewModels.FundViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
@@ -28,6 +30,30 @@ namespace MenaberManagement.Admin.Services
             _configuration = configuration;
             _httpClientFactory = httpClientFactory;
         }
+
+        public Task<bool> AddAction(int fundId, FundGroupCreateRequest request)
+        {
+            throw new NotImplementedException();
+        }
+
+   
+        public async Task<bool> AddMember(int fundId, FundMemberCreateRequest request)
+        {
+            var sessions = _httpContextAccessor
+                 .HttpContext
+                 .Session
+                 .GetString(SystemConstants.AppSettings.Token);
+
+            var client = _httpClientFactory.CreateClient();
+            client.BaseAddress = new Uri(_configuration[SystemConstants.AppSettings.BaseAddress]);
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", sessions);
+
+            var json = JsonConvert.SerializeObject(request);
+            var httpContent = new StringContent(json, Encoding.UTF8, "application/json");
+            var response = await client.PostAsync($"/api/Funds/Creat-listmember", httpContent);
+            return response.IsSuccessStatusCode;
+        }
+
         public async Task<ApiResult<string>> Create(FundCreateRequest request)
         {
             var sessions = _httpContextAccessor
@@ -85,6 +111,15 @@ namespace MenaberManagement.Admin.Services
                $"{request.PageIndex}&PageSize={request.PageSize}&keyword={request.Keyword}");
             return data;
         }
+
+        public async Task<PagedResult<ListMember>> ListMembers(int fundId, GetFundPagingRequest request)
+        {
+            var data = await GetAsync<PagedResult<ListMember>>(
+             $"/api/Funds/ListMember?fundId={fundId}&PageIndex=" +
+               $"{request.PageIndex}&PageSize={request.PageSize}&keyword={request.Keyword}");
+            return data;
+        }
+
 
         public async Task<bool> Update(int id, FundEditRequest request)
         {
