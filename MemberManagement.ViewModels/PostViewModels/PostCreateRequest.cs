@@ -16,6 +16,6 @@ namespace MemberManagement.ViewModels.PostViewModels
         public int? AuthorId { get; set; }
         public string Content { get; set; }
 
-        public IFormFile ThumbnailImage { get; set; }
+        public IFormFile? ThumbnailImage { get; set; }
     }
 }

@@ -28,7 +28,6 @@ namespace MemberManagement.Services.Groups
             }
             var groupAdd = new Group()
             {
-               
                 Name = request.Name,
                 Region = request.Region,
                 Description = request.Description,

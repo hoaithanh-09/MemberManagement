@@ -14,7 +14,7 @@ namespace MemberManagement.ViewModels.MemberViewModels
     public class MemberCreatRequest
     {
         [Required(ErrorMessage = "Vui lòng nhập FamilyId")]
-        [Display(Name ="Gia đình")]
+        [Display(Name = "Gia đình")]
         public int FamilyId { get; set; }
 
         [Required(ErrorMessage = "Vui lòng nhập GroupId")]
@@ -44,7 +44,7 @@ namespace MemberManagement.ViewModels.MemberViewModels
 
         [Display(Name = "Chức vụ")]
         public int RoleId { get; set; }
-        
+
         [Display(Name = "Chức danh")]
         public string PersonalTtles { get; set; }
         [Display(Name = "Gmail")]
@@ -64,5 +64,14 @@ namespace MemberManagement.ViewModels.MemberViewModels
         public List<RoleVM> Roles { get; set; }
 
         public List<ContactVM> Contacts { get; set; }
+
+
+        [NotMapped]
+        public List<Gender> Genders { get; set; }
+    }
+
+    public class Gender
+    {
+        public string Name { get; set; }
     }
 }
