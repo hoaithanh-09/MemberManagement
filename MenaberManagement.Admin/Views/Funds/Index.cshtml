@@ -5,61 +5,105 @@
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<div class="container-fluid px-4">
+    <h1 class="mt-4">Danh sách quỹ hội</h1>
+    <ol class="breadcrumb mb-4">
+        <li class="breadcrumb-item"><a href="/">Trang chủ</a></li>
+        <li class="breadcrumb-item active">Quỹ hội</li>
+    </ol>
 
-<h1>Index</h1>
+    <div class="card mb-12">
+        <div class="card-header">
+            <div class="row">
+                <div class="col-md-5 col-xs-12">
+                    <a class="btn btn-success" asp-action="Create" asp-controller="Funds">Tạo mới</a>
+                </div>
+                <div class="col-md-7 col-xs-12">
+                    <form asp-action="Index" method="get">
+                        <div class="row">
+                            <div class="col-md-9">
+                                <input type="text" value="@ViewBag.Keyword" name="keyword" class="form-control" />
+                            </div>
+                            <div class="col-md-3">
+                                <button type="submit" class="btn btn-primary">Tìm</button>
+                                <button type="button" onclick="window.location.href='/Find/Index'" class="btn btn-dark">Reset</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
 
-<p>
-    <a class="btn btn-success" asp-action="Create" asp-controller="Funds">Tạo mới</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                Id
-            </th>
-            <th>
-                Tên Quỹ
-            </th>
-            <th>
-                Tổng quỹ
-            </th>
-            <th>
-                Ngày lập 
-            </th>
-            <th>
-                Mô tả
-            </th>
+        <div class="card-body">
+            @if (ViewBag.SuccessMsg != null)
+            {
+                <div id="msgAler" class="alert alert-success" role="alert">
+                    @ViewBag.SuccessMsg
+                </div>
+            }
 
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model.Items)
-        {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Id)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TotalFund)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CreatedDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
 
-                @Html.ActionLink("Detail", "ListMember", new { id = item.Id }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
-                @Html.ActionLink("ListAction", "ListAction", new { id = item.Id })
-            </td>
-        </tr>
-        }
-    </tbody>h
-</table>
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr class="title-th">
+                            <th>
+                                Id
+                            </th>
+                            <th>
+                                Tên Quỹ
+                            </th>
+                            <th>
+                                Tổng quỹ
+                            </th>
+                            <th>
+                                Ngày lập
+                            </th>
+                            <th>
+                                Mô tả
+                            </th>
+
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.Items)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Id)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Name)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.TotalFund)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.CreatedDate)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Description)
+                                </td>
+                                <td>
+                                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+
+                                    @Html.ActionLink("Detail", "ListMember", new { id = item.Id }) |
+                                    @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                                    @Html.ActionLink("ListAction", "ListAction", new { id = item.Id })
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+

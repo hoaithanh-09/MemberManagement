@@ -1,5 +1,4 @@
-﻿
-@using MemberManagement.ViewModels.Common
+﻿@using MemberManagement.ViewModels.Common
 @using MemberManagerment.ViewModels.FamilyViewModels
 @model PagedResult<FamilyVM>
 
@@ -11,7 +10,7 @@
     <h1 class="mt-4">Danh sách hộ gia đình</h1>
     <ol class="breadcrumb mb-4">
         <li class="breadcrumb-item"><a href="/">Trang chủ</a></li>
-        <li class="breadcrumb-item active">Danh sách gia đình</li>
+        <li class="breadcrumb-item active">Gia đình</li>
     </ol>
 
     <div class="card mb-12">
@@ -44,7 +43,7 @@
             <div class="table-responsive">
                 <table class="table table-bordered">
                     <thead>
-                        <tr>
+                        <tr class="title-th">
                             <th>
                                 Số thứ tự
                             </th>
@@ -63,41 +62,46 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @{int stt = 1;
+                        @{
+                            int stt = 1;
                             foreach (var item in Model.Items)
                             {
                                 if (item.Id != 0 && item.IdMember != 0)
                                 {
-                                <tr>
-                                    <td>
-                                        @stt
-                                        @{stt = stt + 1; }
-                                    </td>
-
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.HousldRepre)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.YearBirth)
-                                    </td>
-
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.MumberMembers)
-                                    </td>
-
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.PhoneNumber)
-                                    </td>
-                                    <td>
-                                        <a asp-action="Edit" asp-route-id="@item.Id">Sửa</a> |
-                                        <a asp-action="Details" asp-route-id="@item.Id">Chi tiết</a> |
-                                        <a asp-action="Delete" asp-route-id="@item.Id">Xóa</a>|
-                                    </td>
-                                </tr>
-                                                    }
-
-                                                }
+                                    <tr>
+                                        <td>
+                                            @stt
+                                            @{
+                                                stt = stt + 1;
                                             }
+                                        </td>
+
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.HousldRepre)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.YearBirth)
+                                        </td>
+
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.MumberMembers)
+                                        </td>
+
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.PhoneNumber)
+                                        </td>
+                                        <td>
+                                            <a asp-action="Edit" asp-route-id="@item.Id">Sửa</a> |
+                                            <a asp-action="Details" asp-route-id="@item.Id">Chi tiết</a> |
+                                            <a asp-action="Delete" asp-route-id="@item.Id">Xóa</a>|
+                                        </td>
+                                    </tr>
+                                }
+                            
+
+
+                            }
+                        }
                     </tbody>
                 </table>
             </div>

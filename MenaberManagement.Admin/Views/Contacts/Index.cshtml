@@ -7,7 +7,7 @@
 }
 
 <div class="container-fluid px-4">
-    <h1 class="mt-4">Danh sách người dùng</h1>
+    <h1 class="mt-4">Danh sách liên lạc</h1>
     <ol class="breadcrumb mb-4">
         <li class="breadcrumb-item"><a href="/">Trang chủ</a></li>
         <li class="breadcrumb-item active">Danh sách ban liên lạc</li>
@@ -42,47 +42,47 @@
                 </div>
             }
 
-        <div class="table-responsive">
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>
-                            Tên ban liên lạc
-                        </th>
-                        <th>
-                            Miêu tả
-                        </th>
-                        <th>
-                            Ghi chú
-                        </th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var item in Model.Items)
-                    {
-                        <tr>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Name)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Description)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Note)
-                            </td>
-                            <td>
-                                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                                @Html.ActionLink("Details", "Details", new { id = item.Id }) |
-                                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
-                                @Html.ActionLink("ListMember", "ListMember", new { id = item.Id })
-                            </td>
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr class="title-th">
+                            <th>
+                                Tên ban liên lạc
+                            </th>
+                            <th>
+                                Miêu tả
+                            </th>
+                            <th>
+                                Ghi chú
+                            </th>
+                            <th></th>
                         </tr>
-                    }
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.Items)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Name)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Description)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Note)
+                                </td>
+                                <td>
+                                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                                    @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                                    @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                                    @Html.ActionLink("ListMember", "ListMember", new { id = item.Id })
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
 
-        </div>
+            </div>
             @await Component.InvokeAsync("Pager", Model)
         </div>
     </div>

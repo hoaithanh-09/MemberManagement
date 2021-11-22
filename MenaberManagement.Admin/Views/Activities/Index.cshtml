@@ -5,65 +5,103 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Index</h1>
+<div class="container-fluid px-4">
+    <h1 class="mt-4">Danh sách hoạt động</h1>
+    <ol class="breadcrumb mb-4">
+        <li class="breadcrumb-item"><a href="/">Trang chủ</a></li>
+        <li class="breadcrumb-item active">Hoạt độngs</li>
+    </ol>
 
-<p>
-    <a class="btn btn-success" asp-action="Create" asp-controller="Activities">Tạo mới</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-               Id
-            </th>
-            <th>
-                Name
-            </th>
-            <th>
-                CreateDate
-            </th>
-            <th>
-                Content
-            </th>
-            <th>
-                Cost
-            </th>
-            <th>
-                Description
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model.Items)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Id)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.CreatedDate)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Content)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Cost)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Description)
-                </td>
-                <td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id">Sửa</a> |
-                    <a asp-action="Details" asp-route-id="@item.Id">Chi tiết</a> |
-                    <a asp-action="Delete" asp-route-id="@item.Id">Xóa</a>|
-                </td>
+    <div class="card mb-12">
+        <div class="card-header">
+            <div class="row">
+                <div class="col-md-5 col-xs-12">
+                    <a class="btn btn-success" asp-action="Create" asp-controller="Activities">Tạo mới</a>
+                </div>
+                <div class="col-md-7 col-xs-12">
+                    <form asp-action="Index" method="get">
+                        <div class="row">
+                            <div class="col-md-9">
+                                <input type="text" value="@ViewBag.Keyword" name="keyword" class="form-control" />
+                            </div>
+                            <div class="col-md-3">
+                                <button type="submit" class="btn btn-primary">Tìm</button>
+                                <button type="button" onclick="window.location.href='/Activity/Index'" class="btn btn-dark">Reset</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
 
-            </tr>
-        }
-    </tbody>
-</table>
+        <div class="card-body">
+            @if (ViewBag.SuccessMsg != null)
+            {
+                <div id="msgAler" class="alert alert-success" role="alert">
+                    @ViewBag.SuccessMsg
+                </div>
+            }
+
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr class="title-th">
+                            <th>
+                                Id
+                            </th>
+                            <th>
+                                Name
+                            </th>
+                            <th>
+                                CreateDate
+                            </th>
+                            <th>
+                                Content
+                            </th>
+                            <th>
+                                Cost
+                            </th>
+                            <th>
+                                Description
+                            </th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.Items)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Id)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Name)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.CreatedDate)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Content)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Cost)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Description)
+                                </td>
+                                <td>
+                                <td>
+                                    <a asp-action="Edit" asp-route-id="@item.Id">Sửa</a> |
+                                    <a asp-action="Details" asp-route-id="@item.Id">Chi tiết</a> |
+                                    <a asp-action="Delete" asp-route-id="@item.Id">Xóa</a>|
+                                </td>
+
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>s
+
