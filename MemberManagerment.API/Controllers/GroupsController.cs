@@ -33,7 +33,7 @@ namespace MemberManagement.API.Controllers
         }
 
         [HttpPost("Create")]
-        public async Task<ActionResult> Create([FromForm] GroupCreateRequest request)
+        public async Task<ActionResult> Create(GroupCreateRequest request)
         {
             var group = await _groupSV.Create(request);
             return Ok(group);

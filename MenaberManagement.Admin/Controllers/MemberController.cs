@@ -77,7 +77,16 @@ namespace MenaberManagement.Admin.Controllers
             var contact = await _iContactApiClient.GetAll();
             var memberCreatRequest = new MemberCreatRequest();
             ViewBag.address = new SelectList(addObj, "Id", "Province");
-
+            memberCreatRequest.Birth = DateTime.Now;
+            memberCreatRequest.JoinDate = DateTime.Now;
+            var gen = new List<Gender>();
+            var Nam = new Gender() { Name = "Nam" };
+            var Nu = new Gender() { Name = "Nữ" };
+            var khac = new Gender() { Name = "Khác" };
+            gen.Add(Nam);
+            gen.Add(Nu);
+            gen.Add(khac);
+            memberCreatRequest.Genders = gen;
             memberCreatRequest.familyVMs = familtObj;
             memberCreatRequest.groupVMs = GoupObj;
             memberCreatRequest.Address = addObj;
@@ -92,21 +101,21 @@ namespace MenaberManagement.Admin.Controllers
         {
             if (!ModelState.IsValid)
                 return View();
-            var familtObj = await _familyApiClient.GetAll();
+            //var familtObj = await _familyApiClient.GetAll();
 
-            var GoupObj = await _iGroupApiClient.GetAll();
+            //var GoupObj = await _iGroupApiClient.GetAll();
 
-            var addObj = await _iAddressApiClient.GetAll();
+            //var addObj = await _iAddressApiClient.GetAll();
 
-            var roles = await _iRoleApiClient.GetAll();
-            var contact = await _iContactApiClient.GetAll();
+            //var roles = await _iRoleApiClient.GetAll();
+            //var contact = await _iContactApiClient.GetAll();
 
-            request.familyVMs = familtObj;
-            request.groupVMs = GoupObj;
-            request.Address = addObj;
-            request.Roles = roles;
-            request.Contacts = contact;
-
+            //request.familyVMs = familtObj;
+            //request.groupVMs = GoupObj;
+            //request.Address = addObj;
+            //request.Roles = roles;
+            //request.Contacts = contact;
+           
             var result = await _iMemberApiClient.Create(request);
             
             if (!result.IsSuccessed)

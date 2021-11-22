@@ -25,9 +25,7 @@
             <th>
                 Ngày sửa
             </th>
-            <th>
-                Nội dung
-            </th>
+           
         </tr>
     </thead>
     <tbody>
@@ -46,9 +44,7 @@
             <td>
                 @Html.DisplayFor(modelItem => item.ModifiedDate)
             </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Content)
-            </td>
+          
             <td>
                 @Html.ActionLink("Chỉnh sửa", "Edit", new { id = item.Id }) |
                 @Html.ActionLink("Chi tiết", "Details", new { id = item.Id }) |
