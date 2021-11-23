@@ -7,10 +7,12 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 
@@ -58,26 +60,10 @@ namespace MenaberManagement.Admin.Controllers
         public ActionResult Create()
         {
             var request = new AddressCreatRequest();
-            var webClient = new WebClient();
-            var json = webClient.DownloadString(@"wwwroot/Json/jsconfig.json");
-            var books = JsonConvert.DeserializeObject<Tinh>(json);
-
-            request.ProvinceJsons = books.Data;
-            List<SelectListItem> coutrylist = new List<SelectListItem>();
-            foreach (ProvinceJson dr in books.Data)
-            {
-                if (dr.level1_id.ToString() =="1")
-                {
-                    foreach (var a in dr.level2s)
-                    {
-                        coutrylist.Add(new SelectListItem { Text = a.name, Value = a.name });
-                    }
-
-                }
-
-            }
-            ViewBag.Districts = coutrylist;
-            return View(request);
+          
+            request.ProvinceJsons = Country_Bind();
+            var a = State_Bind("14");
+                return View(request);
         }
        
         public ActionResult Action()
@@ -86,22 +72,19 @@ namespace MenaberManagement.Admin.Controllers
             return View();
 
         }
-        public void Country_Bind()
+        public List<ProvinceJson> Country_Bind()
         {
-            var webClient = new WebClient();
-            var json = webClient.DownloadString(@"wwwroot/Json/jsconfig.json");
-            var books = JsonConvert.DeserializeObject<Tinh>(json);
-
-            List<ProvinceJson> provinceJsons  = books.Data;
-            List<SelectListItem> coutrylist = new List<SelectListItem>();
-            foreach (ProvinceJson dr in provinceJsons)
+          
+            var json = System.IO.File.ReadAllText(@"wwwroot/dist/tinh_tp.json");
+            var files = JsonConvert.DeserializeObject<Dictionary<string, ProvinceJson>>(json);
+            var listP = new List<ProvinceJson>();
+            foreach (var b in files)
             {
-
-                coutrylist.Add(new SelectListItem { Text = dr.name, Value = dr.level1_id. ToString() });
-
+                ProvinceJson p = b.Value;
+                listP.Add(p);
             }
-            ViewBag.Country = coutrylist;
 
+           return listP;
         }
         public ActionResult GetAll(string level1_id)
         {
@@ -109,46 +92,41 @@ namespace MenaberManagement.Admin.Controllers
             var json = webClient.DownloadString(@"wwwroot/Json/jsconfig.json");
             var books = JsonConvert.DeserializeObject<Tinh>(json);
 
-            List<ProvinceJson> provinceJsons = books.Data;
-            List<SelectListItem> coutrylist = new List<SelectListItem>();
 
-            foreach (ProvinceJson dr in provinceJsons)
-            {
-                if (dr.level1_id.ToString().Contains(level1_id))
-                {
-                    foreach (var a in dr.level2s)
-                    {
-                        coutrylist.Add(new SelectListItem { Text = a.name, Value = a.name });
-                    }
-
-                }
-
-            }
-            ViewBag.Districts = coutrylist;
             return View("Create");
 
         }
-        public JsonResult State_Bind(string level1_id)
+        public JsonResult State_Bind(string parent_code)
         {
-            var webClient = new WebClient();
-            var json = webClient.DownloadString(@"wwwroot/Json/jsconfig.json");
-            var books = JsonConvert.DeserializeObject<Tinh>(json);
-
-            List<ProvinceJson> provinceJsons = books.Data;
+            string[] filePaths = Directory.GetFiles(@"wwwroot/dist/quan-huyen/", "*.json");
+            var a = filePaths;
+            string result;
             List<SelectListItem> coutrylist = new List<SelectListItem>();
 
-            foreach (ProvinceJson dr in provinceJsons)
+            foreach (var file in filePaths)
             {
-                if(dr.level1_id.ToString().Contains(level1_id))
+                result = Path.GetFileNameWithoutExtension(file);
+                if (parent_code.Contains(result))
                 {
-                    foreach (var a in dr.level2s)
+                    var json = System.IO.File.ReadAllText($@"wwwroot/dist/quan-huyen/{result}.json");
+                    var files = JsonConvert.DeserializeObject<Dictionary<string, DistrictJon>>(json);
+                    var listP = new List<DistrictJon>();
+
+                    foreach (var b in files)
                     {
-                        coutrylist.Add(new SelectListItem { Text = a.name, Value = a.name });
+                        DistrictJon p = b.Value;
+                        listP.Add(p);
+                        var c = new SelectListItem()
+                        {
+                           Text = p.name,
+                           Value = p.code  
+                        };
                     }
-
+                    continue;
                 }
-
             }
+
+           
             return Json(coutrylist);
 
         }
@@ -254,10 +232,6 @@ namespace MenaberManagement.Admin.Controllers
             List<SelectListItem> provinceeNames = new List<SelectListItem>();
             CascadingModel model = new CascadingModel();
             var listProvince = await _iAddressApiClient.GetProvince();
-            //foreach (var country in listProvince)
-            //{
-            //    model.Provinces.Add(new SelectListItem { Text = country.Name, Value = country.Id.ToString() });
-            //}
             listProvince.ForEach(x =>
             {
                 provinceeNames.Add(new SelectListItem { Text = x.Name, Value = x.Id.ToString() });

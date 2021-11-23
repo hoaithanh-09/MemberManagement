@@ -32,14 +32,13 @@
             </div>
             <div class="form-group">
                  <label class="control-label"> Tỉnh thành</label>
-                   @Html.DropDownListFor(model => model.Province, new SelectList(Model.ProvinceJsons, "level1_id", "name"), new { @id="Province", @class = "form-control"})
+                  @Html.DropDownListFor(model => model.Province, new SelectList(Model.ProvinceJsons, "name", "name"), new { @class = "form-control" })
                 <span asp-validation-for="Province" class="text-danger"></span>
             </div>
             <div class="form-group">
                 @* <label class="control-label">Quận huyệnh</label>
                    @Html.DropDownListFor(model => model.District, new SelectList(Model.ProvinceJsons, "name", "name"), new { @id="Province", @class = "form-control" })*@
                   <b>State: </b>
-            @Html.DropDownList("State", (IEnumerable<SelectListItem>)ViewBag.Districts, "---Select Country----")<br />
                 <span asp-validation-for="District" class="text-danger"></span>
             </div>
             <div class="form-group">

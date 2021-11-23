@@ -6,11 +6,11 @@ namespace MemberManagement.ViewModels.AddressViewModels
 {
     public class ProvinceJson
     {
-        public int level1_id { get; set; }
+        public int code { get; set; }
         public string name { get; set;}
         public string type { get; set;}
-
-       public IEnumerable<DistrictJon> level2s { get; set; }
+        public string name_with_type { get; set;}
+        ProvinceJson() { }
 
     }
 }
