@@ -64,6 +64,7 @@ namespace MenaberManagement.Admin.Controllers
         }
         public async Task<IActionResult> Create()
         {
+            #region LoadBiding
 
             var familtObj = await _familyApiClient.GetAll();
 
@@ -75,10 +76,15 @@ namespace MenaberManagement.Admin.Controllers
 
             var roles = await _iRoleApiClient.GetAll();
             var contact = await _iContactApiClient.GetAll();
+
+
+            #endregion
             var memberCreatRequest = new MemberCreatRequest();
             ViewBag.address = new SelectList(addObj, "Id", "Province");
             memberCreatRequest.Birth = DateTime.Now;
             memberCreatRequest.JoinDate = DateTime.Now;
+
+            #region Gender
             var gen = new List<Gender>();
             var Nam = new Gender() { Name = "Nam" };
             var Nu = new Gender() { Name = "Nữ" };
@@ -86,6 +92,8 @@ namespace MenaberManagement.Admin.Controllers
             gen.Add(Nam);
             gen.Add(Nu);
             gen.Add(khac);
+            #endregion
+
             memberCreatRequest.Genders = gen;
             memberCreatRequest.familyVMs = familtObj;
             memberCreatRequest.groupVMs = GoupObj;
@@ -101,20 +109,6 @@ namespace MenaberManagement.Admin.Controllers
         {
             if (!ModelState.IsValid)
                 return View();
-            //var familtObj = await _familyApiClient.GetAll();
-
-            //var GoupObj = await _iGroupApiClient.GetAll();
-
-            //var addObj = await _iAddressApiClient.GetAll();
-
-            //var roles = await _iRoleApiClient.GetAll();
-            //var contact = await _iContactApiClient.GetAll();
-
-            //request.familyVMs = familtObj;
-            //request.groupVMs = GoupObj;
-            //request.Address = addObj;
-            //request.Roles = roles;
-            //request.Contacts = contact;
            
             var result = await _iMemberApiClient.Create(request);
             

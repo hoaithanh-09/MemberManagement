@@ -16,7 +16,6 @@ namespace MemberManagement.ViewModels.MemberViewModels
         [Required(ErrorMessage = "Vui lòng nhập FamilyId")]
         [Display(Name = "Gia đình")]
         public int FamilyId { get; set; }
-
         [Required(ErrorMessage = "Vui lòng nhập GroupId")]
         [Display(Name = "Chi hội")]
         public int GroupId { get; set; }
