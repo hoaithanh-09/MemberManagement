@@ -7,47 +7,48 @@
     <h1 class="mt-4">Chi tiết</h1>
     <dl class="row">
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Id)
+            Mã số
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Id)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Title)
+            Tiêu đề
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Title)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.CreatedDate)
+            Ngày tạo
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.CreatedDate)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.ModifiedDate)
+            Ngày chỉnh sửa
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.ModifiedDate)
         </dd>
-    
+
         <dt class="col-sm-2">
-           @Html.DisplayNameFor(model => model.Content)
+            Nội dung
         </dt>
         <dd class="col-sm-10">
-             @Html.Raw(Model.Content)
+            @Html.Raw(Model.Content)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.ImageInPosts.Image.ImagePath)
+            Hình ảnh
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.ImageInPosts.Image.ImagePath)
         </dd>
 
     </dl>
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model.Id">Sửa</a> |
-    <a asp-action="Index">Trở về</a>
-</div>
-            
+
+    <div>
+        <a asp-action="Edit" asp-route-id="@Model.Id">Sửa</a> |
+        <a asp-action="Index">Trở về</a>
+    </div>
+</div>        
+      

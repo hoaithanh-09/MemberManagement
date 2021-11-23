@@ -9,83 +9,85 @@
     <h1 class="mt-4">Chi tiết</h1>
     <dl class="row">
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Name)
+            Họ và tên
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Name)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Birth)
+            Ngày sinh
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Birth)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Gender)
+            Giới tính
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Gender)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.JoinDate)
+            Ngày tham gia
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.JoinDate)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Idcard)
+            CMND
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Idcard)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Notes)
+            Ghi chú
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Notes)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Id)
+            Mã số
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Id)
         </dd>
 
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Nickname)
+            Biệt danh
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Nickname)
         </dd>
 
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.PersonalTtles)
+            Chức danh cá nhân
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.PersonalTtles)
         </dd>
 
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Email)
+            Email
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Email)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Word)
+            Công việc
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Word)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.PhoneNumber)
+            Số điện thoại
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.PhoneNumber)
         </dd>
     </dl>
+
+    <div>
+        <a asp-action="Edit" asp-route-id="@Model.Id">Sửa</a> |
+        <a asp-action="Index">Trở về</a>
+    </div>
 </div>
-<div>
-    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
-    <a asp-action="Index">Back to List</a>
 </div>
