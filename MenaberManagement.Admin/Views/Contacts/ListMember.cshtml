@@ -17,7 +17,7 @@
         <div class="card-header">
             <div class="row">
                 <div class="col-md-5 col-xs-12">
-                    <a class="btn btn-success" asp-action="Create" asp-controller="Contacts">Tạo mới</a>
+                    <a class="btn btn-success" asp-action="AddMember" asp-controller="Contacts" asp-route-id="@Model.IdContact">>Tạo mới</a>
                 </div>
                 <div class="col-md-7 col-xs-12">
                     <form asp-action="Index" method="get">
@@ -87,7 +87,7 @@
                                 <td>
                                     <a asp-action="Edit" asp-route-id="@item.Name"><i class='fas fa-wrench' style='font-size:24px; color:black'></i></a> |
                                     <a asp-action="Details" asp-route-id="@item.Name"><i class='fas fa-list' style='font-size:24px; color:black'></i></a> |
-                                    <a asp-action="Delete" asp-route-id="@item.Name"><i class='fas fa-trash' style='font-size:24px; color:black'></i></a>|
+                                    <a asp-action="RemoveMember" asp-route-id="@item.Id"><i class='fas fa-trash' style='font-size:24px; color:black'></i></a>|
                                 </td>
                             </tr>
                         }

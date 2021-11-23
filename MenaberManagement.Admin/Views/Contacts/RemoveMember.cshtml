@@ -1,0 +1,25 @@
+﻿@model MemberManagement.ViewModels.ContactViewModels.ContactDeleteRequest
+
+@{
+    ViewData["Title"] = "RemoveMember";
+}
+
+<h1>Xóa thành viên</h1>
+
+<h3>Bạn có muốn xóa thành viên ra khỏi ban liên lạc?</h3>
+<div>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Id)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Id)
+        </dd>
+    </dl>
+    
+    <form asp-action="RemoveMember" asp-controller="Contacts">
+        <input type="submit" value="Xóa" class="btn btn-danger" /> |
+        <a asp-action="ListMember" asp-route-id="@Model.IdContact">Back to List</a>
+    </form>
+</div>

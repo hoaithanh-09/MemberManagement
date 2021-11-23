@@ -17,5 +17,6 @@ namespace MemberManagement.ViewModels.ContactViewModels
         public string Work { get; set; }
         public string Address { get; set; }
         public string PhoneNumber { get; set; }
+        public int Id { get; set; }
     }
 }
