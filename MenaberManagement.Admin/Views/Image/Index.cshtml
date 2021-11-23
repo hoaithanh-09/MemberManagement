@@ -25,7 +25,7 @@
                             </div>
                             <div class="col-md-3">
                                 <button type="submit" class="btn btn-primary">Tìm</button>
-                                <button type="button" onclick="window.location.href='/Images/Index'" class="btn btn-dark">Reset</button>
+                                <button type="button" onclick="window.location.href='/Image/Index'" class="btn btn-dark">Reset</button>
                             </div>
                         </div>
                     </form>
@@ -46,7 +46,7 @@
                     <thead>
                         <tr class="title-th">
                             <th>
-                                Id
+                                Mã số
                             </th>
                             <th>
                                 Đường dẫn hình ảnh
@@ -77,9 +77,9 @@
                                     @Html.DisplayFor(modelItem => item.FileSize)
                                 </td>
                                 <td>
-                                    @Html.ActionLink("Chỉnh sửa", "Edit", new { id = item.Id }) |
-                                    @Html.ActionLink("Chi tiết", "Details", new { id = item.Id }) |
-                                    @Html.ActionLink("Xóa", "Delete", new { id = item.Id })
+                                    <a asp-action="Edit" asp-route-id="@item.Id"><i class='fas fa-wrench' style='font-size:24px; color:black'></i></a> |
+                                    <a asp-action="Details" asp-route-id="@item.Id"><i class='fas fa-list' style='font-size:24px; color:black'></i></a> |
+                                    <a asp-action="Delete" asp-route-id="@item.Id"><i class='fas fa-trash' style='font-size:24px; color:black'></i></a>|
                                 </td>
                             </tr>
                         }

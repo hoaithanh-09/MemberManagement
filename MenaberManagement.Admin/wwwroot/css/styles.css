@@ -341,10 +341,11 @@ th {
     
 }
 .title-th th{
-    padding-top: -10px;
+    text-align:center;
 }
 td {
     background-color: #ffffff;
+    text-align: center;
     box-shadow: 0px 0px 9px 0px rgba(0, 0, 0, 0.1);
 }
 label {

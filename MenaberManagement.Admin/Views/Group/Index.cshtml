@@ -43,45 +43,45 @@
                 </div>
             }
 
-        <div class="table-responsive">
-            <table class="table table-bordered">
-                <thead>
-                    <tr class="title-th">
-                        <th>
-                            Tên chi hội
-                        </th>
-                        <th>
-                            Khu vực
-                        </th>
-                        <th>
-                            Miêu tả
-                        </th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var item in Model.Items)
-                    {
-                        <tr>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Name)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Region)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Description)
-                            </td>
-                            <td>
-                                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                                @Html.ActionLink("Details", "Details", new { id = item.Id }) |
-                                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
-                            </td>
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr class="title-th">
+                            <th>
+                                Tên chi hội
+                            </th>
+                            <th>
+                                Khu vực
+                            </th>
+                            <th>
+                                Miêu tả
+                            </th>
+                            <th></th>
                         </tr>
-                    }
-                </tbody>
-            </table>
-        </div>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.Items)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Name)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Region)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Description)
+                                </td>
+                                <td>
+                                    <a asp-action="Edit" asp-route-id="@item.Id"><i class='fas fa-wrench' style='font-size:24px; color:black'></i></a> |
+                                    <a asp-action="Details" asp-route-id="@item.Id"><i class='fas fa-list' style='font-size:24px; color:black'></i></a> |
+                                    <a asp-action="Delete" asp-route-id="@item.Id"><i class='fas fa-trash' style='font-size:24px; color:black'></i></a>|
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
             @await Component.InvokeAsync("Pager", Model)
         </div>
     </div>

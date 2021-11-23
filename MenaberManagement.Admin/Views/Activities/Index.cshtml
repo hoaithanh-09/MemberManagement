@@ -9,7 +9,7 @@
     <h1 class="mt-4">Danh sách hoạt động</h1>
     <ol class="breadcrumb mb-4">
         <li class="breadcrumb-item"><a href="/">Trang chủ</a></li>
-        <li class="breadcrumb-item active">Hoạt độngs</li>
+        <li class="breadcrumb-item active">Hoạt động</li>
     </ol>
 
     <div class="card mb-12">
@@ -43,26 +43,26 @@
             }
 
             <div class="table-responsive">
-                <table class="table">
+                <table class="table table-bordered">
                     <thead>
                         <tr class="title-th">
                             <th>
-                                Id
+                                Mã số
                             </th>
                             <th>
-                                Name
+                                Tên hoạt động
                             </th>
                             <th>
-                                CreateDate
+                                Ngày tạo
                             </th>
                             <th>
-                                Content
+                                Nội dung
                             </th>
                             <th>
-                                Cost
+                                Chi phí
                             </th>
                             <th>
-                                Description
+                                Mô tả
                             </th>
                             <th></th>
                         </tr>
@@ -90,10 +90,9 @@
                                     @Html.DisplayFor(modelItem => item.Description)
                                 </td>
                                 <td>
-                                <td>
-                                    <a asp-action="Edit" asp-route-id="@item.Id">Sửa</a> |
-                                    <a asp-action="Details" asp-route-id="@item.Id">Chi tiết</a> |
-                                    <a asp-action="Delete" asp-route-id="@item.Id">Xóa</a>|
+                                    <a asp-action="Edit" asp-route-id="@item.Id"><i class='fas fa-wrench' style='font-size:24px; color:black'></i></a> |
+                                    <a asp-action="Details" asp-route-id="@item.Id"><i class='fas fa-list' style='font-size:24px; color:black'></i></a> |
+                                    <a asp-action="Delete" asp-route-id="@item.Id"><i class='fas fa-trash' style='font-size:24px; color:black'></i></a>|
                                 </td>
 
                             </tr>
@@ -103,5 +102,5 @@
             </div>
         </div>
     </div>
-</div>s
+</div>
 

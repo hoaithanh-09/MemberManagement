@@ -5,11 +5,10 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Create</h1>
 
-<h4>ActivityCreateRequest</h4>
-<hr />
-<div class="row">
+<div class="container-fluid px-4">
+    <h1 class="mt-4">Thêm mới</h1>
+    <div class="row">
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -53,6 +52,10 @@
 <div>
     <a asp-action="Index">Back to List</a>
 </div>
+
+
+</div>
+
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

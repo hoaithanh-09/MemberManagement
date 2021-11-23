@@ -4,55 +4,56 @@
     ViewData["Title"] = "CreateListMember";
 }
 
-<h1>CreateListMember</h1>
 
-<h4>FundMemberCreateRequest</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="CreateListMember">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Id" class="control-label"></label>
-                <input asp-for="Id" class="form-control" />
-                <span asp-validation-for="Id" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Total" class="control-label"></label>
-                <input asp-for="Total" class="form-control" />
-                <span asp-validation-for="Total" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="MemberId" class="control-label"></label>
-                <input asp-for="MemberId" class="form-control" />
-                <span asp-validation-for="MemberId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="FundId" class="control-label"></label>
-                <input asp-for="FundId" class="form-control" />
-                <span asp-validation-for="FundId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="CreateDate" class="control-label"></label>
-                <input asp-for="CreateDate" class="form-control" />
-                <span asp-validation-for="CreateDate" class="text-danger"></span>
-            </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="Status" /> @Html.DisplayNameFor(model => model.Status)
-                </label>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
+<div class="container-fluid px-4">
+    <h1 class="mt-4">Thêm mới</h1>
+    <div class="row">
+        <div class="col-md-4">
+            <form asp-action="CreateListMember">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="Id" class="control-label"></label>
+                    <input asp-for="Id" class="form-control" />
+                    <span asp-validation-for="Id" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Total" class="control-label"></label>
+                    <input asp-for="Total" class="form-control" />
+                    <span asp-validation-for="Total" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="MemberId" class="control-label"></label>
+                    <input asp-for="MemberId" class="form-control" />
+                    <span asp-validation-for="MemberId" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="FundId" class="control-label"></label>
+                    <input asp-for="FundId" class="form-control" />
+                    <span asp-validation-for="FundId" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="CreateDate" class="control-label"></label>
+                    <input asp-for="CreateDate" class="form-control" />
+                    <span asp-validation-for="CreateDate" class="text-danger"></span>
+                </div>
+                <div class="form-group form-check">
+                    <label class="form-check-label">
+                        <input class="form-check-input" asp-for="Status" /> @Html.DisplayNameFor(model => model.Status)
+                    </label>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Create" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div>
+        <a asp-action="Index">Back to List</a>
     </div>
 </div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+    await Html.RenderPartialAsync("_ValidationScriptsPartial");
+}
 }

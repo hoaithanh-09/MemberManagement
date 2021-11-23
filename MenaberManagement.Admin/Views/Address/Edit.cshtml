@@ -5,57 +5,56 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Edit</h1>
-
-<h4>AddressEditRequest</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Nationality" class="control-label"></label>
-                <input asp-for="Nationality" class="form-control" />
-                <span asp-validation-for="Nationality" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Province" class="control-label"></label>
-                <input asp-for="Province" class="form-control" />
-                <span asp-validation-for="Province" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="District" class="control-label"></label>
-                <input asp-for="District" class="form-control" />
-                <span asp-validation-for="District" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Ward" class="control-label"></label>
-                <input asp-for="Ward" class="form-control" />
-                <span asp-validation-for="Ward" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="StayingAddress" class="control-label"></label>
-                <input asp-for="StayingAddress" class="form-control" />
-                <span asp-validation-for="StayingAddress" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Notes" class="control-label"></label>
-                <input asp-for="Notes" class="form-control" />
-                <span asp-validation-for="Notes" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ParentId" class="control-label"></label>
-                <input asp-for="ParentId" class="form-control" />
-                <span asp-validation-for="ParentId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
+<div class="container-fluid px-4">
+    <h1 class="mt-4">Chỉnh sửa</h1>
+    <div class="row">
+        <div class="col-md-4">
+            <form asp-action="Edit">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="Nationality" class="control-label"></label>
+                    <input asp-for="Nationality" class="form-control" />
+                    <span asp-validation-for="Nationality" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Province" class="control-label"></label>
+                    <input asp-for="Province" class="form-control" />
+                    <span asp-validation-for="Province" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="District" class="control-label"></label>
+                    <input asp-for="District" class="form-control" />
+                    <span asp-validation-for="District" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Ward" class="control-label"></label>
+                    <input asp-for="Ward" class="form-control" />
+                    <span asp-validation-for="Ward" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="StayingAddress" class="control-label"></label>
+                    <input asp-for="StayingAddress" class="form-control" />
+                    <span asp-validation-for="StayingAddress" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Notes" class="control-label"></label>
+                    <input asp-for="Notes" class="form-control" />
+                    <span asp-validation-for="Notes" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ParentId" class="control-label"></label>
+                    <input asp-for="ParentId" class="form-control" />
+                    <span asp-validation-for="ParentId" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Save" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
     </div>
-</div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+    <div>
+        <a asp-action="Index">Back to List</a>
+    </div>
 
+</div>

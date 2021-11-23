@@ -4,12 +4,10 @@
     ViewData["Title"] = "Details";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<div class="container-fluid px-4">
+    <h1 class="mt-4">Chi tiết</h1>
 
-<h1>Details</h1>
 
-<div>
-    <h4>ActivityVM</h4>
-    <hr />
     <dl class="row">
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Id)
@@ -48,8 +46,25 @@
             @Html.DisplayFor(model => model.Description)
         </dd>
     </dl>
+
+
+    <div>
+        <a asp-action="Edit" asp-route-id="@Model.Id">Sửa</a> |
+        <a asp-action="Index">Back to List</a>
+    </div>
+
 </div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model.Id">Sửa</a> |
-    <a asp-action="Index">Back to List</a>
-</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+

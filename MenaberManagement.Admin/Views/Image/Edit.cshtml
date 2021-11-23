@@ -4,40 +4,40 @@
     ViewData["Title"] = "Edit";
 }
 
-<h2>CHỈNH SỬA</h2>
+<div class="container-fluid px-4">
+    <h1 class="mt-4">Chỉnh sửa</h1>
+    <div class="row">
+        <div class="col-md-4">
+            <form asp-action="Edit">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="ImagePath" class="control-label"></label>
+                    <input asp-for="ImagePath" class="form-control" />
+                    <span asp-validation-for="ImagePath" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="DateCreated" class="control-label"></label>
+                    <input asp-for="DateCreated" class="form-control" />
+                    <span asp-validation-for="DateCreated" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="FileSize" class="control-label"></label>
+                    <input asp-for="FileSize" class="form-control" />
+                    <span asp-validation-for="FileSize" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Lưu" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
+    </div>
 
-<br />
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="ImagePath" class="control-label"></label>
-                <input asp-for="ImagePath" class="form-control" />
-                <span asp-validation-for="ImagePath" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="DateCreated" class="control-label"></label>
-                <input asp-for="DateCreated" class="form-control" />
-                <span asp-validation-for="DateCreated" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="FileSize" class="control-label"></label>
-                <input asp-for="FileSize" class="form-control" />
-                <span asp-validation-for="FileSize" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Lưu" class="btn btn-primary" />
-            </div>
-        </form>
+    <div>
+        <a asp-action="Index">Trở về</a>
     </div>
 </div>
-
-<div>
-    <a asp-action="Index">Trở về</a>
-</div>
-
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+    await Html.RenderPartialAsync("_ValidationScriptsPartial");
+}
 }

@@ -1,4 +1,4 @@
-﻿@using MemberManagement.ViewModels.ContactViewModels; 
+﻿@using MemberManagement.ViewModels.ContactViewModels;
 
 @model GetContactPagedResult<MemberManagement.ViewModels.ContactViewModels.ExMembers>
 
@@ -7,56 +7,94 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>ListMember</h1>
+<div class="container-fluid px-4">
+    <h1 class="mt-4">Danh sách liên lạc</h1>
+    <ol class="breadcrumb mb-4">
+        <li class="breadcrumb-item"><a href="/">Trang chủ</a></li>
+        <li class="breadcrumb-item active">Danh sách ban liên lạc</li>
+    </ol>
+    <div class="card mb-12">
+        <div class="card-header">
+            <div class="row">
+                <div class="col-md-5 col-xs-12">
+                    <a class="btn btn-success" asp-action="Create" asp-controller="Contacts">Tạo mới</a>
+                </div>
+                <div class="col-md-7 col-xs-12">
+                    <form asp-action="Index" method="get">
+                        <div class="row">
+                            <div class="col-md-9">
+                                <input type="text" value="@ViewBag.Keyword" name="keyword" class="form-control" />
+                            </div>
+                            <div class="col-md-3">
+                                <button type="submit" class="btn btn-primary">Tìm</button>
+                                <button type="button" onclick="window.location.href='/Contacts/Index'" class="btn btn-dark">Reset</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
 
-<p>
-    @Html.ActionLink("AddMember", "AddMember", new {  id=Model.IdContact  })
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-               Tên hội viên
-            </th>
-            <th>
-                Chức danh
-            </th>
-            <th>
-               Công việc
-            </th>
-            <th>
-               Địa chỉ
-            </th>
-            <th>
-                Số điện thoại
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model.Items) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PersonalTitles)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Work)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Address)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PhoneNumber)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+        <div class="card-body">
+            @if (ViewBag.SuccessMsg != null)
+            {
+                <div id="msgAler" class="alert alert-success" role="alert">
+                    @ViewBag.SuccessMsg
+                </div>
+            }
+
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr class="title-th">
+                            <th>
+                                Tên hội viên
+                            </th>
+                            <th>
+                                Chức danh
+                            </th>
+                            <th>
+                                Công việc
+                            </th>
+                            <th>
+                                Địa chỉ
+                            </th>
+                            <th>
+                                Số điện thoại
+                            </th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.Items)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Name)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.PersonalTitles)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Work)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Address)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.PhoneNumber)
+                                </td>
+                                <td>
+                                    <a asp-action="Edit" asp-route-id="@item.Name"><i class='fas fa-wrench' style='font-size:24px; color:black'></i></a> |
+                                    <a asp-action="Details" asp-route-id="@item.Name"><i class='fas fa-list' style='font-size:24px; color:black'></i></a> |
+                                    <a asp-action="Delete" asp-route-id="@item.Name"><i class='fas fa-trash' style='font-size:24px; color:black'></i></a>|
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
