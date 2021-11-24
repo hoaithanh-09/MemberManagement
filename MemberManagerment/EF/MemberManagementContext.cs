@@ -536,6 +536,34 @@ namespace MemberManagerment.Data.EF
             });
 
 
+            modelBuilder.Entity<Message>(entity =>
+            {
+
+
+                entity.ToTable("Messages");
+                entity.Property(s => s.Content).IsRequired().HasMaxLength(500);
+
+                entity.HasOne(s => s.ToRoom)
+                    .WithMany(m => m.Messages)
+                    .HasForeignKey(s => s.ToRoomId)
+                    .OnDelete(DeleteBehavior.Cascade);
+            });
+
+
+            modelBuilder.Entity<Room>(entity =>
+            {
+
+
+                entity.ToTable("Rooms");
+
+                entity.Property(s => s.Name).IsRequired().HasMaxLength(100);
+
+                entity.HasOne(s => s.Admin)
+                    .WithMany(u => u.Rooms)
+                    .IsRequired();
+            });
+
+
             base.OnModelCreating(modelBuilder);
 
         }

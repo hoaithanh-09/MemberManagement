@@ -1,3 +1,6 @@
+using Hangfire;
+using Hangfire.Dashboard;
+using Hangfire.SqlServer;
 using MemberManagement.Data.Entities;
 using MemberManagement.Services.Activities;
 using MemberManagement.Services.Addresses;
@@ -69,6 +72,25 @@ namespace MemberManagerment.API
             services.AddControllers()
         .AddNewtonsoftJson(options =>
         options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
+
+            #region Hangfire
+            services.AddHangfire(configuration => configuration
+                    .SetDataCompatibilityLevel(CompatibilityLevel.Version_170)
+                    .UseSimpleAssemblyNameTypeSerializer()
+                    .UseRecommendedSerializerSettings()
+                    .UseSqlServerStorage(
+                        Configuration.GetConnectionString("Hangfire"),
+                        new SqlServerStorageOptions
+                        {
+                            CommandBatchMaxTimeout = TimeSpan.FromMinutes(5),
+                            SlidingInvisibilityTimeout = TimeSpan.FromMinutes(5),
+                            QueuePollInterval = TimeSpan.Zero,
+                            UseRecommendedIsolationLevel = true,
+                            DisableGlobalLocks = true
+                        }
+                    ));
+            services.AddHangfireServer();
+            #endregion
 
             services.AddDbContext<MemberManagementContext>(options =>
                options.UseSqlServer(Configuration.GetConnectionString("MemberManagementConnext")));
@@ -155,10 +177,8 @@ namespace MemberManagerment.API
                     });
             });
 
-          
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             app.UseCors(allowSpecificOrigins);
@@ -166,7 +186,10 @@ namespace MemberManagerment.API
             {
                 app.UseDeveloperExceptionPage();
             }
-
+            app.UseHangfireDashboard("/hangfire", new DashboardOptions()
+            {
+                Authorization = new List<IDashboardAuthorizationFilter>()
+            });
             app.UseHttpsRedirection();
 
             app.UseAuthentication();
