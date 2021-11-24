@@ -237,7 +237,7 @@ namespace MemberManagement.Services.Members
 
             if (!string.IsNullOrEmpty(request.KeyWord))
             {
-                query = query.Where(x => x.m.Name.Contains(request.KeyWord));
+                query = query.Where(x => x.m.Name.Contains(request.KeyWord) || x.m.Idcard.Contains(request.KeyWord) );
             }
 
             int totalRow = await query.CountAsync();
