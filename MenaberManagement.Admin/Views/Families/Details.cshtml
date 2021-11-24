@@ -9,44 +9,45 @@
     <h1 class="mt-4">Chi tiết</h1>
     <dl class="row">
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Number)
+            Số tứ tự
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Number)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.HousldRepre)
+            Đại diện hộ gia đình
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.HousldRepre)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.YearBirth)
+            Năm sinh
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.YearBirth)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.MumberMembers)
+            Số lượng hội viên
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.MumberMembers)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.IdMember)
+            Mã hội viên
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.IdMember)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.PhoneNumber)
+            Số điện thoại
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.PhoneNumber)
         </dd>
     </dl>
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model.Id">Sửa</a> |
-    <a asp-action="Index">Back to List</a>
+
+    <div>
+        <a asp-action="Edit" asp-route-id="@Model.Id">Sửa</a> |
+        <a asp-action="Index">Trở về</a>
+    </div>
 </div>
