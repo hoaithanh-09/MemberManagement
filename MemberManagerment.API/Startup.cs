@@ -1,6 +1,7 @@
 using Hangfire;
 using Hangfire.Dashboard;
 using Hangfire.SqlServer;
+using MemberManagement.API.Hubs;
 using MemberManagement.Data.Entities;
 using MemberManagement.Services.Activities;
 using MemberManagement.Services.Addresses;
@@ -35,7 +36,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
 namespace MemberManagerment.API
 {
     public class Startup
@@ -124,7 +124,9 @@ namespace MemberManagerment.API
             services.AddTransient<ITopicSV, TopicSV>();
             services.AddTransient<IActivitySV, ActivitySV>();
             services.AddTransient<IFundSV, FundSV>();
-            
+
+            services.AddSignalR();
+            services.AddAutoMapper(typeof(Startup));
             services.AddAuthentication(op =>
             {
                 op.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -196,16 +198,19 @@ namespace MemberManagerment.API
             app.UseRouting();
 
             app.UseAuthorization();
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+                endpoints.MapHub<ChatHub>("/chatHub");
+
+            });
             app.UseSwagger();
 
             app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
             });
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllers();
-            });
+           
 
             
         }
