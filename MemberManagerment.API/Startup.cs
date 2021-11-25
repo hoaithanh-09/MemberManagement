@@ -1,7 +1,6 @@
 using Hangfire;
 using Hangfire.Dashboard;
 using Hangfire.SqlServer;
-using MemberManagement.API.Hubs;
 using MemberManagement.Data.Entities;
 using MemberManagement.Services.Activities;
 using MemberManagement.Services.Addresses;
@@ -53,9 +52,7 @@ namespace MemberManagerment.API
             services.AddCors(options =>
 
             {
-
                 options.AddPolicy(allowSpecificOrigins,
-
                 builder =>
 
                 {
@@ -67,7 +64,6 @@ namespace MemberManagerment.API
                             .AllowAnyMethod();
 
                 });
-
             });
             services.AddControllers()
         .AddNewtonsoftJson(options =>
@@ -125,7 +121,7 @@ namespace MemberManagerment.API
             services.AddTransient<IActivitySV, ActivitySV>();
             services.AddTransient<IFundSV, FundSV>();
 
-            services.AddSignalR();
+            //services.AddSignalR();
             services.AddAutoMapper(typeof(Startup));
             services.AddAuthentication(op =>
             {
@@ -183,7 +179,8 @@ namespace MemberManagerment.API
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            app.UseCors(allowSpecificOrigins);
+           // app.UseCors(allowSpecificOrigins);
+            app.UseCors("AllowAll");
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -201,7 +198,7 @@ namespace MemberManagerment.API
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
-                endpoints.MapHub<ChatHub>("/chatHub");
+                //endpoints.MapHub<ChatHub>("/chatHub");
 
             });
             app.UseSwagger();

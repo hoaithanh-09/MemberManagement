@@ -1,5 +1,7 @@
 /////*using MemberManagement.ViewModels.UserViewModels;
 using MemberManagement.ViewModels.CommonSV;
+using MemberManagerment.Data.EF;
+using MenaberManagement.Admin.Hubs;
 using MenaberManagement.Admin.Models;
 using MenaberManagement.Admin.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -8,6 +10,7 @@ using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -26,6 +29,7 @@ namespace MenaberManagement.Admin
         }
 
         public IConfiguration Configuration { get; }
+        readonly string allowSpecificOrigins = "_allowSpecificOrigins";
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -33,7 +37,26 @@ namespace MenaberManagement.Admin
             services.AddCors(options => options.AddPolicy("AllowAll", p => p.AllowAnyOrigin()
                                                                    .AllowAnyMethod()
                                                                     .AllowAnyHeader()));
+            services.AddCors(options =>
 
+            {
+                options.AddPolicy(allowSpecificOrigins,
+                builder =>
+
+                {
+
+                    builder.WithOrigins("https://localhost:5001")
+
+                            .AllowAnyHeader()
+
+                            .AllowAnyMethod();
+
+                });
+            });
+
+            services.AddDbContext<MemberManagementContext>(options =>
+               options.UseSqlServer(Configuration.GetConnectionString("MemberManagementConnext")));
+            services.AddAutoMapper(typeof(Startup));
             services.Configure<Tinh>(Configuration.GetSection("Tinh"));
             services.AddHttpClient();
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
@@ -48,7 +71,7 @@ namespace MenaberManagement.Admin
             services.AddSession(op => {
                 op.IdleTimeout = TimeSpan.FromMinutes(30);
             });
-           
+            services.AddSignalR();
             services.AddTransient<IHttpContextAccessor, HttpContextAccessor>();
 
             services.AddTransient<IUserApiClient, UserApiClient>();
@@ -75,7 +98,6 @@ namespace MenaberManagement.Admin
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            app.UseCors("AllowAll");
 
             if (env.IsDevelopment())
             {
@@ -92,6 +114,7 @@ namespace MenaberManagement.Admin
             app.UseAuthentication();
 
             app.UseRouting();
+            app.UseCors("AllowAll");
 
             app.UseAuthorization();
             app.UseSession();
@@ -100,6 +123,7 @@ namespace MenaberManagement.Admin
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=HomeClient}/{action=Index}/{id?}");
+                endpoints.MapHub<ChatHub>("/chatHub");
             });
 
             
