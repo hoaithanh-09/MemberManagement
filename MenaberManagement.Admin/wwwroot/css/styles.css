@@ -12368,17 +12368,33 @@ body {
 }
 
 
-.app .sidebar {
-    width: 200px
+.footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    white-space: nowrap;
+    line-height: 60px; /* Vertically center the text there */
 }
 
-.app .main-content {
-    flex-grow: 1;
+.app {
+    display: flex;
+    height: 70vh;
+    justify-content: space-between;
+    background: white;
+    border: 1px solid #ccc;
 }
 
-.app .users-container {
-    width: 250px;
-}
+    .app .sidebar {
+        width: 200px
+    }
+
+    .app .main-content {
+        flex-grow: 1;
+    }
+
+    .app .users-container {
+        width: 250px;
+    }
 
 .sidebar {
     display: flex;
@@ -12586,6 +12602,14 @@ body {
         max-width: 500px;
     }
 
+
+        .chat-message .message-content img.post-image {
+            max-width: 100%;
+            max-height: 100%;
+            /*  object-fit:cover;*/
+        }
+
+
         .chat-message .message-content span {
             color: #777;
         }
@@ -12695,4 +12719,28 @@ input[type="radio"] {
         border-radius: 50%;
         border: 2px solid #5dca38;
         padding: 1px;
+    }
+
+.ismine {
+    flex-direction: row-reverse;
+}
+
+    .ismine .message-content {
+        background: #8abde6;
+    }
+
+        .ismine .message-content .author,
+        .ismine .message-content .timestamp,
+        .ismine .message-content .timestamp span,
+        .ismine .message-content .content {
+            color: white;
+        }
+
+        .ismine .message-content div {
+            flex-direction: row-reverse;
+        }
+
+    .ismine .message-avatar {
+        margin-right: 0;
+        margin-left: 10px;
     }
