@@ -17,9 +17,6 @@ namespace MemberManagement.Data.Entities
 
 
         public bool? ActiveAccount { get; set; }
-        public DateTime DateCreated { get; set; }
-        public DateTime DateModified { get; set; }
-        public string About { get; set; }
         public string Avatar { get; set; }
 
         public virtual ICollection<MemberUser> MemberUsers { get; set; }

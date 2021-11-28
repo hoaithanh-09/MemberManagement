@@ -97,7 +97,8 @@ namespace MemberManagement.Services.Posts
         {
             var query = from f in _context.Posts
                         select  f;
-
+            if (request.IdMumber.HasValue)
+                query = query.Where(x => x.AuthorId == request.IdMumber.Value);
             if (!string.IsNullOrEmpty(request.Keyword))
                 query = query.Where(x => x.Title.Contains(request.Keyword));
             int totalRow = await query.CountAsync();

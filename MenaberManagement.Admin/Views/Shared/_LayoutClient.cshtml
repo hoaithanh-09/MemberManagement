@@ -1,4 +1,5 @@
 ﻿
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -16,7 +17,9 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Oswald">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open Sans">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" />
     <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
     <script src="/js/JavaScript.js"></script>
 </head>
@@ -42,11 +45,50 @@
             <li><a asp-area="" asp-controller="HomeClient" asp-action="List">Văn hóa - Lịch sử</a></li>
             <li><a asp-area="" asp-controller="postClient" asp-action="Test">Diễn đàn</a></li>
             <li><a asp-area="" asp-controller="HomeClient" asp-action="Contact">Liên hệ</a></li>
+            @*  @if (SignInManager.IsSignedIn(User))
+                {
+                <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
+                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                <li><a class="dropdown-item" href="/Profile/Index">@User.Identity.Name</a></li>
+                <li><a class="dropdown-item" href="#!">Activity Log</a></li>
+                <li><hr class="dropdown-divider" /></li>
+                <li>
+                <form method="post" asp-controller="Login" asp-action="Logout">
+                <button type="submit" class="dropdown-item">Đăng xuất</button>
+                </form>
+                </li>
+                </ul>
+                </li>
+                }
+                else
+                {*@
+
+            @*}*@
+
         </ul>
 
         <div class="login">
-            <a asp-area="" asp-controller="Login" asp-action="Index"><i class=" ti-user login-icon"></i></a>
-            <a asp-area="" asp-controller="Login" asp-action="Index"><span>Đăng nhập</span></a>
+            @if (User.Identity.Name == null)
+            {
+                <a asp-area="" asp-controller="Login" asp-action="Index"><i class=" ti-user login-icon"></i></a>
+                <a asp-area="" asp-controller="Login" asp-action="Index"><span>Đăng nhập</span></a>
+            }
+            else
+            {
+                <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
+                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                    <li><a class="dropdown-item" href="/Profile/Index">@User.Identity.Name</a></li>
+                    <li><a class="dropdown-item" asp-controller="Home" asp-action="Chat">Phòng trò truyện </a></li>
+                    <li><hr class="dropdown-divider" /></li>
+                    <li>
+                        <form method="post" asp-controller="Login" asp-action="Logout">
+                            <button type="submit" class="dropdown-item">Đăng xuất</button>
+                        </form>
+                    </li>
+                </ul>
+            }
+
         </div>
     </div>
     <!--END-NAV-->
@@ -190,10 +232,13 @@
             </div>
         </div>
     </div>
-
+    <script src="/js/scripts.js"></script>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
     @if (IsSectionDefined("scripts"))
     {
         RenderSection("scripts");

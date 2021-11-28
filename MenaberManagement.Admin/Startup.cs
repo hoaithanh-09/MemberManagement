@@ -1,5 +1,7 @@
-/////*using MemberManagement.ViewModels.UserViewModels;
+using MemberManagement.Data.Entities;
 using MemberManagement.ViewModels.CommonSV;
+using MemberManagerment.Data.EF;
+using MenaberManagement.Admin.Hubs;
 using MenaberManagement.Admin.Models;
 using MenaberManagement.Admin.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -8,6 +10,8 @@ using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -30,10 +34,14 @@ namespace MenaberManagement.Admin
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDbContext<MemberManagementContext>(options =>
+              options.UseSqlServer(Configuration.GetConnectionString("MemberManagementConnext")));
             services.AddCors(options => options.AddPolicy("AllowAll", p => p.AllowAnyOrigin()
                                                                    .AllowAnyMethod()
                                                                     .AllowAnyHeader()));
-
+            //services.AddIdentity<AppUser, AppRole>()
+            //   .AddEntityFrameworkStores<MemberManagementContext>()
+            //   .AddDefaultTokenProviders();
             services.Configure<Tinh>(Configuration.GetSection("Tinh"));
             services.AddHttpClient();
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
@@ -48,7 +56,9 @@ namespace MenaberManagement.Admin
             services.AddSession(op => {
                 op.IdleTimeout = TimeSpan.FromMinutes(30);
             });
-           
+            services.AddAutoMapper(typeof(Startup));
+            services.AddSignalR();
+
             services.AddTransient<IHttpContextAccessor, HttpContextAccessor>();
 
             services.AddTransient<IUserApiClient, UserApiClient>();
@@ -100,6 +110,7 @@ namespace MenaberManagement.Admin
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=HomeClient}/{action=Index}/{id?}");
+                endpoints.MapHub<ChatHub>("/chatHub");
             });
 
             

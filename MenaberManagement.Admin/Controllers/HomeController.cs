@@ -25,7 +25,8 @@ namespace MenaberManagement.Admin.Controllers
             var user = User.Identity.Name;
             return View();
         }
-        public IActionResult Test()
+
+        public IActionResult Chat()
         {
             return View();
         }

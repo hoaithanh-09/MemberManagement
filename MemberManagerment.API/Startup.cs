@@ -51,15 +51,12 @@ namespace MemberManagerment.API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddCors(options =>
-
             {
-
                 options.AddPolicy(allowSpecificOrigins,
 
                 builder =>
 
                 {
-
                     builder.WithOrigins("https://localhost:5001")
 
                             .AllowAnyHeader()
@@ -100,7 +97,6 @@ namespace MemberManagerment.API
                .AddDefaultTokenProviders();
             services.Configure<IdentityOptions>(options =>
             {
-                
                 options.Password.RequireDigit = false;
                 options.Password.RequireLowercase = false;
                 options.Password.RequireNonAlphanumeric = false;
@@ -108,6 +104,7 @@ namespace MemberManagerment.API
                 options.Password.RequiredLength = 6;
                 options.Password.RequiredUniqueChars = 1;
             });
+
             services.AddTransient<IFamilySV, FamilySV>();
             services.AddTransient<IGroupSV, GroupSV>();
             services.AddTransient<IContactSV, ContactSV>();

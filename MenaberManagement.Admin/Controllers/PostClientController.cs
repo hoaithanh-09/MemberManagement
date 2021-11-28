@@ -42,7 +42,7 @@ namespace MenaberManagement.Admin.Controllers
             return View(post.Items);
         }
 
-        public async Task<IActionResult> Test()
+        public async Task<IActionResult> Post()
         {
             var a = new GetPostPagingRequest()
             {

@@ -23,7 +23,7 @@ namespace MenaberManagement.Admin.Controllers
             _configuration = configuration;
             _roleApiClient = roleApiClient;
         }
-        public async Task<IActionResult> Index(string keyword, int pageIndex = 1, int pageSize = 1)
+        public async Task<IActionResult> Index(string keyword, int pageIndex = 1, int pageSize = 10)
         {
             var sessions = HttpContext.Session.GetString("JWT");
             var request = new GetUserPagingRequest()
