@@ -43,47 +43,27 @@
             </li>
             <li><a asp-area="" asp-controller="HomeClient" asp-action="List">Đời sống - Du lịch</a></li>
             <li><a asp-area="" asp-controller="HomeClient" asp-action="List">Văn hóa - Lịch sử</a></li>
-            <li><a asp-area="" asp-controller="postClient" asp-action="Test">Diễn đàn</a></li>
+            <li><a asp-area="" asp-controller="postClient" asp-action="Post">Diễn đàn</a></li>
             <li><a asp-area="" asp-controller="HomeClient" asp-action="Contact">Liên hệ</a></li>
-            @*  @if (SignInManager.IsSignedIn(User))
-                {
-                <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
-                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                <li><a class="dropdown-item" href="/Profile/Index">@User.Identity.Name</a></li>
-                <li><a class="dropdown-item" href="#!">Activity Log</a></li>
-                <li><hr class="dropdown-divider" /></li>
-                <li>
-                <form method="post" asp-controller="Login" asp-action="Logout">
-                <button type="submit" class="dropdown-item">Đăng xuất</button>
-                </form>
-                </li>
-                </ul>
-                </li>
-                }
-                else
-                {*@
-
-            @*}*@
-
+          
         </ul>
 
         <div class="login">
             @if (User.Identity.Name == null)
             {
-                <a asp-area="" asp-controller="Login" asp-action="Index"><i class=" ti-user login-icon"></i></a>
+                <a asp-area="" asp-controller="Login"  asp-action="Index"><i class=" ti-user login-icon"></i></a>
                 <a asp-area="" asp-controller="Login" asp-action="Index"><span>Đăng nhập</span></a>
             }
             else
             {
                 <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                    <li><a class="dropdown-item" href="/Profile/Index">@User.Identity.Name</a></li>
+                     <li><a class="dropdown-item"asp-controller="Users" asp-action="Details" asp-route-id="@User?.FindFirst("ACCOUNT_ID")?.Value">@User.Identity.Name</a></li>
                     <li><a class="dropdown-item" asp-controller="Home" asp-action="Chat">Phòng trò truyện </a></li>
                     <li><hr class="dropdown-divider" /></li>
                     <li>
                         <form method="post" asp-controller="Login" asp-action="Logout">
-                            <button type="submit" class="dropdown-item">Đăng xuất</button>
+                            <button type="submit" class="dropdown-item" >Đăng xuất</button>
                         </form>
                     </li>
                 </ul>
