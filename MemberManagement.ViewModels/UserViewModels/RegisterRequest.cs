@@ -13,8 +13,6 @@ namespace MemberManagement.ViewModels.UserViewModels
         public string Email { get; set; }
         [Display(Name = "Mật khẩu")]
         public string Password { get; set; }
-        public string MemberId { get; set; }
-        [Display(Name = "Số điện thoại")]
-        public string PhoneNumber { get; set; }
+     
     }
 }
