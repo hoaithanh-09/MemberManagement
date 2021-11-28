@@ -14,6 +14,10 @@ using MemberManagement.ViewModels.ContractMemberViewModels;
 using MemberManagement.ViewModels.RoleMemberViewModels;
 using MemberManagement.ViewModels.RoleViewModels;
 using MemberManagement.Data.Entities;
+using Microsoft.AspNetCore.Identity;
+using System.Text.RegularExpressions;
+using ClosedXML.Excel;
+
 namespace MemberManagement.Services.Members
 {
     public class MemberSV : IMemberSV
