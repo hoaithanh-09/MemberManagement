@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -41,8 +43,8 @@
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" href="/Profile/Index">@User.Identity.Name</a></li>
-                            <li><a class="dropdown-item" href="#!">Activity Log</a></li>
+                            <li><a class="dropdown-item"asp-controller="Users" asp-action="Details" asp-route-id="@User?.FindFirst("ACCOUNT_ID")?.Value">@User.Identity.Name</a></li>
+                            <li><a class="dropdown-item" asp-controller="Home" asp-action="Chat">Phòng trò truyện </a></li>
                             <li><hr class="dropdown-divider" /></li>
                             <li>
                                 <form method="post" asp-controller="Login" asp-action="Logout">
@@ -90,7 +92,7 @@
                                 </a>
                                 <div class="collapse" id="pagesCollapseAuth" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordionPages">
                                     <nav class="sb-sidenav-menu-nested nav">
-                                        <a class="nav-link" asp-action="Index" asp-controller="Member">Quản lý hội viên</a>
+                                        <a class="nav-link" asp-action="Index" asp-controller="Member"> Quản lý hội viên</a>
                                         <a class="nav-link" asp-action="Index" asp-controller="Families">Quản lý hộ gia đình</a>
                                         <a class="nav-link" asp-action="Index" asp-controller="Group">Quản lý chi hội</a>
                                         <a class="nav-link" asp-action="Index" asp-controller="Role">Quản lý chức vụ</a>

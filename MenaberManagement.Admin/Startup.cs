@@ -1,3 +1,4 @@
+using MemberManagement.Data.Entities;
 using MemberManagement.ViewModels.CommonSV;
 using MemberManagerment.Data.EF;
 using MenaberManagement.Admin.Hubs;
@@ -9,6 +10,7 @@ using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -37,7 +39,9 @@ namespace MenaberManagement.Admin
             services.AddCors(options => options.AddPolicy("AllowAll", p => p.AllowAnyOrigin()
                                                                    .AllowAnyMethod()
                                                                     .AllowAnyHeader()));
-
+            //services.AddIdentity<AppUser, AppRole>()
+            //   .AddEntityFrameworkStores<MemberManagementContext>()
+            //   .AddDefaultTokenProviders();
             services.Configure<Tinh>(Configuration.GetSection("Tinh"));
             services.AddHttpClient();
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)

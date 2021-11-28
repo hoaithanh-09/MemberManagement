@@ -40,10 +40,11 @@ namespace MenaberManagement.Admin.Controllers
             _iRoleApiClient = iRoleApiClient;
             _iContactApiClient = iContactApiClient;
         }
-        public async Task< IActionResult> Index(string keyword , int pageIndex =1 , int pageSize = 2  )
+        public async Task< IActionResult> Index(string keyword , int pageIndex =1 , int pageSize = 10  )
         {
             if (!ModelState.IsValid)
                 return View();
+            var role = GetRoleNameFromToken();
 
             var request = new MemberPaingRequest()
             {
@@ -54,6 +55,7 @@ namespace MenaberManagement.Admin.Controllers
 
             var data = await _iMemberApiClient.GetFamilyPaging(request);
             ViewBag.Keyword = keyword;
+            ViewBag.Role = role;
 
             if (TempData["result"] != null)
             {
@@ -109,7 +111,6 @@ namespace MenaberManagement.Admin.Controllers
         {
             if (!ModelState.IsValid)
                 return View();
-           
             var result = await _iMemberApiClient.Create(request);
             
             if (!result.IsSuccessed)

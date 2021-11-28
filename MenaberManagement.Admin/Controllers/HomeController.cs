@@ -26,7 +26,7 @@ namespace MenaberManagement.Admin.Controllers
             return View();
         }
 
-        public IActionResult Test()
+        public IActionResult Chat()
         {
             return View();
         }
