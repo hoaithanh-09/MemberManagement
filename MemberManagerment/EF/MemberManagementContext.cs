@@ -116,15 +116,10 @@ namespace MemberManagerment.Data.EF
                     .IsUnique()
                     .HasFilter("([NormalizedUserName] IS NOT NULL)");
 
-                entity.Property(e => e.About).HasMaxLength(50);
 
                 entity.Property(e => e.ActiveAccount)
                     .IsRequired()
                     .HasDefaultValueSql("(CONVERT([bit],(0)))");
-
-                entity.Property(e => e.DateCreated).HasDefaultValueSql("('0001-01-01T00:00:00.0000000')");
-
-                entity.Property(e => e.DateModified).HasDefaultValueSql("('0001-01-01T00:00:00.0000000')");
 
                 entity.Property(e => e.Email).HasMaxLength(256);
 

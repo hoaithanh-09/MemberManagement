@@ -144,16 +144,13 @@ namespace MemberManagement.Services.User
             {
                 return new ApiErrorResult<bool>("Tài khoản đã tồn tại");
             }
-            if (await _userManager.FindByEmailAsync(request.Email) != null)
-            {
-                return new ApiErrorResult<bool>("Emai đã tồn tại");
-            }
+          
             user = new AppUser()
             {
                 UserName = request.UserName,
-                Email = request.Email,
+                Email = "asdsadsa",
                 SecurityStamp = Guid.NewGuid().ToString(),
-                PhoneNumber = request.PhoneNumber,
+                PhoneNumber = "asdsa"
             };
             var result = await _userManager.CreateAsync(user, request.Password);
             if (result.Succeeded)
