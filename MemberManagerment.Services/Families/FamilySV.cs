@@ -68,6 +68,7 @@ namespace MemberManagement.Services.Families
                         Id = 0,
                         HousldRepre = "Chưa có trong danh sách",
                     };
+                    listFamilyVM.Add(fm);
                 }
                 else
                 {
@@ -79,19 +80,17 @@ namespace MemberManagement.Services.Families
                             Id = f.Id,
                             HousldRepre = chuho.Name,
                         };
+                        listFamilyVM.Add(fm);
                     }
                     else
                     {
-                        fm = new FamilyVM()
-                        {
-                            Id = fm.Id,
-                        };
+                       
 
                     }
                 }
                 
                
-                listFamilyVM.Add(fm);
+                
             }
           
 
