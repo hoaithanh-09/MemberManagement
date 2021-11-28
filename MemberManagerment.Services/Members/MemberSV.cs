@@ -14,16 +14,16 @@ using MemberManagement.ViewModels.ContractMemberViewModels;
 using MemberManagement.ViewModels.RoleMemberViewModels;
 using MemberManagement.ViewModels.RoleViewModels;
 using MemberManagement.Data.Entities;
-using ClosedXML.Excel;
-
 namespace MemberManagement.Services.Members
 {
     public class MemberSV : IMemberSV
     {
         private readonly MemberManagementContext _context;
-        public MemberSV(MemberManagementContext context)
+        private readonly UserManager<AppUser> _userManager;
+        public MemberSV(MemberManagementContext context, UserManager<AppUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         public async Task<int> AddAddress(int memberId, AddressMemberCreateRequest request)
@@ -162,7 +162,36 @@ namespace MemberManagement.Services.Members
                     }
                 };
             }
-          
+            string sent = request.Name.Trim(); // Xóa đầu cuối
+              Regex trimmer = new Regex(@"\s\s+"); // Xóa khoảng trắng thừa trong chuỗi
+           // sent = trimmer.Replace(sent, " ");
+            sent = sent.Replace(" ","");
+            var user = new AppUser();
+            if (request.Gender.Contains("Nam"))
+            {
+                 user = new AppUser()
+                {
+                    UserName = Replace.RemoveVietnameseTone(sent),
+                    Email = "asdsadsa",
+                    SecurityStamp = Guid.NewGuid().ToString(),
+                    PhoneNumber = "asdsa",
+                    Avatar = "avatar1.png",
+                };
+            }
+            else
+            {
+                user = new AppUser()
+                {
+                    UserName = Replace.RemoveVietnameseTone(sent),
+                    Email = "asdsadsa",
+                    SecurityStamp = Guid.NewGuid().ToString(),
+                    PhoneNumber = "asdsa",
+                    Avatar = "avatar4.png",
+                };
+            }
+           
+            var CreateUser = await _userManager.CreateAsync(user,"123456");
+
             var a = await _context.SaveChangesAsync();
             if (a>0)
             {
@@ -201,6 +230,13 @@ namespace MemberManagement.Services.Members
                 await _context.SaveChangesAsync();
             }
 
+            var family = await _context.Families.AsQueryable().Where(_ => _.IdMember == member.Id).FirstOrDefaultAsync();
+            if(family.Members.Count == 1)
+            {
+                 _context.Families.Remove(family);
+                await _context.SaveChangesAsync();
+            }
+        
             _context.Members.Remove(member);
             await _context.SaveChangesAsync();
             return "Xóa thành công";
