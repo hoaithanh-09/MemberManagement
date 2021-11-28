@@ -145,6 +145,7 @@ namespace MemberManagement.Services.Contacts
                     Address = "",
                     PhoneNumber = member1.PhoneNumber,
                     Work = member1.Word,
+                    Id = member1.Id,
                 };
                 listMember.Add(member);
             }

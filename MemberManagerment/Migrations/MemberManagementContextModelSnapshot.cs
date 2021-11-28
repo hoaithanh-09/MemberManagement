@@ -178,6 +178,9 @@ namespace MemberManagement.Data.Migrations
                         .HasColumnType("bit")
                         .HasDefaultValueSql("(CONVERT([bit],(0)))");
 
+                    b.Property<string>("Avatar")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
@@ -221,9 +224,6 @@ namespace MemberManagement.Data.Migrations
 
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
-
-                    b.Property<byte[]>("ProfileImage")
-                        .HasColumnType("varbinary(max)");
 
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
@@ -534,6 +534,9 @@ namespace MemberManagement.Data.Migrations
                         .HasColumnType("varchar(50)")
                         .HasColumnName("IDCard");
 
+                    b.Property<bool>("IsDelete")
+                        .HasColumnType("bit");
+
                     b.Property<DateTime>("JoinDate")
                         .HasColumnType("datetime2");
 
@@ -586,6 +589,36 @@ namespace MemberManagement.Data.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("MemberUSer");
+                });
+
+            modelBuilder.Entity("MemberManagement.Data.Entities.Message", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<int?>("FromUserId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("Timestamp")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("ToRoomId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("FromUserId");
+
+                    b.HasIndex("ToRoomId");
+
+                    b.ToTable("Messages");
                 });
 
             modelBuilder.Entity("MemberManagement.Data.Entities.NotificationType", b =>
@@ -721,6 +754,28 @@ namespace MemberManagement.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Roles");
+                });
+
+            modelBuilder.Entity("MemberManagement.Data.Entities.Room", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("AdminId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AdminId");
+
+                    b.ToTable("Rooms");
                 });
 
             modelBuilder.Entity("MemberManagement.Data.Entities.Skill", b =>
@@ -1058,6 +1113,23 @@ namespace MemberManagement.Data.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("MemberManagement.Data.Entities.Message", b =>
+                {
+                    b.HasOne("MemberManagement.Data.Entities.AppUser", "FromUser")
+                        .WithMany("Messages")
+                        .HasForeignKey("FromUserId");
+
+                    b.HasOne("MemberManagement.Data.Entities.Room", "ToRoom")
+                        .WithMany("Messages")
+                        .HasForeignKey("ToRoomId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("FromUser");
+
+                    b.Navigation("ToRoom");
+                });
+
             modelBuilder.Entity("MemberManagement.Data.Entities.Post", b =>
                 {
                     b.HasOne("MemberManagement.Data.Entities.AppUser", null)
@@ -1101,6 +1173,17 @@ namespace MemberManagement.Data.Migrations
                     b.Navigation("Member");
 
                     b.Navigation("Role");
+                });
+
+            modelBuilder.Entity("MemberManagement.Data.Entities.Room", b =>
+                {
+                    b.HasOne("MemberManagement.Data.Entities.AppUser", "Admin")
+                        .WithMany("Rooms")
+                        .HasForeignKey("AdminId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Admin");
                 });
 
             modelBuilder.Entity("MemberManagement.Data.Entities.Ward", b =>
@@ -1179,7 +1262,11 @@ namespace MemberManagement.Data.Migrations
                 {
                     b.Navigation("MemberUsers");
 
+                    b.Navigation("Messages");
+
                     b.Navigation("Posts");
+
+                    b.Navigation("Rooms");
                 });
 
             modelBuilder.Entity("MemberManagement.Data.Entities.Contact", b =>
@@ -1243,6 +1330,11 @@ namespace MemberManagement.Data.Migrations
                     b.Navigation("ContactMembers");
 
                     b.Navigation("RoleMembers");
+                });
+
+            modelBuilder.Entity("MemberManagement.Data.Entities.Room", b =>
+                {
+                    b.Navigation("Messages");
                 });
 
             modelBuilder.Entity("MemberManagement.Data.Entities.Topic", b =>

@@ -30,7 +30,7 @@ namespace MenaberManagement.Admin.Services
             _configuration = configuration;
             _httpClientFactory = httpClientFactory;
         }
-
+        
         public async Task<List<ContactVM>> GetAll()
         {
 

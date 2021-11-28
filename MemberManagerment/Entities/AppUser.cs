@@ -19,13 +19,13 @@ namespace MemberManagement.Data.Entities
         public bool? ActiveAccount { get; set; }
         public DateTime DateCreated { get; set; }
         public DateTime DateModified { get; set; }
-        public byte[] ProfileImage { get; set; }
         public string About { get; set; }
-
+        public string Avatar { get; set; }
 
         public virtual ICollection<MemberUser> MemberUsers { get; set; }
         public virtual ICollection<Post> Posts { get; set; }
 
-
+        public ICollection<Room> Rooms { get; set; }
+        public ICollection<Message> Messages { get; set; }
     }
 }

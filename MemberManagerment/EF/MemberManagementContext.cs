@@ -42,6 +42,8 @@ namespace MemberManagerment.Data.EF
         public virtual DbSet<Fund> Funds { get; set; }
         public virtual DbSet<FundMember> FundMembers{ get; set; }
         public virtual DbSet<FundGroup> FundGroups { get; set; }
+        public DbSet<Room> Rooms { get; set; }
+        public DbSet<Message> Messages { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.HasAnnotation("Relational:Collation", "Latin1_General_CI_AS");
@@ -533,6 +535,34 @@ namespace MemberManagerment.Data.EF
                     .HasForeignKey(d => d.MemberId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK__FundMember__Member__403A8C7D");
+            });
+
+
+            modelBuilder.Entity<Message>(entity =>
+            {
+
+
+                entity.ToTable("Messages");
+                entity.Property(s => s.Content).IsRequired().HasMaxLength(500);
+
+                entity.HasOne(s => s.ToRoom)
+                    .WithMany(m => m.Messages)
+                    .HasForeignKey(s => s.ToRoomId)
+                    .OnDelete(DeleteBehavior.Cascade);
+            });
+
+
+            modelBuilder.Entity<Room>(entity =>
+            {
+
+
+                entity.ToTable("Rooms");
+
+                entity.Property(s => s.Name).IsRequired().HasMaxLength(100);
+
+                entity.HasOne(s => s.Admin)
+                    .WithMany(u => u.Rooms)
+                    .IsRequired();
             });
 
 

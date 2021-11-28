@@ -147,7 +147,6 @@ namespace MemberManagement.Services.Families
                     familyVMs.Add(family2);
                 }
             }
-
             var pagedResult = new PagedResult<FamilyVM>()
             {
                 PageIndex = request.PageIndex,

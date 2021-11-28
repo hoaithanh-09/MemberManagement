@@ -25,8 +25,7 @@ namespace MenaberManagement.Admin.Controllers
             var user = User.Identity.Name;
             return View();
         }
-
-        public IActionResult Privacy()
+        public IActionResult Test()
         {
             return View();
         }

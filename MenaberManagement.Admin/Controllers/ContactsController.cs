@@ -101,7 +101,7 @@ namespace MenaberManagement.Admin.Controllers
         }
 
         // POST: FamiliesController/Edit/5
-        [HttpPost]
+        [HttpPut]
         public async Task<ActionResult> Edit(int id, ContactEditRequest request)
         {
             if (!ModelState.IsValid)
@@ -135,7 +135,7 @@ namespace MenaberManagement.Admin.Controllers
         }
 
         // POST: FamiliesController/Delete/5
-        [HttpPost]
+        [HttpDelete]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Delete(int id, ContactDeleteRequest request)
         {
@@ -185,7 +185,7 @@ namespace MenaberManagement.Admin.Controllers
             }
             return re;
         }
-        [HttpGet]
+        [HttpGet("AddMember/{id}")]
         public async Task<IActionResult> AddMember(int id)
         {
             var member = new ContactMemberCreateRequest();
@@ -193,17 +193,18 @@ namespace MenaberManagement.Admin.Controllers
             var b = await _iRoleApiClient.GetAll();
             member.Members = a;
             member.Roles = b;
+            member.IdContact = id;
             return View(member);
         }
 
-        [HttpPost("AddMember/{idContract}")]
+        [HttpPost("AddMember/{id}")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> AddMember(int idContract, [FromBody] ContactMemberCreateRequest idMember)
+        public async Task<IActionResult> AddMember([FromRoute]int id, [FromForm] ContactMemberCreateRequest idMember)
         {
-            var family = await _iContactApiClient.AddMember(idContract, idMember);
-            return RedirectToAction($"ListMember{idContract}", "Contacts");
-        } 
-
+            var family = await _iContactApiClient.AddMember(id, idMember);
+            return RedirectToAction("Index", "Contacts");
+        }
+        [HttpGet("RemoveMember/{id}")]
         public async Task<ActionResult> RemoveMember(int id)
         {
             var result = await _iContactApiClient.GetById(id);
@@ -220,9 +221,9 @@ namespace MenaberManagement.Admin.Controllers
         }
 
         // POST: FamiliesController/Delete/5
-        [HttpPost]
+        [HttpPost("RemoveMember/{id}")]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> RemoveMember(int id, ContactDeleteRequest request)
+        public async Task<ActionResult> RemoveMember([FromRoute] int id, [FromForm] ContactDeleteRequest request)
         {
             if (!ModelState.IsValid)
                 return View();

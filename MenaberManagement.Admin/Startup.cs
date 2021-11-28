@@ -67,6 +67,9 @@ namespace MenaberManagement.Admin
             services.AddTransient<IFundApi, FundApi>();
             services.AddTransient<IStorageService, FileStorageService>();
             IMvcBuilder builder = services.AddRazorPages();
+
+
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

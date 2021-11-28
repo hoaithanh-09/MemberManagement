@@ -1,3 +1,7 @@
+using Hangfire;
+using Hangfire.Dashboard;
+using Hangfire.SqlServer;
+using MemberManagement.API.Hubs;
 using MemberManagement.Data.Entities;
 using MemberManagement.Services.Activities;
 using MemberManagement.Services.Addresses;
@@ -32,7 +36,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
 namespace MemberManagerment.API
 {
     public class Startup
@@ -70,6 +73,25 @@ namespace MemberManagerment.API
         .AddNewtonsoftJson(options =>
         options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 
+            #region Hangfire
+            services.AddHangfire(configuration => configuration
+                    .SetDataCompatibilityLevel(CompatibilityLevel.Version_170)
+                    .UseSimpleAssemblyNameTypeSerializer()
+                    .UseRecommendedSerializerSettings()
+                    .UseSqlServerStorage(
+                        Configuration.GetConnectionString("Hangfire"),
+                        new SqlServerStorageOptions
+                        {
+                            CommandBatchMaxTimeout = TimeSpan.FromMinutes(5),
+                            SlidingInvisibilityTimeout = TimeSpan.FromMinutes(5),
+                            QueuePollInterval = TimeSpan.Zero,
+                            UseRecommendedIsolationLevel = true,
+                            DisableGlobalLocks = true
+                        }
+                    ));
+            services.AddHangfireServer();
+            #endregion
+
             services.AddDbContext<MemberManagementContext>(options =>
                options.UseSqlServer(Configuration.GetConnectionString("MemberManagementConnext")));
 
@@ -102,7 +124,9 @@ namespace MemberManagerment.API
             services.AddTransient<ITopicSV, TopicSV>();
             services.AddTransient<IActivitySV, ActivitySV>();
             services.AddTransient<IFundSV, FundSV>();
-            
+
+            services.AddSignalR();
+            services.AddAutoMapper(typeof(Startup));
             services.AddAuthentication(op =>
             {
                 op.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -155,10 +179,8 @@ namespace MemberManagerment.API
                     });
             });
 
-          
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             app.UseCors(allowSpecificOrigins);
@@ -166,23 +188,29 @@ namespace MemberManagerment.API
             {
                 app.UseDeveloperExceptionPage();
             }
-
+            app.UseHangfireDashboard("/hangfire", new DashboardOptions()
+            {
+                Authorization = new List<IDashboardAuthorizationFilter>()
+            });
             app.UseHttpsRedirection();
 
             app.UseAuthentication();
             app.UseRouting();
 
             app.UseAuthorization();
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+                endpoints.MapHub<ChatHub>("/chatHub");
+
+            });
             app.UseSwagger();
 
             app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
             });
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllers();
-            });
+           
 
             
         }

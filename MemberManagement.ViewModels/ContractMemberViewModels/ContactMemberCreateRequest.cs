@@ -11,6 +11,9 @@ namespace MemberManagement.ViewModels.ContractMemberViewModels
     {
         public int MemberId { get; set; }
         public int RoleId { get; set; }
+        public int IdContact { get; set; }
+
+
         [NotMapped]
         public List<MemberVM> Members { get; set; }
         [NotMapped]
