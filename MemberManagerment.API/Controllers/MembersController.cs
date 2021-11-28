@@ -99,7 +99,7 @@ namespace MemberManagement.API.Controllers
         [HttpGet("ExportMember")]
         [ProducesResponseType(typeof(byte[]), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(BadRequestObjectResult), 400)]
-        public async Task<IActionResult> DownLoadStudent([FromQuery] ExportMemberRequest request)
+        public async Task<IActionResult> DownLoadMember()
         {
             if (!ModelState.IsValid)
             {
@@ -107,12 +107,12 @@ namespace MemberManagement.API.Controllers
             }
             try
             {
-                var wb = await _memberSV.ExportMember(request);
+                var wb = await _memberSV.ExportMember();
                 using (var stream = new MemoryStream())
                 {
                     wb.SaveAs(stream);
                     var content = stream.ToArray();
-                    string fileName = $"CHUYÊN CẦN HỌC SINH.xlsx";
+                    string fileName = $"DANH SÁCH HỘI VIÊN.xlsx";
 
                     return File(content, "application/octet-stream", fileName);
                 }
