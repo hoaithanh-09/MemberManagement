@@ -91,22 +91,7 @@ namespace MemberManagement.Services.User
             };
             return new ApiSuccessResult<UserVM>(userVM);
         }
-        //public async Task<ApiResult<string>> GetRoleById(int id)
-        //{
-        //    var user = await _userManager.FindByIdAsync(id.ToString());
-        //    if (user == null)
-        //        return new ApiErrorResult<string>("Tài khoản không tồn tại");
-        //    var roles = await _userManager.GetRolesAsync(user);
-        //    var userVM = new UserVM()
-        //    {
-        //        Id = id,
-        //        UserName = user.UserName,
-        //        PhoneNumber = user.PhoneNumber,
-        //        Email = user.Email,
-        //        Roles = roles,
-        //    };
-        //    return roles.;
-        //}
+
         public async Task<ApiResult<PagedResult<UserVM>>> GetUsersPaging(GetUserPagingRequest request)
         {
             var query = _userManager.Users;
@@ -144,13 +129,14 @@ namespace MemberManagement.Services.User
             {
                 return new ApiErrorResult<bool>("Tài khoản đã tồn tại");
             }
-          
+
             user = new AppUser()
             {
                 UserName = request.UserName,
                 Email = "asdsadsa",
                 SecurityStamp = Guid.NewGuid().ToString(),
-                PhoneNumber = "asdsa"
+                PhoneNumber = "asdsa",
+                Avatar = "avatar1.png",
             };
             var result = await _userManager.CreateAsync(user, request.Password);
             if (result.Succeeded)

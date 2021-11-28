@@ -31,6 +31,7 @@ namespace MemberManagement.Data.Entities
         public string PhoneNumber { get; set; }
         public string Word { get; set; }
         public bool IsDelete { get; set; }
+        public int? IdAccount { get; set; }
         public virtual Family Family { get; set; }
         public virtual Group Group { get; set; }
         public virtual ICollection<AddressMember> AddressMembers { get; set; }

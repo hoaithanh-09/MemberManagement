@@ -297,6 +297,8 @@ namespace MemberManagerment.Data.EF
                     .HasMaxLength(450)
                     .IsUnicode(false);
 
+                entity.Property(e => e.IdAccount).IsRequired(false);
+
 
                 entity.HasOne(d => d.Family)
                     .WithMany(p => p.Members)

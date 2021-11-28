@@ -191,6 +191,7 @@ namespace MemberManagement.Services.Posts
             {
                 post.Images = new List<Image>()
                 {
+                   
                     new Image()
                     {
                         DateCreated = DateTime.Now,
