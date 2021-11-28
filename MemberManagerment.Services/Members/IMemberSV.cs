@@ -1,4 +1,5 @@
-﻿using MemberManagement.Data.Entities;
+﻿using ClosedXML.Excel;
+using MemberManagement.Data.Entities;
 using MemberManagement.ViewModels.AddressMemberViewModels;
 ﻿using MemberManagement.ViewModels.AddressViewModels;
 using MemberManagement.ViewModels.Common;
@@ -24,5 +25,6 @@ namespace MemberManagement.Services.Members
         Task<int> AddRole(int memberId, RoleMemberCreateRequest request);
 
         Task<string> Delete(int id);
+        Task<XLWorkbook> ExportMember(ExportMemberRequest request);
     }
-}
+} 

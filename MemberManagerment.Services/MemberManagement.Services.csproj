@@ -11,5 +11,9 @@
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
 
   </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="ClosedXML" Version="0.95.4" />
+  </ItemGroup>
   
 </Project>

@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -93,6 +94,33 @@ namespace MemberManagement.API.Controllers
         {
             var group = await _memberSV.Delete(id);
             return Ok(group);
+        }
+
+        [HttpGet("ExportMember")]
+        [ProducesResponseType(typeof(byte[]), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(BadRequestObjectResult), 400)]
+        public async Task<IActionResult> DownLoadStudent([FromQuery] ExportMemberRequest request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                var wb = await _memberSV.ExportMember(request);
+                using (var stream = new MemoryStream())
+                {
+                    wb.SaveAs(stream);
+                    var content = stream.ToArray();
+                    string fileName = $"CHUYÊN CẦN HỌC SINH.xlsx";
+
+                    return File(content, "application/octet-stream", fileName);
+                }
+            }
+            catch (Exception e)
+            {
+                return BadRequest(ModelState);
+            }
         }
     }
 }

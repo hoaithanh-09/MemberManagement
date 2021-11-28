@@ -14,6 +14,8 @@ using MemberManagement.ViewModels.ContractMemberViewModels;
 using MemberManagement.ViewModels.RoleMemberViewModels;
 using MemberManagement.ViewModels.RoleViewModels;
 using MemberManagement.Data.Entities;
+using ClosedXML.Excel;
+
 namespace MemberManagement.Services.Members
 {
     public class MemberSV : IMemberSV
@@ -386,6 +388,85 @@ namespace MemberManagement.Services.Members
                 }
             }
             return member;
+        }
+        public async Task<XLWorkbook> ExportMember(ExportMemberRequest request)
+        {
+            var query = _context.Members.Where(x => x.GroupId == request.GroupId);
+            var members = await query.ToListAsync();
+            var group = await _context.Groups.FindAsync(request.GroupId);
+            var groupName = group.Name.ToUpper();
+            var t = Task.Run(() =>
+            {
+                var workbook = new XLWorkbook();
+                IXLWorksheet worksheet = workbook.Worksheets.Add("Danh sách hôi viên");
+                worksheet.Cell("A2").Value = "DANH SÁCH HỘI VIÊN " + groupName;
+                var range = worksheet.Range("A2:G2");
+                range.Merge();
+
+                int column = 1;
+                int row = 3;
+                worksheet.Cell(row, column++).Value = "STT";
+                worksheet.Cell(row, column++).Value = "Tên học sinh";
+                worksheet.Cell(row, column++).Value = "Giới tính";
+                worksheet.Cell(row, column++).Value = "CMND";
+                worksheet.Cell(row, column++).Value = "Ngày sinh";
+                worksheet.Cell(row, column++).Value = "Số điện thoại";
+                worksheet.Cell(row, column++).Value = "Gmail";
+                worksheet.Cell(row, column++).Value = "Nghề nghiệp";
+                worksheet.Cell(row, column++).Value = "Chức danh cá nhân";
+
+
+                #region style
+                worksheet.Column(1).Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Center);
+                worksheet.Cell("B3").Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Center);
+                worksheet.Column(3).Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Center);
+                worksheet.Column(4).Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Center);
+                worksheet.Column(5).Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Center);
+                worksheet.Column(6).Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Center);
+                worksheet.Column(7).Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Center);
+                worksheet.Column(8).Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Center);
+                worksheet.Column(9).Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Center);
+
+
+                //Bold TITLE ROW
+                worksheet.Row(2).Style.Font.Bold = true;
+                worksheet.Row(2).Style.Font.FontSize = 15;
+                worksheet.Row(3).Style.Font.Bold = true;
+                #endregion
+                row = 4;
+                int number = 1;
+                foreach (var member in members)
+                {
+                    column = 1;
+                    worksheet.Cell(row, column++).SetValue(number++);
+                    worksheet.Cell(row, column++).SetValue(member.Name);
+                    worksheet.Cell(row, column++).SetValue(member.Gender);
+                    worksheet.Cell(row, column++).SetValue(member.Idcard);
+                    worksheet.Cell(row, column++).SetValue(member.Birth);
+                    worksheet.Cell(row, column++).SetValue(member.PhoneNumber);
+                    worksheet.Cell(row, column++).SetValue(member.Email);
+                    worksheet.Cell(row, column++).SetValue(member.Word);
+                    worksheet.Cell(row, column++).SetValue(member.PersonalTtles);
+                    ++row;
+
+
+
+                }
+                worksheet.RangeUsed().Style.Border.SetOutsideBorder(XLBorderStyleValues.Thin);
+                worksheet.RangeUsed().Style.Border.SetInsideBorder(XLBorderStyleValues.Thin);
+
+                //other style all cell
+                worksheet.CellsUsed().Style.Alignment.SetWrapText(true);
+                worksheet.ColumnsUsed().AdjustToContents();
+                worksheet.SheetView.FreezeRows(1);
+                return workbook;
+
+
+
+            });
+            return await t;
+
+
         }
 
     }
