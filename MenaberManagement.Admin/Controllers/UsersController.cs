@@ -55,7 +55,7 @@ namespace MenaberManagement.Admin.Controllers
                 return View();
 
             var result = await _userApiClient.RegisterUser(request);
-            if (!result.IsSuccessed)
+            if (!result.IsSuccessed)  
             {
                 ModelState.AddModelError("", result.Message);
                 return View(request);

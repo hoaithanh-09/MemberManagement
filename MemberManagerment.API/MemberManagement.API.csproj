@@ -22,5 +22,9 @@
     <ProjectReference Include="..\MenaberManagement.Admin\MenaberManagement.Admin.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\Json\" />
+  </ItemGroup>
+
 
 </Project>

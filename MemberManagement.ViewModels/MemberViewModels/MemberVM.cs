@@ -14,8 +14,11 @@ namespace MemberManagement.ViewModels.MemberViewModels
         public int FamilyId { get; set; }
         public int GroupId { get; set; }
         public string Name { get; set; }
+
+        [DisplayFormat(DataFormatString = "{0:dd MMM yyyy}")]
         public DateTime Birth { get; set; }
         public string Gender { get; set; }
+        [DisplayFormat(DataFormatString = "{0:dd MMM yyyy}")]
         public DateTime JoinDate { get; set; }
         public string Idcard { get; set; }
         public string Notes { get; set; }

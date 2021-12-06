@@ -4,46 +4,19 @@
     ViewData["Title"] = "Details";
 }
 <div class="container-fluid px-4">
-    <h1 class="mt-4">Chi tiết bài viết </h1>
     <dl class="row">
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Id)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Id)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Title)
-        </dt>
-        <dd class="col-sm-10">
+        <dd style="text-align:center; font-size: 40px" class="col-sm-10">
             @Html.DisplayFor(model => model.Title)
         </dd>
-        <dt class="col-sm-2">
-            Ngày tạo
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.CreatedDate)
+      
+        <dd style="text-align:center" class="col-sm-10">
+          Ngày đăng:   @Html.DisplayFor(model => model.CreatedDate)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.ModifiedDate)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.ModifiedDate)
-        </dd>
-    
-        <dt class="col-sm-2">
-            Nội dung
-        </dt>
+      
         <dd class="col-sm-10">
             @Html.Raw(Model.Content)
         </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.ImageInPosts.Image.ImagePath)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.ImageInPosts.Image.ImagePath)
-        </dd>
-
     </dl>
 
     <div>

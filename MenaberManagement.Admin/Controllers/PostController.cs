@@ -62,7 +62,6 @@ namespace MenaberManagement.Admin.Controllers
             if (!ModelState.IsValid)
                 return View();
             var result = await _iPostApi.Create(request);
-
             if (!result.IsSuccessed)
             {
                 ModelState.AddModelError("", result.Message);

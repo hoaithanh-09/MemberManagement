@@ -14,6 +14,7 @@ namespace MemberManagement.ViewModels.PostViewModels
         [Display(Name = "Tiêu đề")]
         public string Title { get; set; }
         [Display(Name = "Ngày tạo")]
+        [DisplayFormat(DataFormatString = "{0:dd MMM yyyy}")]
         public DateTime? CreatedDate { get; set; } = DateTime.Now.Date;
         [Display(Name = "Ngày chỉnh sửa")]
         public DateTime? ModifiedDate { get; set; }
