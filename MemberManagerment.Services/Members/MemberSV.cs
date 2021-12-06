@@ -402,11 +402,12 @@ namespace MemberManagement.Services.Members
           
 
             member.Name = request.Name;
+             member.Birth = request.Birth;
             member.Gender = request.Gender;
             member.Idcard = request.Idcard;
             member.JoinDate = request.JoinDate;
             member.Notes = request.Notes;
-            member.Birth = request.Birth;
+           
             member.Email = request.Email;
             member.Word = request.Word;
             member.PersonalTtles = request.PersonalTtles;
@@ -429,19 +430,14 @@ namespace MemberManagement.Services.Members
             }
             return member;
         }
-        public async Task<XLWorkbook> ExportMember(ExportMemberRequest request)
+        public async Task<XLWorkbook> ExportMember()
         {
-            var query = _context.Members.Where(x => x.GroupId == request.GroupId);
-            var members = await query.ToListAsync();
-            var group = await _context.Groups.FindAsync(request.GroupId);
-            var groupName = group.Name.ToUpper();
+            var members = await GetAll();
+           
             var t = Task.Run(() =>
             {
                 var workbook = new XLWorkbook();
                 IXLWorksheet worksheet = workbook.Worksheets.Add("Danh sách hôi viên");
-                worksheet.Cell("A2").Value = "DANH SÁCH HỘI VIÊN " + groupName;
-                var range = worksheet.Range("A2:G2");
-                range.Merge();
 
                 int column = 1;
                 int row = 3;
@@ -449,11 +445,11 @@ namespace MemberManagement.Services.Members
                 worksheet.Cell(row, column++).Value = "Tên học sinh";
                 worksheet.Cell(row, column++).Value = "Giới tính";
                 worksheet.Cell(row, column++).Value = "CMND";
-                worksheet.Cell(row, column++).Value = "Ngày sinh";
                 worksheet.Cell(row, column++).Value = "Số điện thoại";
                 worksheet.Cell(row, column++).Value = "Gmail";
                 worksheet.Cell(row, column++).Value = "Nghề nghiệp";
                 worksheet.Cell(row, column++).Value = "Chức danh cá nhân";
+                worksheet.Cell(row, column++).Value = "Ghi chú";
 
 
                 #region style
@@ -477,18 +473,18 @@ namespace MemberManagement.Services.Members
                 int number = 1;
                 foreach (var member in members)
                 {
-                    column = 1;
-                    worksheet.Cell(row, column++).SetValue(number++);
+                    column = 1; 
+                    worksheet.Cell(row, column++).SetValue(number);
                     worksheet.Cell(row, column++).SetValue(member.Name);
                     worksheet.Cell(row, column++).SetValue(member.Gender);
                     worksheet.Cell(row, column++).SetValue(member.Idcard);
-                    worksheet.Cell(row, column++).SetValue(member.Birth);
                     worksheet.Cell(row, column++).SetValue(member.PhoneNumber);
                     worksheet.Cell(row, column++).SetValue(member.Email);
                     worksheet.Cell(row, column++).SetValue(member.Word);
                     worksheet.Cell(row, column++).SetValue(member.PersonalTtles);
+                    worksheet.Cell(row, column++).SetValue(member.Notes);
                     ++row;
-
+                    number++;
 
 
                 }

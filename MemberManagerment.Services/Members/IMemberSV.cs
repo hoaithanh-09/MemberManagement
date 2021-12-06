@@ -25,6 +25,6 @@ namespace MemberManagement.Services.Members
         Task<int> AddRole(int memberId, RoleMemberCreateRequest request);
 
         Task<string> Delete(int id);
-        Task<XLWorkbook> ExportMember(ExportMemberRequest request);
+        Task<XLWorkbook> ExportMember();
     }
 } 
