@@ -33,5 +33,6 @@ namespace MemberManagement.ViewModels.MemberViewModels
         public int Id { get; set; }
 
         public List<SelectListItem> ListOfFamily { get; set; }
+        public string Addres { get; set; }
     }
 }

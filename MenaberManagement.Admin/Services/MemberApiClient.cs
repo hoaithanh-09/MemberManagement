@@ -54,7 +54,7 @@ namespace MenaberManagement.Admin.Services
             requestContent.Add(new StringContent(string.IsNullOrEmpty(request.Gender) ? "" : request.Gender.ToString()), "Gender");
             requestContent.Add(new StringContent(string.IsNullOrEmpty(request.PhoneNumber) ? "" : request.PhoneNumber.ToString()), "PhoneNumber");
             requestContent.Add(new StringContent(string.IsNullOrEmpty(request.Word) ? "" : request.Word.ToString()), "Word");
-            requestContent.Add(new StringContent(string.IsNullOrEmpty(request.PersonalTtles) ? "" : request.PersonalTtles.ToString()), "PersonalTtles");
+            requestContent.Add(new StringContent(string.IsNullOrEmpty(request.Addres) ? "" : request.Addres.ToString()), "PersonalTtles");
             
             requestContent.Add(new StringContent(request.RoleId.ToString()), "RoleId");
     //        requestContent.Add(new StringContent(request.IdAddress.ToString()), "IdAddress");

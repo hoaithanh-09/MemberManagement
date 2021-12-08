@@ -127,7 +127,7 @@ namespace MemberManagement.Services.Members
                     Birth = request.Birth,
                     Email = request.Email,
                     Word = request.Word,
-                    PersonalTtles = request.PersonalTtles,
+                    Addres = request.Addres,
                     PhoneNumber = request.PhoneNumber,
                 };
                 _context.Members.Add(member);
@@ -150,7 +150,7 @@ namespace MemberManagement.Services.Members
                     Birth = request.Birth,
                     Email = request.Email,
                     Word = request.Word,
-                    PersonalTtles = request.PersonalTtles,
+                    Addres = request.Addres,
                     PhoneNumber = request.PhoneNumber,
                 };
                 _context.Members.Add(member);
@@ -261,7 +261,7 @@ namespace MemberManagement.Services.Members
                 Birth = x.Birth,
                 Email = x.Email,
                 Word = x.Word,
-                PersonalTtles = x.PersonalTtles,
+                Addres = x.Addres,
                 PhoneNumber = x.PhoneNumber,
                 Id = x.Id,
 
@@ -295,7 +295,7 @@ namespace MemberManagement.Services.Members
                     JoinDate = x.m.JoinDate,
                     Notes = x.m.Notes,
                     Email = x.m.Email,
-                    PersonalTtles = x.m.PersonalTtles,
+                    Addres = x.m.Addres,
                     PhoneNumber = x.m.PhoneNumber,
                     Word = x.m.Word,
                     
@@ -381,7 +381,7 @@ namespace MemberManagement.Services.Members
                 JoinDate = member.JoinDate,
                 Idcard = member.Idcard,
                 Email = member.Email,
-                PersonalTtles = member.PersonalTtles,
+                Addres = member.Addres,
                 Word = member.Word,
                 PhoneNumber = member.PhoneNumber,
                 Notes = member.Notes,
@@ -410,7 +410,7 @@ namespace MemberManagement.Services.Members
            
             member.Email = request.Email;
             member.Word = request.Word;
-            member.PersonalTtles = request.PersonalTtles;
+            member.Addres = request.Addres;
             member.PhoneNumber = request.PhoneNumber;
 
             try
@@ -485,7 +485,7 @@ namespace MemberManagement.Services.Members
                     worksheet.Cell(row, column++).SetValue(member.PhoneNumber);
                     worksheet.Cell(row, column++).SetValue(member.Email);
                     worksheet.Cell(row, column++).SetValue(member.Word);
-                    worksheet.Cell(row, column++).SetValue(member.PersonalTtles);
+                    worksheet.Cell(row, column++).SetValue(member.Addres);
                     worksheet.Cell(row, column++).SetValue(member.Notes);
                     ++row;
                     number++;
