@@ -5,6 +5,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="wwwroot\**" />
+    <Content Remove="wwwroot\**" />
+    <EmbeddedResource Remove="wwwroot\**" />
+    <None Remove="wwwroot\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="AutoMapper" Version="10.1.1" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.1" />
     <PackageReference Include="Hangfire.AspNetCore" Version="1.7.27" />
@@ -20,10 +27,6 @@
     <ProjectReference Include="..\MemberManagerment.Services\MemberManagement.Services.csproj" />
     <ProjectReference Include="..\MemberManagerment\MemberManagement.Data.csproj" />
     <ProjectReference Include="..\MenaberManagement.Admin\MenaberManagement.Admin.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="wwwroot\Json\" />
   </ItemGroup>
 
 
