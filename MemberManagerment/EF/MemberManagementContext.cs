@@ -116,7 +116,6 @@ namespace MemberManagerment.Data.EF
                     .IsUnique()
                     .HasFilter("([NormalizedUserName] IS NOT NULL)");
 
-                entity.Property(e => e.IsDeleted);
 
                 entity.Property(e => e.ActiveAccount)
                     .IsRequired()
