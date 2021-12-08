@@ -17,6 +17,7 @@ namespace MenaberManagement.Admin.Services
 
         Task<ApiResult<bool>> Update(int id, UserUpdateRequest request);
         Task<ApiResult<UserVM>> GetById(int id);
+        Task<UserVM> GetByName(string name);
         Task<ApiResult<bool>> Delete(int id);
         Task<ApiResult<bool>> RoleAssign(int id, RoleAssignRequest request);
 

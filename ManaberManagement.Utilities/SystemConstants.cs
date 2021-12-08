@@ -25,5 +25,11 @@ namespace ManaberManagement.Utilities
         {
             public const string NA = "N/A";
         }
+
+        public class Constants
+        {
+            public const string CLAIM_EMPLOYEE_ID = "ID_CLAIM_TYPE";
+            public const string CLAIM_ACCOUNT_ID = "ACCOUNT_ID";
+        }
     }
 }

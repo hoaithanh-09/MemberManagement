@@ -7,7 +7,7 @@
             "type": "process",
             "args": [
                 "build",
-                "${workspaceFolder}/MenaberManagement.Admin/MenaberManagement.Admin.csproj",
+                "${workspaceFolder}/MemberManagerment.API/MemberManagement.API.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
@@ -19,7 +19,7 @@
             "type": "process",
             "args": [
                 "publish",
-                "${workspaceFolder}/MenaberManagement.Admin/MenaberManagement.Admin.csproj",
+                "${workspaceFolder}/MemberManagerment.API/MemberManagement.API.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
@@ -32,7 +32,7 @@
             "args": [
                 "watch",
                 "run",
-                "${workspaceFolder}/MenaberManagement.Admin/MenaberManagement.Admin.csproj",
+                "${workspaceFolder}/MemberManagerment.API/MemberManagement.API.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],

@@ -23,5 +23,6 @@ namespace MemberManagement.Services.User
 
         Task<ApiResult<bool>> Delete(int id);
         Task<ApiResult<bool>> RoleAssign(int id, RoleAssignRequest request);
+        Task<UserVM> GetByName(string name);
     }
 }
