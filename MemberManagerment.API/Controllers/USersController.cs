@@ -5,8 +5,11 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
+using static ManaberManagement.Utilities.SystemConstants;
 
 namespace MemberManagement.API.Controllers
 {
@@ -36,6 +39,16 @@ namespace MemberManagement.API.Controllers
         public async Task<IActionResult> GetById(int id)
         {
             var userServer = await _userService.GetById(id);
+            return Ok(userServer);
+            // return await _connext.Products.ToListAsync();
+        }
+
+
+        [HttpGet("GetByName")]
+        [AllowAnonymous]
+        public async Task<IActionResult> GetName(string name)
+        {
+            var userServer = await _userService.GetByName(name);
             return Ok(userServer);
             // return await _connext.Products.ToListAsync();
         }

@@ -8,6 +8,7 @@ using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace MenaberManagement.Admin.Controllers
@@ -110,6 +111,15 @@ namespace MenaberManagement.Admin.Controllers
             var result = await _userApiClient.GetById(id);
             return View(result.ResultObj);
         }
+
+        public async Task<IActionResult> Profile()
+        {
+            var name = User.Identity.Name;
+            var result = await _userApiClient.GetByName(name);
+            return View(result);
+        }
+
+
 
         [HttpGet]
         public async Task<IActionResult> Delete(int id)

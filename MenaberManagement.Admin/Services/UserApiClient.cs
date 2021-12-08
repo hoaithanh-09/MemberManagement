@@ -63,7 +63,6 @@ namespace MenaberManagement.Admin.Services
             var session = _httpContextAccessor.HttpContext.Session.GetString("JWT");
             var client = _httpClientFactory.CreateClient();
             client.BaseAddress = new Uri(_configuration["BaseAddress"]);
-           // string b = id.ToString();
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", session);
             var response = await client.GetAsync($"/api/Users/{id}");
             var body = await response.Content.ReadAsStringAsync();
@@ -72,6 +71,21 @@ namespace MenaberManagement.Admin.Services
                 return JsonConvert.DeserializeObject<ApiSuccessResult<UserVM>>(body);
             }
             return JsonConvert.DeserializeObject<ApiErrorResult<UserVM>>(body);
+        }
+
+        public async Task<UserVM> GetByName(string name)
+        {
+            var session = _httpContextAccessor.HttpContext.Session.GetString("JWT");
+            var client = _httpClientFactory.CreateClient();
+            client.BaseAddress = new Uri(_configuration["BaseAddress"]);
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", session);
+            var response = await client.GetAsync($"/api/Users/GetByName?name={name}");
+            var body = await response.Content.ReadAsStringAsync();
+            if (response.IsSuccessStatusCode)
+            {
+                return JsonConvert.DeserializeObject<UserVM>(body);
+            }
+            return JsonConvert.DeserializeObject<UserVM>(body);
         }
 
         public async Task<ApiResult<PagedResult<UserVM>>> GetUserPaging(GetUserPagingRequest request)
