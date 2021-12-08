@@ -438,6 +438,9 @@ namespace MemberManagement.Services.Members
             {
                 var workbook = new XLWorkbook();
                 IXLWorksheet worksheet = workbook.Worksheets.Add("Danh sách hôi viên");
+                worksheet.Cell("A2").Value = "DANH SACH HỘI VIÊN";
+                var range = worksheet.Range("A2:I2");
+                range.Merge();
 
                 int column = 1;
                 int row = 3;
@@ -453,6 +456,7 @@ namespace MemberManagement.Services.Members
 
 
                 #region style
+                worksheet.Column("A2").Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Center);
                 worksheet.Column(1).Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Center);
                 worksheet.Cell("B3").Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Center);
                 worksheet.Column(3).Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Center);
