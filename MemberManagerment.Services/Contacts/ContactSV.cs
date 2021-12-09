@@ -141,7 +141,7 @@ namespace MemberManagement.Services.Contacts
                 var member = new ExMembers()
                 {
                     Name = member1.Name,
-                    PersonalTitles = member1.PersonalTtles,
+                    PersonalTitles = member1.Addres,
                     Address = "",
                     PhoneNumber = member1.PhoneNumber,
                     Work = member1.Word,

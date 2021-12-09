@@ -283,7 +283,7 @@ namespace MemberManagerment.Data.EF
                     .IsUnicode(true)
                     .HasColumnName("notes");
 
-                entity.Property(e => e.PersonalTtles)
+                entity.Property(e => e.Addres)
                     .HasMaxLength(450)
                     .IsUnicode(false);
 

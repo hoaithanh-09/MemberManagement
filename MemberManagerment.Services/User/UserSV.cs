@@ -1,4 +1,5 @@
-﻿using MemberManagement.Data.Entities;
+﻿using ManaberManagement.Utilities;
+using MemberManagement.Data.Entities;
 using MemberManagement.Services.Roles;
 using MemberManagement.ViewModels.Common;
 using MemberManagement.ViewModels.RoleAppVM;
@@ -90,6 +91,23 @@ namespace MemberManagement.Services.User
                 Roles = roles,
             };
             return new ApiSuccessResult<UserVM>(userVM);
+        }
+
+        public async Task<UserVM> GetByName(string name)
+        {
+            var user = await _userManager.FindByNameAsync(name);
+            if (user == null)
+                throw new MemberManagementException("Tài khoản không tồn tại");
+            var roles = await _userManager.GetRolesAsync(user);
+            var userVM = new UserVM()
+            {
+                Id = user.Id,
+                UserName = user.UserName,
+                PhoneNumber = user.PhoneNumber,
+                Email = user.Email,
+                Roles = roles,
+            };
+            return userVM;
         }
 
         public async Task<ApiResult<PagedResult<UserVM>>> GetUsersPaging(GetUserPagingRequest request)

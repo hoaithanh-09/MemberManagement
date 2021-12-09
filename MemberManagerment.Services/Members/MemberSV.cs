@@ -54,22 +54,6 @@ namespace MemberManagement.Services.Members
         }
 
 
-        //public async Task<int> AddContact(int memberId, ContactMemberCreateRequest request)
-        //{
-
-           
-
-        //    var contracMember = new ContactMembers()
-        //    {
-        //        MemberId = request.MemberId,
-        //        ContactId = contact.Id,
-        //    };
-
-        //    _context.ContactMembers.Add(contracMember);
-        //    await _context.SaveChangesAsync();
-        //    return contact.Id;
-        //}
-
         public async Task<int> AddRole(int memberId, RoleMemberCreateRequest request)
         {
 
@@ -127,7 +111,7 @@ namespace MemberManagement.Services.Members
                     Birth = request.Birth,
                     Email = request.Email,
                     Word = request.Word,
-                    PersonalTtles = request.PersonalTtles,
+                    Addres = request.Addres,
                     PhoneNumber = request.PhoneNumber,
                 };
                 _context.Members.Add(member);
@@ -150,7 +134,7 @@ namespace MemberManagement.Services.Members
                     Birth = request.Birth,
                     Email = request.Email,
                     Word = request.Word,
-                    PersonalTtles = request.PersonalTtles,
+                    Addres = request.Addres,
                     PhoneNumber = request.PhoneNumber,
                 };
                 _context.Members.Add(member);
@@ -261,7 +245,7 @@ namespace MemberManagement.Services.Members
                 Birth = x.Birth,
                 Email = x.Email,
                 Word = x.Word,
-                PersonalTtles = x.PersonalTtles,
+                Addres = x.Addres,
                 PhoneNumber = x.PhoneNumber,
                 Id = x.Id,
 
@@ -284,7 +268,7 @@ namespace MemberManagement.Services.Members
 
             int totalRow = await query.CountAsync();
 
-            var data = await query.Skip((request.PageIndex - 1) * request.PageSize).Take(request.PageSize)
+            var data = await query.Skip((request.PageIndex - 1) * request.PageSize).Take(request.PageSize).OrderBy(_=>_.m.JoinDate)
                 .Select(x => new MemberVM()
                 {
                     Id = x.m.Id,
@@ -295,17 +279,24 @@ namespace MemberManagement.Services.Members
                     JoinDate = x.m.JoinDate,
                     Notes = x.m.Notes,
                     Email = x.m.Email,
-                    PersonalTtles = x.m.PersonalTtles,
+                    Addres = x.m.Addres,
                     PhoneNumber = x.m.PhoneNumber,
                     Word = x.m.Word,
-                    
                 }).ToListAsync();
+           foreach(var member in data)
+            {
+                var roleMember = await _context.RoleMembers.Where(x => x.MemberId == member.Id).FirstOrDefaultAsync();
+                var role = await _context.Roless.Where(x => x.Id == roleMember.RoleId).FirstOrDefaultAsync();
+                string nameRole = role.Name;
+                member.RoleName = nameRole;
+            }
             var paging = new PagedResult<MemberVM>()
             {
                 PageIndex = request.PageIndex,
                 PageSize = request.PageSize,
                 TotalRecords = totalRow,
                 Items = data,
+                
             };
             return paging;
         }
@@ -381,16 +372,24 @@ namespace MemberManagement.Services.Members
                 JoinDate = member.JoinDate,
                 Idcard = member.Idcard,
                 Email = member.Email,
-                PersonalTtles = member.PersonalTtles,
+                Addres = member.Addres,
                 Word = member.Word,
                 PhoneNumber = member.PhoneNumber,
                 Notes = member.Notes,
                 AddressMembers = addressMember,
                 ContactMembers = contractMember,
-                RoleMembers = roleMembers,
+               // RoleMembers = RoleMembers,
             };
             return memberVN;
         }
+
+        //private string RoleMembers(int id)
+        //{
+        //    var role = _context.RoleMembers.Where(x=>x.MemberId == id).FirstOrDefault();    
+        //    var nRole = _context.Roles.Where(x=>x.Id==role.RoleId).FirstOrDefault();
+        //    var nameRole = nRole.Name;
+        //    return nameRole;
+        //}
         public async Task<Member> Update(int id, MemberEditRequest request)
         {
             var member = await _context.Members.FindAsync(id);
@@ -410,7 +409,7 @@ namespace MemberManagement.Services.Members
            
             member.Email = request.Email;
             member.Word = request.Word;
-            member.PersonalTtles = request.PersonalTtles;
+            member.Addres = request.Addres;
             member.PhoneNumber = request.PhoneNumber;
 
             try
@@ -485,7 +484,7 @@ namespace MemberManagement.Services.Members
                     worksheet.Cell(row, column++).SetValue(member.PhoneNumber);
                     worksheet.Cell(row, column++).SetValue(member.Email);
                     worksheet.Cell(row, column++).SetValue(member.Word);
-                    worksheet.Cell(row, column++).SetValue(member.PersonalTtles);
+                    worksheet.Cell(row, column++).SetValue(member.Addres);
                     worksheet.Cell(row, column++).SetValue(member.Notes);
                     ++row;
                     number++;

@@ -18,6 +18,9 @@ namespace MemberManagement.Data.Entities
 
         public bool? ActiveAccount { get; set; }
         public string Avatar { get; set; }
+        public bool IsDeleted { get; set; } = false;
+
+
 
         public virtual ICollection<MemberUser> MemberUsers { get; set; }
         public virtual ICollection<Post> Posts { get; set; }

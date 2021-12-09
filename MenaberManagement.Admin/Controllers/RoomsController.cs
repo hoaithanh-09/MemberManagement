@@ -57,7 +57,7 @@ namespace MenaberManagement.Admin.Controllers
         public async Task<ActionResult<Room>> Create(RoomViewModel roomViewModel)
         {
             if (_context.Rooms.Any(r => r.Name == roomViewModel.Name))
-                return BadRequest("Invalid room name or room already exists");
+                return BadRequest("Tên phòng không hợp lệ hoặc phòng đã tồn tại");
 
             var user = _context.Users.FirstOrDefault(u => u.UserName == User.Identity.Name);
             var room = new Room()
@@ -78,7 +78,7 @@ namespace MenaberManagement.Admin.Controllers
         public async Task<IActionResult> Edit(int id, RoomViewModel roomViewModel)
         {
             if (_context.Rooms.Any(r => r.Name == roomViewModel.Name))
-                return BadRequest("Invalid room name or room already exists");
+                return BadRequest("Tên phòng không hợp lệ hoặc phòng đã tồn tại");
 
             var room = await _context.Rooms
                 .Include(r => r.Admin)
@@ -111,7 +111,7 @@ namespace MenaberManagement.Admin.Controllers
             await _context.SaveChangesAsync();
 
             await _hubContext.Clients.All.SendAsync("removeChatRoom", room.Id);
-            await _hubContext.Clients.Group(room.Name).SendAsync("onRoomDeleted", string.Format("Room {0} has been deleted.\nYou are moved to the first available room!", room.Name));
+            await _hubContext.Clients.Group(room.Name).SendAsync("onRoomDeleted", string.Format("Phòng {0} đã xóa.\nBạn được chuyển đến phòng trống đầu tiên!", room.Name));
 
             return NoContent();
         }

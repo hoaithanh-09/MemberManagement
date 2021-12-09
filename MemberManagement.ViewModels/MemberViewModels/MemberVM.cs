@@ -1,4 +1,5 @@
-﻿using MemberManagement.ViewModels.AddressMemberViewModels;
+﻿using MemberManagement.Data.Entities;
+using MemberManagement.ViewModels.AddressMemberViewModels;
 using MemberManagement.ViewModels.ContractMemberViewModels;
 using MemberManagement.ViewModels.RoleMemberViewModels;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -22,8 +23,6 @@ namespace MemberManagement.ViewModels.MemberViewModels
         public DateTime JoinDate { get; set; }
         public string Idcard { get; set; }
         public string Notes { get; set; }
-        public string Nickname { get; set; }
-        public string PersonalTtles { get; set; }
         public string Email { get; set; }
         public string PhoneNumber { get; set; }
         public string Word { get; set; }
@@ -31,7 +30,10 @@ namespace MemberManagement.ViewModels.MemberViewModels
         public ContactMemberVM ContactMembers { get; set; }
         public RoleMemberVM RoleMembers { get; set; }
         public int Id { get; set; }
+        public string RoleName { get; set; }
 
         public List<SelectListItem> ListOfFamily { get; set; }
+        public string Addres { get; set; }
+        public ICollection<RoleMember> RoleMember { get; set; }
     }
 }

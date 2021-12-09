@@ -1,7 +1,7 @@
-﻿
-@using System.Security.Claims
+﻿@using System.Security.Claims
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -14,48 +14,55 @@
     <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" />
     <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
     <link href="/css/styles.css" rel="stylesheet" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js"
+        crossorigin="anonymous"></script>
 </head>
+
 <body class="sb-nav-fixed">
     <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
-            <div id="header">
-                <ul id="nav">
-                    <li> <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button></li>
-                    <li><a href="#">Trang chủ</a></li>
-                    <li><a href="#content">Giới thiệu</a></li>
-                    <li><a href="#">Hoạt động</a></li>
-                    <li>
-                        <a href="">
-                            Tin tức - Sự kiện
-                            <i class="nav-arrow-down ti-angle-down"></i>
-                        </a>
-                        <ul class="subnav">
-                            <li><a href="">Tin nổi bật</a></li>
-                            <li><a href="">Hợp tác đầu tư</a></li>
-                            <li><a href="">Kinh tế</a></li>
-                            <li><a href="">Nhân đạo-Xã hội</a></li>
-                        </ul>
-                    </li>
-                    <li><a href="#">Đời sống - Du lịch</a></li>
-                    <li><a href="#">Văn hóa - Lịch sử</a></li> 
-                    <li><a asp-controller="postClient" asp-action="Post">Diễn đàn</a></li>
-                    <li><a asp-controller="Home" asp-action="Contact">Liên hệ</a></li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
-                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item"asp-controller="Users" asp-action="Details" asp-route-id="@User?.FindFirst("ACCOUNT_ID")?.Value">@User.Identity.Name</a></li>
-                            <li><a class="dropdown-item" asp-controller="Home" asp-action="Chat">Phòng trò truyện </a></li>
-                            <li><hr class="dropdown-divider" /></li>
-                            <li>
-                                <form method="post" asp-controller="Login" asp-action="Logout">
-                                    <button type="submit" class="dropdown-item">Đăng xuất</button>
-                                </form>
-                            </li>
-                        </ul>
-                    </li>
-                </ul>
-            </div>
-     
+        <div id="header">
+            <ul id="nav">
+                <li> <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i
+                            class="fas fa-bars"></i></button></li>
+                <li><a href="#">Trang chủ</a></li>
+                <li><a href="#content">Giới thiệu</a></li>
+                <li><a href="#">Hoạt động</a></li>
+                <li>
+                    <a href="">
+                        Tin tức - Sự kiện
+                        <i class="nav-arrow-down ti-angle-down"></i>
+                    </a>
+                    <ul class="subnav">
+                        <li><a href="">Tin nổi bật</a></li>
+                        <li><a href="">Hợp tác đầu tư</a></li>
+                        <li><a href="">Kinh tế</a></li>
+                        <li><a href="">Nhân đạo-Xã hội</a></li>
+                    </ul>
+                </li>
+                <li><a href="#">Đời sống - Du lịch</a></li>
+                <li><a href="#">Văn hóa - Lịch sử</a></li>
+                <li><a asp-controller="postClient" asp-action="Post">Diễn đàn</a></li>
+                <li><a asp-controller="Home" asp-action="Contact">Liên hệ</a></li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button"
+                        data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                        <li><a class="dropdown-item" asp-controller="Users" asp-action="Profile">@User.Identity.Name</a>
+                        </li>
+                        <li><a class="dropdown-item" asp-controller="Home" asp-action="Chat">Phòng trò truyện </a></li>
+                        <li>
+                            <hr class="dropdown-divider" />
+                        </li>
+                        <li>
+                            <form method="post" asp-controller="Login" asp-action="Logout">
+                                <button type="submit" class="dropdown-item">Đăng xuất</button>
+                            </form>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
     </nav>
     <div id="layoutSidenav">
         <div id="layoutSidenav_nav">
@@ -67,62 +74,106 @@
                             <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                             @User?.FindFirst(ClaimTypes.Role)?.Value
                         </a>
-                        <div class="sb-sidenav-menu-heading">Interface</div>
-                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
+                        <div class="sb-sidenav-menu-heading">Giao diện</div>
+                        @if (User?.FindFirst(ClaimTypes.Role)?.Value == "Admin")
+                        {
+                          <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
+                            data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
                             <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
                             Quản lý tài Khoản
                             <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                         </a>
-                        <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+                        }
+                        
+                        <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne"
+                            data-bs-parent="#sidenavAccordion">
                             <nav class="sb-sidenav-menu-nested nav">
                                 <a class="nav-link" asp-action="Index" asp-controller="Users">Users</a>
                             </nav>
                         </div>
-                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePages" aria-expanded="false" aria-controls="collapsePages">
+
+                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePages"
+                            aria-expanded="false" aria-controls="collapsePages">
                             <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
                             Hội
                             <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                         </a>
-                        <div class="collapse" id="collapsePages" aria-labelledby="headingTwo" data-bs-parent="#sidenavAccordion">
+                        <div class="collapse" id="collapsePages" aria-labelledby="headingTwo"
+                            data-bs-parent="#sidenavAccordion">
                             <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
-                                <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#pagesCollapseAuth" aria-expanded="false" aria-controls="pagesCollapseAuth">
+                                <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
+                                    data-bs-target="#pagesCollapseAuth" aria-expanded="false"
+                                    aria-controls="pagesCollapseAuth">
                                     Hội
                                     <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                                 </a>
-                                <div class="collapse" id="pagesCollapseAuth" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordionPages">
+                                <div class="collapse" id="pagesCollapseAuth" aria-labelledby="headingOne"
+                                    data-bs-parent="#sidenavAccordionPages">
                                     <nav class="sb-sidenav-menu-nested nav">
-                                        @if(User?.FindFirst(ClaimTypes.Role)?.Value == "Admin")
+                                        @if (User?.FindFirst(ClaimTypes.Role)?.Value == "Admin")
                                         {
-                                        <a class="nav-link" asp-action="Index" asp-controller="Member">   Quản lý hội viên</a>
-                                        <a class="nav-link" asp-action="Index" asp-controller="Families">Quản lý hộ gia đình</a>
-                                        <a class="nav-link" asp-action="Index" asp-controller="Group">Quản lý chi hội</a>
-                                        <a class="nav-link" asp-action="Index" asp-controller="Role">Quản lý chức vụ</a>
-                                        <a class="nav-link" asp-action="Index" asp-controller="Contacts">Quản lý ban liên lạc</a>
+                                            <a class="nav-link" asp-action="Index" asp-controller="Member"> Quản lý hội
+                                                viên</a>
+                                            <a class="nav-link" asp-action="Index" asp-controller="Families">Quản lý hộ gia
+                                                đình</a>
+                                            <a class="nav-link" asp-action="Index" asp-controller="Group">Quản lý chi
+                                                hội</a>
+                                            <a class="nav-link" asp-action="Index" asp-controller="Role">Quản lý chức vụ</a>
+                                            <a class="nav-link" asp-action="Index" asp-controller="Contacts">Quản lý ban
+                                                liên lạc</a>
                                         }
-                                        else{
-                                             <a class="nav-link" asp-action="Index" asp-controller="Member"> Xem danh sách hội viên</a>
-                                        <a class="nav-link" asp-action="Index" asp-controller="Families">Xem danh sách hộ gia đình</a>
-                                        <a class="nav-link" asp-action="Index" asp-controller="Group">Chi hội</a>
-                                        <a class="nav-link" asp-action="Index" asp-controller="Role">Xem danh sách các chức vụ</a>
-                                        <a class="nav-link" asp-action="Index" asp-controller="Contacts">Xem danh sách các ban liên lạc</a>
+                                        else
+                                        {
+                                            <a class="nav-link" asp-action="Index" asp-controller="Member"> Xem danh sách
+                                                hội viên</a>
+                                            <a class="nav-link" asp-action="Index" asp-controller="Families">Xem danh sách
+                                                hộ gia đình</a>
+                                            <a class="nav-link" asp-action="Index" asp-controller="Group">Chi hội</a>
+                                            <a class="nav-link" asp-action="Index" asp-controller="Role">Xem danh sách các
+                                                chức vụ</a>
+                                            <a class="nav-link" asp-action="Index" asp-controller="Contacts">Xem danh sách
+                                                các ban liên lạc</a>
                                         }
                                     </nav>
                                 </div>
-                                <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#pagesCollapseError" aria-expanded="false" aria-controls="pagesCollapseError">
+                                <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
+                                    data-bs-target="#pagesCollapseError" aria-expanded="false"
+                                    aria-controls="pagesCollapseError">
                                     Hoạt động
                                     <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                                 </a>
-                                <div class="collapse" id="pagesCollapseError" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordionPages">
-                                    <nav class="sb-sidenav-menu-nested nav">
-                                        <a class="nav-link" asp-action="Index" asp-controller="Funds">Quản lý quỹ hội</a>
-                                        <a class="nav-link" asp-action="Index" asp-controller="Revenue">Biểu đồ quỷ hội</a>
-                                        <a class="nav-link" asp-action="Index" asp-controller="Activities">Quản lý hoạt động</a>
-                                        <a class="nav-link" asp-action="Index" asp-controller="Post">Quản lý bài viết</a>
+                                <div class="collapse" id="pagesCollapseError" aria-labelledby="headingOne"
+                                    data-bs-parent="#sidenavAccordionPages">
+                                   
+                                    <nav class="sb-sidenav-menu-nested nav">    
+                                        @if (User?.FindFirst(ClaimTypes.Role)?.Value == "Admin")
+                                        {
+                                           <a class="nav-link" asp-action="Index" asp-controller="Funds">Quản lý quỹ
+                                            hội</a>
+                                        <a class="nav-link" asp-action="Index" asp-controller="Revenue">Biểu đồ quỷ
+                                            hội</a>
+                                        <a class="nav-link" asp-action="Index" asp-controller="Activities">Quản lý hoạt
+                                            động</a>
+                                        <a class="nav-link" asp-action="Index" asp-controller="Post">Quản lý bài
+                                            viết</a>
+                                        }
+                                        else
+                                        {
+                                            <a class="nav-link" asp-action="Index" asp-controller="Funds">Xem lý quỹ
+                                            hội</a>
+                                        <a class="nav-link" asp-action="Index" asp-controller="Revenue">Biểu đồ quỷ
+                                            hội</a>
+                                        <a class="nav-link" asp-action="Index" asp-controller="Activities">Xem hoạt
+                                            động</a>
+                                        <a class="nav-link" asp-action="Index" asp-controller="Post">Xem các bài
+                                            viết</a>
+                                        }
                                     </nav>
+
                                 </div>
                             </nav>
                         </div>
-                      
+
                     </div>
                 </div>
                 <div class="sb-sidenav-footer">
@@ -145,10 +196,11 @@
         </div>
     </div>
     <script src="/js/scripts.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"
+        crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
     @RenderSection("Scripts", required: false)
 </body>
+
 </html>
-                    
