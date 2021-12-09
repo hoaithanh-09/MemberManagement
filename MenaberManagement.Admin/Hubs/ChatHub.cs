@@ -19,7 +19,6 @@ namespace MenaberManagement.Admin.Hubs
 
         private readonly static Dictionary<string, string> _ConnectionsMap = new Dictionary<string, string>();
 
-
         private readonly MemberManagementContext _context;
         private readonly IMapper _mapper;
 
@@ -79,7 +78,7 @@ namespace MenaberManagement.Admin.Hubs
             }
             catch (Exception ex)
             {
-                await Clients.Caller.SendAsync("onError", "You failed to join the chat room!" + ex.Message);
+                await Clients.Caller.SendAsync("onError", "Lỗi phòng" + ex.Message);
             }
         }
         public async Task Leave(string roomName)

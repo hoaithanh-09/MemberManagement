@@ -54,6 +54,7 @@ namespace MenaberManagement.Admin.Controllers
             };
 
             var data = await _iMemberApiClient.GetFamilyPaging(request);
+         
             ViewBag.Keyword = keyword;
             ViewBag.Role = role;
 

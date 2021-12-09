@@ -117,7 +117,7 @@ namespace MemberManagement.Services.Activities
                 memberVM = new MemberVM()
                 {
                     Name = member.Name,
-                    PersonalTtles=member.Addres,                  
+                    Addres=member.Addres,                  
                 };
             }
            
