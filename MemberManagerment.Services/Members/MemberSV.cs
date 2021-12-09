@@ -456,7 +456,7 @@ namespace MemberManagement.Services.Members
 
 
                 #region style
-                worksheet.Column("A2").Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Center);
+                worksheet.Cell("A2").Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Center);
                 worksheet.Column(1).Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Center);
                 worksheet.Cell("B3").Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Center);
                 worksheet.Column(3).Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Center);
