@@ -108,5 +108,25 @@ namespace MemberManagement.API.Controllers
 
             return NoContent();
         }
+
+
+        [HttpDelete("All")]
+        public async Task<IActionResult> DeleteAll(int idRoom)
+        {
+            var message = await _context.Messages
+                .Where(m => m.ToRoomId == idRoom)
+                .ToListAsync();
+
+            if (message == null)
+                return NotFound();
+            foreach(var m in message)
+            {
+                _context.Messages.Remove(m);
+
+            }
+            await _context.SaveChangesAsync();
+
+            return NoContent();
+        }
     }
 }

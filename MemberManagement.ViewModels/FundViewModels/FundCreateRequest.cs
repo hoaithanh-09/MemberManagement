@@ -17,10 +17,6 @@ namespace MemberManagement.ViewModels.FundViewModels
         public DateTime? CreatedDate { get; set; }
         [Display(Name = "Mô tả")]
         public string Description { get; set; }
-        [Display(Name = "Mã chi hội")]
-        public int GroupId { get; set; }
       
-        public List<GroupVM> Groups { get; set; }
-        public List<FundMemberVM> FundMembers { get; set; }
     }
 }

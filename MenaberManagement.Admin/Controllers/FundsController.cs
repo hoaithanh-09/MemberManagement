@@ -54,7 +54,6 @@ namespace MenaberManagement.Admin.Controllers
             var members = await _iGroupApiClient.GetAll();
             var activityCreatRequest = new FundCreateRequest();
 
-            activityCreatRequest.Groups = members;
             return View(activityCreatRequest);
         }
 
@@ -65,19 +64,16 @@ namespace MenaberManagement.Admin.Controllers
             if (!ModelState.IsValid)
                 return View();
 
-            var members = await _iGroupApiClient.GetAll();
-            request.Groups = members;
 
             var result = await _iFundApi.Create(request);
 
-            if (!result.IsSuccessed)
+            if (!result)
             {
-                ModelState.AddModelError("", result.Message);
+                ModelState.AddModelError("Lỗi", "Có lỗi");
                 return View(request);
             }
-            if (result.IsSuccessed)
+            if (result)
             {
-                TempData["result"] = result.ResultObj;
                 return RedirectToAction("Index", "Funds");
             }
             return View(request);

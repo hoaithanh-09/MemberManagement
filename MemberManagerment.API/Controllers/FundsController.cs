@@ -1,4 +1,5 @@
-﻿using MemberManagement.Services.Funds;
+﻿using MemberManagement.Services.FundGroupSServices;
+using MemberManagement.Services.Funds;
 using MemberManagement.ViewModels.FundGroupVIewModels;
 using MemberManagement.ViewModels.FundMemberViewModels;
 using MemberManagement.ViewModels.FundViewModels;
@@ -17,9 +18,14 @@ namespace MemberManagement.API.Controllers
     {
 
         private readonly IFundSV _fundSV;
-        public FundsController(IFundSV fundSV)
+        private readonly IFundMemberService _fundMemberService;
+        private readonly IFundGoupService _fundGoupService;
+        public FundsController(IFundSV fundSV, IFundMemberService fundMemberService, IFundGoupService fundGoupService)
         {
             _fundSV = fundSV;
+            _fundGoupService = fundGoupService;
+            _fundMemberService = fundMemberService;
+
         }
         [HttpGet("paging")]
         public async Task<IActionResult> GetPaging([FromQuery] GetFundPagingRequest request)
@@ -29,12 +35,7 @@ namespace MemberManagement.API.Controllers
         }
 
 
-        [HttpPost("Create-Activity")]
-        public async Task<ActionResult> Create([FromForm] FundCreateRequest request)
-        {
-            var member = await _fundSV.Create(request);
-            return Ok(member.ResultObj);
-        }
+       
         [HttpGet("{id}")]
         public async Task<ActionResult> getID(int id)
 
@@ -57,21 +58,44 @@ namespace MemberManagement.API.Controllers
             }
         }
 
-        [HttpPost("Creat-activityMember")]
-        public async Task<ActionResult> AddAction(int fundId, [FromQuery] FundGroupCreateRequest request)
+        [HttpPost]
+        public async Task<ActionResult> Create( [FromBody] FundCreateRequest request)
         {
-            var member = await _fundSV.AddAction(fundId, request);
+            var member = await _fundSV.Create(request);
             return Ok(member);
         }
 
-        [HttpPost("Creat-listmember")]
-        public async Task<ActionResult> AddMember(int fundId, [FromQuery] FundMemberCreateRequest request)
+        [HttpPost("Creatlistmember")]
+        public async Task<ActionResult> Creatlistmember(int fundId, [FromBody] MemberManagement.ViewModels.FGViewModels.FundMemberCreateRequest request)
         {
-            var member = await _fundSV.AddMember(fundId, request);
+            request.FundId = fundId;
+            var member = await _fundMemberService.Create(request);
             return Ok(member);
         }
 
 
+        [HttpPost("RemoveMember")]
+        public async Task<ActionResult> RemoveMember(int id)
+        {
+            var member = await _fundMemberService.Delete(id);
+            return Ok(member);
+        }
+
+
+        [HttpPost("RemoveActiviti")]
+        public async Task<ActionResult> RemoveActiviti(int id)
+        {
+            var member = await _fundGoupService.Delete(id);
+            return Ok(member);
+        }
+
+
+        [HttpPost("CreateActivity")]
+        public async Task<ActionResult> CreateActivity([FromBody] MemberManagement.ViewModels.FGViewModels.FundGoupCreateRequest request)
+        {
+            var member = await _fundGoupService.Create(request);
+            return Ok(member.ResultObj);
+        }
 
         [HttpDelete("{id}")]
         public async Task<ActionResult> Delete(int id)
@@ -83,14 +107,16 @@ namespace MemberManagement.API.Controllers
         [HttpGet("ListAction")]
         public async Task<IActionResult> ListAction(int fundId, [FromQuery] GetFundPagingRequest request)
         {
-            var family = await _fundSV.ListAction(fundId, request);
+            var family = await _fundGoupService.GetPaged(fundId, request);
+
             return Ok(family);
         }
 
         [HttpGet("ListMember")]
         public async Task<IActionResult> ListMembers(int fundId, [FromQuery] GetFundPagingRequest request)
         {
-            var family = await _fundSV.ListMembers(fundId, request);
+            var family = await _fundMemberService.GetPaged(fundId, request);
+
             return Ok(family);
         }
     }
