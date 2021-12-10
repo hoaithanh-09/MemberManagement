@@ -54,7 +54,7 @@ namespace MenaberManagement.Admin.Services
             return response.IsSuccessStatusCode;
         }
 
-        public async Task<ApiResult<string>> Create(FundCreateRequest request)
+        public async Task<bool> Create(FundCreateRequest request)
         {
             var sessions = _httpContextAccessor
                 .HttpContext
@@ -65,22 +65,22 @@ namespace MenaberManagement.Admin.Services
             client.BaseAddress = new Uri(_configuration[SystemConstants.AppSettings.BaseAddress]);
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", sessions);
 
-            var requestContent = new MultipartFormDataContent();
+            //var requestContent = new MultipartFormDataContent();
 
-            requestContent.Add(new StringContent(request.CreatedDate.ToString()), "CreatedDate");
-            requestContent.Add(new StringContent(string.IsNullOrEmpty(request.Name) ? "" : request.Name.ToString()), "name");
-            requestContent.Add(new StringContent(string.IsNullOrEmpty(request.Description) ? "" : request.Description.ToString()), "CreatedDate");
+            //requestContent.Add(new StringContent(request.CreatedDate.ToString()), "CreatedDate");
+            //requestContent.Add(new StringContent(string.IsNullOrEmpty(request.Name) ? "" : request.Name.ToString()), "name");
+            //requestContent.Add(new StringContent(string.IsNullOrEmpty(request.Description) ? "" : request.Description.ToString()), "CreatedDate");
 
-            requestContent.Add(new StringContent(request.TotalFund.ToString()), "TotalFund");
+            //requestContent.Add(new StringContent(request.TotalFund.ToString()), "TotalFund");
 
+            var json = JsonConvert.SerializeObject(request);
 
+            var httpContent = new StringContent(json, Encoding.UTF8, "application/json");
+            var response = await client.PostAsync($"/api/Funds", httpContent);
             //var json = JsonConvert.SerializeObject(request);
             //var httpContent = new StringContent(json, Encoding.UTF8, "application/json");
-            var response = await client.PostAsync($"/api/Funds/Create-Activity", requestContent);
-            var result = await response.Content.ReadAsStringAsync();
-            if (response.IsSuccessStatusCode)
-                return new ApiSuccessResult<string>(result);
-            return new ApiErrorResult<string>(result);
+            //var response = await client.PostAsync($"/api/Funds", json);
+            return response.IsSuccessStatusCode;
         }
 
         public async Task<bool> Delete(int id)

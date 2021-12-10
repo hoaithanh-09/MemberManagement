@@ -13,7 +13,7 @@ namespace MenaberManagement.Admin.Services
     {
         Task<PagedResult<FundVM>> GetFundPaging(GetFundPagingRequest request);
 
-        Task<ApiResult<string>> Create(FundCreateRequest request);
+        Task<bool> Create(FundCreateRequest request);
 
         Task<bool> Update(int id, FundEditRequest request);
         Task<FundVM> GetById(int id);

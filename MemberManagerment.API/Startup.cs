@@ -7,8 +7,10 @@ using MemberManagement.Services.Activities;
 using MemberManagement.Services.Addresses;
 using MemberManagement.Services.Contacts;
 using MemberManagement.Services.Families;
+using MemberManagement.Services.FundGroupSServices;
 using MemberManagement.Services.Funds;
 using MemberManagement.Services.Groups;
+using MemberManagement.Services.Hangfire;
 using MemberManagement.Services.Images;
 using MemberManagement.Services.Members;
 using MemberManagement.Services.Posts;
@@ -121,6 +123,10 @@ namespace MemberManagerment.API
             services.AddTransient<ITopicSV, TopicSV>();
             services.AddTransient<IActivitySV, ActivitySV>();
             services.AddTransient<IFundSV, FundSV>();
+            services.AddTransient<IFundMemberService, FundMemberService>();
+            services.AddTransient<IFundGoupService, FundGoupService>();
+            services.AddScoped<IHangFireService, HangFireService>();
+            services.AddScoped<IMess, Mess>();
 
             services.AddSignalR();
             services.AddAutoMapper(typeof(Startup));
@@ -178,7 +184,7 @@ namespace MemberManagerment.API
 
         }
 
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IHangFireService hangFireService)
         {
             app.UseCors(allowSpecificOrigins);
             if (env.IsDevelopment())
@@ -207,9 +213,9 @@ namespace MemberManagerment.API
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
             });
-           
 
-            
+
+            hangFireService.StartBackgroundService();
         }
     }
 }

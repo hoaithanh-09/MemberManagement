@@ -31,22 +31,22 @@ namespace MemberManagement.Services.Funds
             {
                 return false;
             }*/
-            var memberContact = new FundGroup()
-            {
-                GroupId = request.Id,
-                FundId = fundId,
-                Name = request.Name,
-                Description = request.Description,
-                CreateDate = DateTime.Now,
-                Money = request.Money,
-                Finish = request.Finish,
-            };
-            _context.FundGroups.Add(memberContact);
-            int a = await _context.SaveChangesAsync();
-            if (a <= 0)
-            {
-                return false;
-            }
+            //var memberContact = new FundGroup()
+            //{
+            //    GroupId = request.Id,
+            //    FundId = fundId,
+            //    Name = request.Name,
+            //    Description = request.Description,
+            //    CreateDate = DateTime.Now,
+            //    Money = request.Money,
+            //    Finish = request.Finish,
+            //};
+            //_context.FundGroups.Add(memberContact);
+            //int a = await _context.SaveChangesAsync();
+            //if (a <= 0)
+            //{
+            //    return false;
+            //}
             return true;
 
         }
