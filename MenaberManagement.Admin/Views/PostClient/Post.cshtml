@@ -1,6 +1,6 @@
 ﻿@using MemberManagement.ViewModels.Common
 @model PagedResult<MemberManagement.ViewModels.PostViewModels.PostVM>
-@using System
+
 
 @{
     ViewData["Title"] = "sdasd";
@@ -9,14 +9,16 @@
 
 <div class="card mb-12">
     <div class="table-responsive">
-        @if(!@String.IsNullOrEmpty(@User.Identity.Name))
+        @if  (!@String.IsNullOrEmpty(@User.Identity.Name))
         {
-             <div class="col-md-5 col-xs-12">
-                   <a class="btn btn-success" asp-action="Create" asp-controller="Post">Tạo mới</a>
-                </div>
+           
+            <div class="col-md-5 col-xs-12">
+                <a class="btn btn-success" asp-action="Create" asp-controller="Post">Tạo mới</a>
+            </div>
         }
-                <div>
-                          <table id="ContentPlaceHolder1_d_group" cellspacing="0" style="width:500px;border-collapse:collapse;">
+        <div style="margin-left:60px;">
+             <b><h1 style="text-align:center;margin-bottom:40px; margin-top:50px; color: #008B8B;">DANH MỤC BÀI VIẾT</h1></b>
+            <table id="ContentPlaceHolder1_d_group" cellspacing="0" style="width:500px;border-collapse:collapse;">
                 @foreach (var item in Model.Items)
                 {
                     <tr>
@@ -26,16 +28,16 @@
                                 <tr>
                                     <td class="hinh_h">
                                         <a href='detail.aspx?id=05/08/2021 07/02/18'>
-                                            <img id="ContentPlaceHolder1_d_group_Image1_0" src="@item.PathFile" width="120" height="150" style="border-width:0px;" />
+                                            <img id="ContentPlaceHolder1_d_group_Image1_0" src="@item.PathFile" style="border-width:0px;object-fit: cover;width:120px; height:150px;margin-right:20px;text-align:left;" />
                                         </a>
                                     </td>
                                     <td style="width: 20px">
                                     </td>
                                     <td style="width: 340px" valign="top">
-                                        <table border="0" cellpadding="0" cellspacing="0" style="width: 340px">
+                                        <table border="0" cellpadding="0" cellspacing="0" style="width: 850px">
                                             <tr>
-                                                <td align="left" class="noidung_l" style="height: 90px" valign="top">
-                                                    @Html.ActionLink(item.Title, "Details","Post", new { id = item.Id })
+                                                <td style="height: 90px; font-size:19px; " valign="top">
+                                                  @Html.ActionLink(item.Title, "Details","Post", new { id = item.Id },new { @class = "title-post"})
                                                 </td>
                                             </tr>
                                             <tr>
@@ -44,9 +46,9 @@
                                                         Cập nhật:
                                                         <span id="ContentPlaceHolder1_d_group_Label2_0">@item.CreatedDate</span>
                                                     </div>
-                                                  @*  <div class="xem_tiep">
+                                                      @*  <div class="xem_tiep">
                                                         <a href='detail.aspx?id=05/08/2021 07/02/18'>Xem tiếp...</a>
-                                                    </div>*@
+                                                            </div>*@
                                                 </td>
                                             </tr>
                                         </table>
@@ -64,8 +66,8 @@
                         </td>
                     </tr>
                 }
-        </table>
-                </div>
+                </table>
+        </div>
 
     </div>
     @await Component.InvokeAsync("Pager", Model)

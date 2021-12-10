@@ -444,7 +444,7 @@ namespace MemberManagement.Services.Members
                 int column = 1;
                 int row = 3;
                 worksheet.Cell(row, column++).Value = "STT";
-                worksheet.Cell(row, column++).Value = "Tên học sinh";
+                worksheet.Cell(row, column++).Value = "Tên hội viên";
                 worksheet.Cell(row, column++).Value = "Giới tính";
                 worksheet.Cell(row, column++).Value = "CMND";
                 worksheet.Cell(row, column++).Value = "Số điện thoại";
